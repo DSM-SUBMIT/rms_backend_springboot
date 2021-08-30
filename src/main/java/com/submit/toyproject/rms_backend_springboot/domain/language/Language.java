@@ -1,4 +1,4 @@
-package com.submit.toyproject.rms_backend_springboot.domain.report.language;
+package com.submit.toyproject.rms_backend_springboot.domain.language;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,9 +12,11 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class ReportLanguage {
+public class Language {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private String language;
 
 }

@@ -1,4 +1,4 @@
-package com.submit.toyproject.rms_backend_springboot.domain.report.field;
+package com.submit.toyproject.rms_backend_springboot.domain.field;
 
 import lombok.AccessLevel;
 import lombok.Getter;
