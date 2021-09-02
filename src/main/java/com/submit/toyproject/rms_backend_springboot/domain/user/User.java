@@ -1,5 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.domain.user;
 
+import com.submit.toyproject.rms_backend_springboot.domain.bookmark.Bookmark;
+import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +37,12 @@ public class User {
     private String selfIntroduce;
 
     private String githubUrl;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Bookmark> bookmarks;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Report> reports;
 
     @Builder
     public User(String email, String password, String name, String githubUrl, String selfIntroduce) {

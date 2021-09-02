@@ -1,6 +1,8 @@
 package com.submit.toyproject.rms_backend_springboot.domain.field;
 
+import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,5 +18,15 @@ public class ReportField {
     private Integer id;
 
     private Field field;
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", nullable = false)
+    private Report report;
+
+    @Builder
+    public ReportField(Field field, Report report) {
+        this.field = field;
+        this.report = report;
+    }
 
 }
