@@ -19,9 +19,22 @@ repositories {
 }
 
 dependencies {
+	//spring starter
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//spring security
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// validation (For using @Valid Annotation)
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	//db
 	runtimeOnly 'com.h2database:h2'
@@ -38,7 +51,11 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
 
 	//test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.h2database:h2'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {
