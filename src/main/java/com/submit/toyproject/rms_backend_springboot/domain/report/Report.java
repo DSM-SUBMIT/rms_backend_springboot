@@ -26,6 +26,10 @@ public class Report {
     @NotNull
     private String projectName;
 
+    @Size(max = 20000)
+    @NotNull
+    private String content;
+
     @Size(max = 6)
     private String teacher;
 
