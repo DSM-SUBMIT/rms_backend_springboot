@@ -23,7 +23,7 @@ public class Status {
     @NotNull
     private Boolean isSubmitted = false;
 
-    public void updateAccpted(Boolean isAccepted) {
+    public void updateAccepted(Boolean isAccepted) {
         this.isAccepted = isAccepted;
     }
 
