@@ -25,10 +25,6 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @NotNull
-    @Column(columnDefinition = "char(60)")
-    private String password;
-
     @Size(max = 6)
     @NotNull
     private String name;
@@ -45,9 +41,8 @@ public class User {
     private List<Report> reports;
 
     @Builder
-    public User(String email, String password, String name, String githubUrl, String selfIntroduce) {
+    public User(String email, String name, String githubUrl, String selfIntroduce) {
         this.email = email;
-        this.password = password;
         this.name = name;
         this.githubUrl = githubUrl;
         this.selfIntroduce = selfIntroduce;
