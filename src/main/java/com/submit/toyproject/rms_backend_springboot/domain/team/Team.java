@@ -8,7 +8,6 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Entity
 public class Team {
 
@@ -20,5 +19,9 @@ public class Team {
 
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ReportTeam> reportTeam;
+
+    public Team(String name) {
+        this.name = name;
+    }
 
 }
