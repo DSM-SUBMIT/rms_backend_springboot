@@ -15,6 +15,7 @@ public class Team {
     private Integer id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
