@@ -19,8 +19,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UsersResponse getUsers(String name) {
         //토큰 확인 필요
-        List<User> users = userRepository.findByName(name);
-
+        List<User> users = userRepository.findByNameLike("%" + name + "%");
         return new UsersResponse(users.stream().map(
                 user -> UserDto.builder()
                         .id(user.getId())
