@@ -30,7 +30,7 @@ public class LanguageServiceImpl implements LanguageService {
     @Override
     public LanguagesResponse getLanguages(String keyword) {
         //토큰 확인
-        List<Language> languages = languageRepository.findByLanguageLike(keyword);
+        List<Language> languages = languageRepository.findByLanguageLike("%" + keyword + "%");
         return new LanguagesResponse(languages.stream().map(
                 language -> LanguageDto.builder()
                         .id(language.getId())
