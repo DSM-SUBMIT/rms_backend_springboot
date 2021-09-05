@@ -51,7 +51,7 @@ public class TeamControllerTest {
     @Test
     public void saveTeam_201() throws Exception {
         mvc.perform(post("/team")
-                .content(new ObjectMapper().writeValueAsString(new TeamRequest("gram")))
+                .content(new ObjectMapper().writeValueAsString(new TeamRequest("giriboy")))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated());
     }
