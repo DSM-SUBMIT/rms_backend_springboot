@@ -17,7 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -59,6 +60,19 @@ public class LanguageControllerTest {
                 .content(new ObjectMapper().writeValueAsString(new LanguageRequest("Java")))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isConflict());
+    }
+
+    @Test
+    public void getLanguages_200() throws Exception {
+        mvc.perform(get("/language")
+                .param("keyword","Java")
+        ).andExpect(status().isOk()).andDo(print());
+    }
+
+    @Test
+    public void getLanguages_200_no_keyword() throws Exception {
+        mvc.perform(get("/language")
+        ).andExpect(status().isOk()).andDo(print());
     }
 
 }
