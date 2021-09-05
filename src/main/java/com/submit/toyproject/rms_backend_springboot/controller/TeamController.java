@@ -1,6 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
 import com.submit.toyproject.rms_backend_springboot.dto.request.TeamRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.response.TeamsResponse;
 import com.submit.toyproject.rms_backend_springboot.service.team.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,11 @@ public class TeamController {
     public void saveTeam(@RequestBody @Valid TeamRequest request) {
         System.out.println(request.getName());
         teamService.saveTeam(request.getName());
+    }
+
+    @GetMapping
+    public TeamsResponse getTeams(@RequestParam(defaultValue = "%%") String keyword) {
+        return teamService.getTeams(keyword);
     }
 
 }
