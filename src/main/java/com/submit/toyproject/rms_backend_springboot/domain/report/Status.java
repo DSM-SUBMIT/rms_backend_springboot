@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -23,12 +24,13 @@ public class Status {
     @NotNull
     private Boolean isSubmitted = false;
 
-    public void updateAccepted(Boolean isAccepted) {
-        this.isAccepted = isAccepted;
-    }
+    private LocalDate submittedAt;
 
-    public void updateSubmit(Boolean isSubmitted) {
-        this.isSubmitted = isSubmitted;
+    private LocalDate acceptedAt;
+
+    public void submitTrue() {
+        this.isSubmitted = true;
+        this.submittedAt = LocalDate.now();
     }
 
 }
