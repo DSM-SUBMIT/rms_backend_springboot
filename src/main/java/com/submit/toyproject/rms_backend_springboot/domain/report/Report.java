@@ -53,7 +53,7 @@ public class Report {
     @OneToMany(mappedBy = "language", cascade = CascadeType.REMOVE)
     private List<ReportLanguage> reportLanguages;
 
-    @OneToMany(mappedBy = "language", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "report", cascade = CascadeType.REMOVE)
     private List<ReportField> reportFields;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,7 +64,7 @@ public class Report {
     private ReportTeam reportTeam;
 
     @Builder
-    public Report(String projectName, String teacher, String githubUrl, String videoUrl, String pdfUrl, Division division, Boolean isPublic, Status status, String content) {
+    public Report(String projectName, String teacher, String githubUrl, String videoUrl, String pdfUrl, Division division, Boolean isPublic, String content, User user) {
         this.projectName = projectName;
         this.teacher = teacher;
         this.githubUrl = githubUrl;
@@ -72,8 +72,8 @@ public class Report {
         this.pdfUrl = pdfUrl;
         this.division = division;
         this.isPublic = isPublic;
-        this.status = status;
         this.content = content;
+        this.user = user;
     }
 
 }

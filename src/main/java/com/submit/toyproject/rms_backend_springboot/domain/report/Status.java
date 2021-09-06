@@ -28,9 +28,9 @@ public class Status {
 
     private LocalDate acceptedAt;
 
-    public void updateSubmit(Boolean isSubmitted) {
-        this.isSubmitted = isSubmitted;
-        this.acceptedAt = LocalDate.now();
+    public void submitTrue() {
+        this.isSubmitted = true;
+        this.submittedAt = LocalDate.now();
     }
 
 }
