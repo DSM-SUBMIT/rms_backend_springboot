@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.domain.report;
 
+import com.submit.toyproject.rms_backend_springboot.domain.field.ReportField;
 import com.submit.toyproject.rms_backend_springboot.domain.language.ReportLanguage;
 import com.submit.toyproject.rms_backend_springboot.domain.team.ReportTeam;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
@@ -40,10 +41,8 @@ public class Report {
     private String pdfUrl;
 
     @NotNull
-    private LocalDate createdAt;
-
-    @NotNull
-    private Boolean isTeam;
+    @Enumerated(EnumType.STRING)
+    private Division division;
 
     @NotNull
     private Boolean isPublic;
@@ -54,6 +53,9 @@ public class Report {
     @OneToMany(mappedBy = "language", cascade = CascadeType.REMOVE)
     private List<ReportLanguage> reportLanguages;
 
+    @OneToMany(mappedBy = "report", cascade = CascadeType.REMOVE)
+    private List<ReportField> reportFields;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -62,16 +64,16 @@ public class Report {
     private ReportTeam reportTeam;
 
     @Builder
-    public Report(String projectName, String teacher, String githubUrl, String videoUrl, String pdfUrl, Boolean isTeam, Boolean isPublic, Status status) {
+    public Report(String projectName, String teacher, String githubUrl, String videoUrl, String pdfUrl, Division division, Boolean isPublic, String content, User user) {
         this.projectName = projectName;
         this.teacher = teacher;
         this.githubUrl = githubUrl;
         this.videoUrl = videoUrl;
         this.pdfUrl = pdfUrl;
-        this.isTeam = isTeam;
+        this.division = division;
         this.isPublic = isPublic;
-        this.status = status;
-        this.createdAt = LocalDate.now();
+        this.content = content;
+        this.user = user;
     }
 
 }

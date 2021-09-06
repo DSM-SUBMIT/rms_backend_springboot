@@ -6,8 +6,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-    INVALID_USER_TOKEN(401,"Invalid token"),
-    INVALID_ADMIN_TOKEN(401,"Invalid token");
+    INVALID_USER_TOKEN(401,"Invalid token."),
+    INVALID_ADMIN_TOKEN(401,"Invalid token."),
+    TEAM_ALREADY_EXISTS(409, "Team name is already exists."),
+    LANGUAGE_ALREADY_EXISTS(409, "Language is already exists.");
 
     private final int status;
     private final String message;
