@@ -2,16 +2,26 @@ package com.submit.toyproject.rms_backend_springboot.domain.field;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
-public enum Field {
-    WEB("웹"),
-    APP("앱"),
-    GAME("게임"),
-    EMBEDDED("임베디드"),
-    AI_BIGDATA("인공지능/빅데이터"),
-    SECURITY("보안");
+@Entity
+public class Field {
 
-    private final String field;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private FieldEnum field;
+
+    @OneToMany(mappedBy = "field", cascade = CascadeType.REMOVE)
+    private List<ReportField> reportFields;
+
 }

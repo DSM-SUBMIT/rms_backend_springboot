@@ -17,7 +17,8 @@ public class ReportField {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "field_id", nullable = false)
     private Field field;
 
     @ManyToOne
