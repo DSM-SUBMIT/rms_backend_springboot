@@ -41,6 +41,14 @@ public class Report {
     private String pdfUrl;
 
     @NotNull
+    @Column(columnDefinition = "char(7)")
+    private String startDate;
+
+    @NotNull
+    @Column(columnDefinition = "char(7)")
+    private String endDate;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Division division;
 
@@ -64,7 +72,7 @@ public class Report {
     private ReportTeam reportTeam;
 
     @Builder
-    public Report(String projectName, String teacher, String githubUrl, String videoUrl, String pdfUrl, Division division, Boolean isPublic, String content, User user) {
+    public Report(String projectName, String teacher, String githubUrl, String videoUrl, String pdfUrl, Division division, Boolean isPublic, String content, User user, String startDate, String endDate) {
         this.projectName = projectName;
         this.teacher = teacher;
         this.githubUrl = githubUrl;
@@ -74,6 +82,8 @@ public class Report {
         this.isPublic = isPublic;
         this.content = content;
         this.user = user;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
 }
