@@ -1,4 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.domain.member;
 
-public interface MemberRepository {
+import org.springframework.data.repository.CrudRepository;
+
+public interface MemberRepository extends CrudRepository<Member, MemberId> {
 }

@@ -3,11 +3,11 @@ package com.submit.toyproject.rms_backend_springboot.domain.member;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -16,14 +16,29 @@ import javax.validation.constraints.Size;
 @Entity
 public class Member {
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @Id
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
+    @Id
+    private Project project;
+
     @Size(max = 100)
     @NotNull
     private String role;
 
-    @ManyToOne
-    private User user;
+    @Builder
+    public Member(User user, Project project, String role) {
+        this.user = user;
+        this.project = project;
+        this.role = role;
+    }
 
-    @ManyToOne
-    private Project project;
+    public void updateRole(String role) {
+        this.role = role;
+    }
 
 }

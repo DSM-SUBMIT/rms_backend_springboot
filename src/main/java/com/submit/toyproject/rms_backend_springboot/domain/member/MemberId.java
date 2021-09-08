@@ -2,21 +2,22 @@ package com.submit.toyproject.rms_backend_springboot.domain.member;
 
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 
-@Embeddable
-public class MemberId {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemberId implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @Id
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id", nullable = false)
+    @Id
     private Project project;
 
 }
