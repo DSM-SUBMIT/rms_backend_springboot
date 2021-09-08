@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Status {
@@ -44,6 +43,7 @@ public class Status {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    @Builder
     public Status(Project project) {
         this.project = project;
         this.isPlanSubmitted = false;
