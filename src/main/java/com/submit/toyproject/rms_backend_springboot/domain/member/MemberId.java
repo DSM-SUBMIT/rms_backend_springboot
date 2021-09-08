@@ -14,10 +14,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class MemberId implements Serializable {
 
-    @Id
     private User user;
 
-    @Id
     private Project project;
 
 }
