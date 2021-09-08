@@ -19,25 +19,21 @@ public class Status {
     @Id
     private Integer reportId;
 
-    @Builder.Default
     @NotNull
     @Column(columnDefinition = "bit(1)")
-    private Boolean isPlanAccepted = false;
+    private Boolean isPlanAccepted;
 
-    @Builder.Default
     @NotNull
     @Column(columnDefinition = "bit(1)")
-    private Boolean isPlanSubmitted = false;
+    private Boolean isPlanSubmitted;
 
-    @Builder.Default
     @NotNull
     @Column(columnDefinition = "bit(1)")
-    private Boolean isReportAccepted = false;
+    private Boolean isReportAccepted;
 
-    @Builder.Default
     @NotNull
     @Column(columnDefinition = "bit(1)")
-    private Boolean isReportSubmitted = false;
+    private Boolean isReportSubmitted;
 
     private LocalDateTime planSubmittedAt;
 
@@ -50,6 +46,10 @@ public class Status {
 
     public Status(Project project) {
         this.project = project;
+        this.isPlanSubmitted = false;
+        this.isReportSubmitted = false;
+        this.isPlanAccepted = false;
+        this.isReportAccepted = false;
     }
 
     public void planSubmit() {
