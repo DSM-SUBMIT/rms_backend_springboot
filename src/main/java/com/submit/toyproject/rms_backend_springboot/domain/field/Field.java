@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.domain.field;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 public class Field {
@@ -22,6 +23,6 @@ public class Field {
     private FieldEnum field;
 
     @OneToMany(mappedBy = "field", cascade = CascadeType.REMOVE)
-    private List<ReportField> reportFields;
+    private List<ProjectField> projectFields;
 
 }

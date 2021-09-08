@@ -1,7 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.domain.user;
 
-import com.submit.toyproject.rms_backend_springboot.domain.bookmark.Bookmark;
-import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
+import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
+import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,23 +29,16 @@ public class User {
     @NotNull
     private String name;
 
-    @Size(max = 500)
-    private String selfIntroduce;
-
-    private String githubUrl;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Project> projects;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Bookmark> bookmarks;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Report> reports;
+    private List<Member> members;
 
     @Builder
-    public User(String email, String name, String githubUrl, String selfIntroduce) {
+    public User(String email, String name) {
         this.email = email;
         this.name = name;
-        this.githubUrl = githubUrl;
-        this.selfIntroduce = selfIntroduce;
     }
 
 }

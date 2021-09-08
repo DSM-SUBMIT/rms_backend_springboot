@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.domain.field;
 
+import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,23 +13,23 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "field")
-public class ReportField {
+public class ProjectField {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id", nullable = false)
     private Field field;
 
-    @ManyToOne
-    @JoinColumn(name = "report_id", nullable = false)
-    private Report report;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
 
     @Builder
-    public ReportField(Field field, Report report) {
+    public ProjectField(Field field, Project project) {
         this.field = field;
-        this.report = report;
+        this.project = project;
     }
 
 }
