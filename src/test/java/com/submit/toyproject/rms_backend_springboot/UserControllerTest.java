@@ -38,16 +38,12 @@ public class UserControllerTest {
                 User.builder()
                         .email("202020@gmail.com")
                         .name("홍길동")
-                        .githubUrl("https://github.com")
-                        .selfIntroduce("안녕안녕")
                         .build()
         );
         userRepository.save(
                 User.builder()
                         .email("20202012@gmail.com")
                         .name("김길동")
-                        .githubUrl("https://github.com")
-                        .selfIntroduce("안녕안녕")
                         .build()
         );
     }
