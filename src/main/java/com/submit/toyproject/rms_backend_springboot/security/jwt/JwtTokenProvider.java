@@ -34,11 +34,9 @@ public class JwtTokenProvider {
     private final AuthDetailService authDetailService;
 
     public String generateAccessToken(String email) {
-        Claims claims = Jwts.claims().setSubject(email);
-        claims.put("type", "access_token");
         return Jwts.builder()
-                .setHeaderParam("type", "JWT")
-                .setClaims(claims)
+                .setHeaderParam("typ", "access")
+                .setSubject ( email )
                 .setIssuedAt(new Date ())
                 .setExpiration(new Date ( System.currentTimeMillis() + accessExp * 1000))
                 .signWith(SignatureAlgorithm.HS256, getSecretKey())
@@ -46,11 +44,9 @@ public class JwtTokenProvider {
     }
 
     public String generateRefreshToken(String email) {
-        Claims claims = Jwts.claims().setSubject(email);
-        claims.put("type", "refresh_token");
         return Jwts.builder()
-                .setHeaderParam("type", "JWT")
-                .setClaims(claims)
+                .setHeaderParam("typ", "refresh")
+                .setSubject ( email )
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + refreshExp * 1000))
                 .signWith(SignatureAlgorithm.HS256, getSecretKey())
@@ -59,7 +55,7 @@ public class JwtTokenProvider {
 
     public boolean isRefreshToken(String token) {
         try {
-            return getHeader(token).get("type").equals("refresh_token");
+            return getHeader(token).get("typ").equals("refresh");
         } catch (Exception e) {
             throw new InvalidUserTokenException();
         }
@@ -80,7 +76,7 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer")) {
+        if (bearerToken != null && bearerToken.startsWith(PREFIX)) {
             return bearerToken.substring(7);
         }
         return null;
