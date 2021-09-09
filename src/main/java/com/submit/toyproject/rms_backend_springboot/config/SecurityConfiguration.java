@@ -21,11 +21,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
         http
                 .cors().disable()
                 .csrf().disable()
+                .sessionManagement().disable()
+                .formLogin().disable()
                 .authorizeRequests()
-                .antMatchers ( "/auth/**" ).permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers ( "/auth/**" ).permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .addFilterBefore (new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         http
                 .headers().frameOptions().disable();
     }
