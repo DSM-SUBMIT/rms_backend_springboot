@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .cors().disable()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers ( "/auth/**" ).permitAll ()
+                .antMatchers ( "/auth/**" ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore (new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
