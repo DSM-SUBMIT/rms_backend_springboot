@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -53,16 +54,19 @@ public class UserControllerTest {
         userRepository.deleteAll();
     }
 
+    @WithMockUser
     @Test
     public void getUsers_200() throws Exception {
         mvc.perform(get("/user/search")).andExpect(status().isOk()).andDo(print());
     }
 
+    @WithMockUser
     @Test
     public void getUsers_200_keyword1() throws Exception {
         mvc.perform(get("/user/search?name=김")).andExpect(status().isOk()).andDo(print());
     }
 
+    @WithMockUser
     @Test
     public void getUsers_200_keyword2() throws Exception {
         mvc.perform(get("/user/search?name=길동")).andExpect(status().isOk()).andDo(print());

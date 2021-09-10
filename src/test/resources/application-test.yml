@@ -11,3 +11,11 @@ spring:
     database: h2
     hibernate:
       ddl-auto: create
+
+
+jwt:
+  secret: asdf1234
+  access:
+    exp: 1234
+  refresh:
+    exp: 124456

@@ -29,6 +29,7 @@ public class JwtTokenProvider {
     @Value("${jwt.refresh.exp}")
     private Long refreshExp;
 
+    private static final String HEADER = "Authorization";
     private static final String PREFIX = "Bearer";
 
     private final AuthDetailService authDetailService;
@@ -75,7 +76,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader(HEADER);
         if (bearerToken != null && bearerToken.startsWith(PREFIX)) {
             return bearerToken.substring(7);
         }
