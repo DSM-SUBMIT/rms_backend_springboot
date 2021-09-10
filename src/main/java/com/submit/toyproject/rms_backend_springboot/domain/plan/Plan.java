@@ -29,17 +29,29 @@ public class Plan {
     @Size(max = 256)
     private String pdfUrl;
 
+    private Boolean includeResultReport;
+
+    private Boolean includeCode;
+
+    private Boolean includeOutCome;
+
+    private String includeOthers;
+
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
 
     @Builder
-    public Plan(String goal, String content, String pdfUrl, Project project) {
+    public Plan(String goal, String content, String pdfUrl, Project project, Boolean includeResultReport, Boolean includeCode, Boolean includeOutCome, String includeOthers) {
         this.goal = goal;
         this.content = content;
         this.pdfUrl = pdfUrl;
         this.project = project;
+        this.includeResultReport = includeResultReport;
+        this.includeCode = includeCode;
+        this.includeOutCome = includeOutCome;
+        this.includeOthers = includeOthers;
     }
 
 }
