@@ -1,0 +1,33 @@
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: h2
+    hibernate:
+      ddl-auto: create
+
+oauth:
+  google:
+    url: ${GOOGLE_BASE_URL}
+    client:
+      id: ${GOOGLE_CLIENT_ID}
+      secret: ${GOOGLE_CLIENT_SECRET}
+    redirect:
+      url: ${GOOGLE_REDIRECT_URL}
+    token:
+      url: ${GOOGLE_TOKEN_BASE_URL}
+    tokenInfo:
+      url: ${GOOGLE_TOKEN_INFO_URL}
+
+jwt:
+  secert: ${JWT_SECRET}
+  access:
+    exp: ${JWT_ACCESS_EXP}
+  refresh:
+    exp: ${JWT_REFRESH_EXP}
