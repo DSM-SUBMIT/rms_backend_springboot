@@ -11,7 +11,8 @@ public enum ErrorCode {
     TEAM_ALREADY_EXISTS(409, "Team name is already exists."),
     LANGUAGE_ALREADY_EXISTS(409, "Language is already exists."),
     USER_NOT_FOUND(404, "User not found"),
-    INVALID_EMAIL(400, "Google email must end with @dsm.hs.kr");
+    INVALID_EMAIL(400, "Google email must end with @dsm.hs.kr"),
+    USER_NOT_AUTHENTICATED(401, "Not authenticated");
 
     private final int status;
     private final String message;
