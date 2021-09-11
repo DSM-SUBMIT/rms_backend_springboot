@@ -18,19 +18,15 @@ public class Status {
     @Id
     private Integer reportId;
 
-    @NotNull
     @Column(columnDefinition = "bit(1)")
     private Boolean isPlanAccepted;
 
-    @NotNull
     @Column(columnDefinition = "bit(1)")
     private Boolean isPlanSubmitted;
 
-    @NotNull
     @Column(columnDefinition = "bit(1)")
     private Boolean isReportAccepted;
 
-    @NotNull
     @Column(columnDefinition = "bit(1)")
     private Boolean isReportSubmitted;
 
@@ -46,10 +42,6 @@ public class Status {
     @Builder
     public Status(Project project) {
         this.project = project;
-        this.isPlanSubmitted = false;
-        this.isReportSubmitted = false;
-        this.isPlanAccepted = false;
-        this.isReportAccepted = false;
     }
 
     public void planSubmit() {
