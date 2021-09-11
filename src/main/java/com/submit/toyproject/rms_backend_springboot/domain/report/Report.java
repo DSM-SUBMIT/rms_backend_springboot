@@ -17,7 +17,7 @@ public class Report {
     @Id
     private Integer projectId;
 
-    @Size(max = 20000)
+    @Size(max = 15000)
     @NotNull
     private String content;
 

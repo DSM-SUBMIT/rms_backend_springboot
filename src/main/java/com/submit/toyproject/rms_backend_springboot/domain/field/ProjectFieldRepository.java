@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface ReportFieldRepository extends CrudRepository<ProjectField, Integer> {
+public interface ProjectFieldRepository extends CrudRepository<ProjectField, Integer> {
     @Query("select r from ProjectField r where (:fields is null or r.field.field in (:fields)) and r.project.status.reportSubmittedAt between :yearStart and :yearEnd " +
             "and r.project.status.isReportAccepted = true order by r.project.status.reportSubmittedAt desc")
     List<ProjectField> findAllByFieldAndYear(@Param("fields")List<Field> fields, @Param("yearStart") LocalDate date1, @Param("yearEnd") LocalDate date2);
