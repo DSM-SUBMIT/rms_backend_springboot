@@ -29,10 +29,13 @@ public class Plan {
     @Size(max = 256)
     private String pdfUrl;
 
+    @NotNull
     private Boolean includeResultReport;
 
+    @NotNull
     private Boolean includeCode;
 
+    @NotNull
     private Boolean includeOutCome;
 
     @Size(max = 30)
@@ -52,7 +55,7 @@ public class Plan {
     private Project project;
 
     @Builder
-    public Plan(String goal, String content, String pdfUrl, Project project, Boolean includeResultReport, Boolean includeCode, Boolean includeOutCome, String includeOthers) {
+    public Plan(String goal, String content, String pdfUrl, Project project, Boolean includeResultReport, Boolean includeCode, Boolean includeOutCome, String includeOthers, String plannedStartDate, String plannedEndDate) {
         this.goal = goal;
         this.content = content;
         this.pdfUrl = pdfUrl;
@@ -61,6 +64,8 @@ public class Plan {
         this.includeCode = includeCode;
         this.includeOutCome = includeOutCome;
         this.includeOthers = includeOthers;
+        this.startDate = plannedStartDate;
+        this.endDate = plannedEndDate;
     }
 
 }
