@@ -1,6 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
 import com.submit.toyproject.rms_backend_springboot.dto.request.PlanRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.response.PlanResponse;
 import com.submit.toyproject.rms_backend_springboot.service.plan.PlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,11 @@ public class PlanController {
     @PostMapping("/submit/{id}")
     public void savePlanService(@PathVariable Integer id) {
         planService.savePlanService(id);
+    }
+
+    @GetMapping("/{id}")
+    public PlanResponse getPlanInfo(@PathVariable Integer id) {
+        return planService.getPlanInfo(id);
     }
 
 }

@@ -8,13 +8,18 @@ import com.submit.toyproject.rms_backend_springboot.domain.status.StatusReposito
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.PlanRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
+import com.submit.toyproject.rms_backend_springboot.dto.response.PlanResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
+import com.submit.toyproject.rms_backend_springboot.exception.UserNotAuthenticatedException;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotHavePermissionException;
 import com.submit.toyproject.rms_backend_springboot.exception.handler.PlanNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,7 +35,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public void savePlan(Integer projectId, PlanRequest request) {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(UserNotAuthenticatedException::new);
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
 
@@ -56,7 +61,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public void updatePlan(Integer id, PlanRequest request) {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(UserNotAuthenticatedException::new);
 
         Plan plan = planRepository.findById(id)
                 .orElseThrow(PlanNotFoundException::new);
@@ -71,7 +76,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public void savePlanService(Integer id) {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(UserNotAuthenticatedException::new);
 
         Plan plan = planRepository.findById(id)
                 .orElseThrow(PlanNotFoundException::new);
@@ -81,6 +86,33 @@ public class PlanServiceImpl implements PlanService {
         }
 
         statusRepository.save(plan.getProject().getStatus().planSubmit());
+    }
+
+    @Override
+    public PlanResponse getPlanInfo(Integer id) {
+        userRepository.findByEmail(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotAuthenticatedException::new);
+
+        Plan plan = planRepository.findById(id)
+                .orElseThrow(PlanNotFoundException::new);
+
+        return PlanResponse.builder()
+                .projectName(plan.getProject().getProjectName())
+                .writer(plan.getProject().getUser().getName())
+                .plannedStartDate(plan.getStartDate())
+                .plannedEndDate(plan.getEndDate())
+                .goal(plan.getGoal())
+                .content(plan.getContent())
+                .includeResultReport(plan.getIncludeResultReport())
+                .includeCode(plan.getIncludeCode())
+                .includeOutCome(plan.getIncludeOutCome())
+                .includeOthers(plan.getIncludeOthers())
+                .members(
+                        plan.getProject().getMembers().stream()
+                        .map(member -> new MemberDto(member.getUser().getName(), member.getRole()))
+                        .collect(Collectors.toList())
+                )
+                .build();
     }
 
 }
