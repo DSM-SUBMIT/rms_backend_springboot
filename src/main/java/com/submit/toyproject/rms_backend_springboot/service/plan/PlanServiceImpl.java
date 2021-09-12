@@ -6,13 +6,10 @@ import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
-import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.PlanRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.PlanResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
-import com.submit.toyproject.rms_backend_springboot.exception.UserNotAuthenticatedException;
-import com.submit.toyproject.rms_backend_springboot.exception.UserNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotHavePermissionException;
 import com.submit.toyproject.rms_backend_springboot.exception.handler.PlanNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
@@ -25,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 public class PlanServiceImpl implements PlanService {
 
-    private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
     private final PlanRepository planRepository;
     private final StatusRepository statusRepository;
@@ -34,8 +30,7 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public void savePlan(Integer projectId, PlanRequest request) {
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotAuthenticatedException::new);
+        User user = authenticationFacade.certifiedUser();
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
 
@@ -60,11 +55,9 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public void updatePlan(Integer id, PlanRequest request) {
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotAuthenticatedException::new);
+        User user = authenticationFacade.certifiedUser();
 
-        Plan plan = planRepository.findById(id)
-                .orElseThrow(PlanNotFoundException::new);
+        Plan plan = getPlan(id);
 
         if (!plan.getProject().getUser().equals(user)) {
             throw new UserNotHavePermissionException();
@@ -75,11 +68,9 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public void savePlanService(Integer id) {
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotAuthenticatedException::new);
+        User user = authenticationFacade.certifiedUser();
 
-        Plan plan = planRepository.findById(id)
-                .orElseThrow(PlanNotFoundException::new);
+        Plan plan = getPlan(id);
 
         if (!plan.getProject().getUser().equals(user)) {
             throw new UserNotHavePermissionException();
@@ -90,11 +81,9 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public PlanResponse getPlanInfo(Integer id) {
-        userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotAuthenticatedException::new);
+        authenticationFacade.certifiedUser();;
 
-        Plan plan = planRepository.findById(id)
-                .orElseThrow(PlanNotFoundException::new);
+        Plan plan = getPlan(id);
 
         return PlanResponse.builder()
                 .projectName(plan.getProject().getProjectName())
@@ -113,6 +102,11 @@ public class PlanServiceImpl implements PlanService {
                         .collect(Collectors.toList())
                 )
                 .build();
+    }
+
+    public Plan getPlan(Integer id) {
+        return planRepository.findById(id)
+                .orElseThrow(PlanNotFoundException::new);
     }
 
 }
