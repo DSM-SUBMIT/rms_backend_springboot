@@ -22,4 +22,16 @@ public class PlanController {
         planService.savePlan(id, request);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{id}")
+    public void updatePlan(@PathVariable Integer id,
+                           @RequestBody @Valid PlanRequest request) {
+        planService.updatePlan(id, request);
+    }
+
+    @PostMapping("/submit/{id}")
+    public void savePlanService(@PathVariable Integer id) {
+        planService.savePlanService(id);
+    }
+
 }
