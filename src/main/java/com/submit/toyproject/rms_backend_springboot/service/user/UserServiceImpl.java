@@ -32,8 +32,6 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationFacade authenticationFacade;
     private final ProjectFieldRepository projectFieldRepository;
 
-    private final AuthenticationFacade authenticationFacade;
-
     @Override
     public UsersResponse getUsers(String name) {
         userRepository.findByEmail(authenticationFacade.getUserEmail())
