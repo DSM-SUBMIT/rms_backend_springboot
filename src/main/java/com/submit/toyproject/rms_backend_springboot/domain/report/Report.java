@@ -25,14 +25,6 @@ public class Report {
 
     private String pdfUrl;
 
-    @NotNull
-    @Column(columnDefinition = "char(7)")
-    private String startDate;
-
-    @NotNull
-    @Column(columnDefinition = "char(7)")
-    private String endDate;
-
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
