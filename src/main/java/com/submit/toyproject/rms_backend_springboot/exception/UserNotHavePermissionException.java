@@ -5,6 +5,6 @@ import com.submit.toyproject.rms_backend_springboot.exception.handler.RmsExcepti
 
 public class UserNotHavePermissionException extends RmsException {
     public UserNotHavePermissionException() {
-        super(ErrorCode.DONOT_HAVE_PERMISSION_WRITE);
+        super(ErrorCode.DO_NOT_HAVE_PERMISSION_WRITE);
     }
 }
