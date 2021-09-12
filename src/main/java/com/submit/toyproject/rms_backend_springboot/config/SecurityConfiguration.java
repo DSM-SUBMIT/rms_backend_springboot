@@ -24,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .sessionManagement().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                    .antMatchers ( "/auth/**" ).permitAll()
+                    .antMatchers ( "/auth/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
