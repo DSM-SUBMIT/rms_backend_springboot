@@ -12,6 +12,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.response.*;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
+import com.submit.toyproject.rms_backend_springboot.exception.UserNotAuthenticatedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,12 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationFacade authenticationFacade;
     private final ProjectFieldRepository projectFieldRepository;
 
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     public UsersResponse getUsers(String name) {
-        //토큰 확인 필요
+        userRepository.findByEmail(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotAuthenticatedException::new);
         List<User> users = userRepository.findByNameLike("%" + name + "%");
         return new UsersResponse(users.stream().map(
                 user -> UserDto.builder()
