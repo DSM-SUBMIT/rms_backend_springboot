@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class UserControllerTest {
 
-    private MockMvc mvc;
+    /*private MockMvc mvc;
 
     @Autowired
     private WebApplicationContext context;
@@ -54,22 +54,28 @@ public class UserControllerTest {
         userRepository.deleteAll();
     }
 
-    @WithMockUser
+    @WithMockUser(value = "202020@gmail.com")
     @Test
     public void getUsers_200() throws Exception {
         mvc.perform(get("/user/search")).andExpect(status().isOk()).andDo(print());
     }
 
-    @WithMockUser
+    @WithMockUser(value = "202020@gmail.com")
     @Test
     public void getUsers_200_keyword1() throws Exception {
         mvc.perform(get("/user/search?name=김")).andExpect(status().isOk()).andDo(print());
     }
 
-    @WithMockUser
+    @WithMockUser(value = "202020@gmail.com")
     @Test
     public void getUsers_200_keyword2() throws Exception {
         mvc.perform(get("/user/search?name=길동")).andExpect(status().isOk()).andDo(print());
     }
+
+    @WithMockUser
+    @Test
+    public void getUsers_401() throws Exception {
+        mvc.perform(get("/user/search?name=길동")).andExpect(status().isOk()).andDo(print());
+    }*/
 
 }
