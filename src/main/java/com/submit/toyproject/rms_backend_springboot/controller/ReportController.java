@@ -35,4 +35,9 @@ public class ReportController {
         return reportService.getReportInfo(id);
     }
 
+    @PostMapping("/submit/{id}")
+    public void submitReport(@PathVariable Integer id) {
+        reportService.submitReport(id);
+    }
+
 }

@@ -7,4 +7,5 @@ public interface ReportService {
     void saveReport(Integer projectId, ReportRequest request);
     void updateReport(Integer id, ReportRequest request);
     ReportResponse getReportInfo(Integer id);
+    void submitReport(Integer id);
 }

@@ -77,6 +77,18 @@ public class ReportServiceImpl implements ReportService {
                 .build();
     }
 
+    @Override
+    public void submitReport(Integer id) {
+        User user = authenticationFacade.certifiedUser();
+        Report report = getReport(id);
+
+        if (!report.getProject().getUser().equals(user)) {
+            throw new UserNotHavePermissionException();
+        }
+
+        statusRepository.save(report.getProject().getStatus().reportSubmit());
+    }
+
     private Report getReport(Integer id) {
         return reportRepository.findById(id)
                 .orElseThrow(ReportNotFoundException::new);
