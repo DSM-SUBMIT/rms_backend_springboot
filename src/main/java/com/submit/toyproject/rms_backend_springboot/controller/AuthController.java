@@ -1,6 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.submit.toyproject.rms_backend_springboot.dto.response.AccessTokenResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.TokenResponse;
 import com.submit.toyproject.rms_backend_springboot.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +33,12 @@ public class AuthController {
         try {
             return authService.requestTokenByCode(code);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             return null;
         }
     }
 
     @PutMapping("/token")
-    public String accessTokenRefresh(@RequestHeader(name = "X-Refresh-Token") String token) {
+    public AccessTokenResponse accessTokenRefresh(@RequestHeader(name = "X-Refresh-Token") String token) {
         return authService.tokenRefresh(token);
     }
 

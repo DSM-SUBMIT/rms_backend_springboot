@@ -1,13 +1,17 @@
 package com.submit.toyproject.rms_backend_springboot.service.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshToken;
+import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshTokenRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.GoogleTokenRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.response.AccessTokenResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.TokenResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidEmailException;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidIdTokenInformationException;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidUserTokenException;
+import com.submit.toyproject.rms_backend_springboot.exception.UserNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +39,16 @@ public class AuthServiceImpl implements AuthService{
     @Value("${oauth.google.client.secret}")
     private String GOOGLE_CLIENT_SECRET;
 
+    @Value("${jwt.refresh.exp}")
+    private Long refreshExp;
+
     private final UserRepository userRepository;
 
     private final JwtTokenProvider jwtTokenProvider;
 
     private final GoogleOauthClient googleOauthClient;
+
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public String getGoogleLink() {
@@ -78,15 +87,18 @@ public class AuthServiceImpl implements AuthService{
 
         // ID 토큰 유효성 검사 4단계 & 학교 이메일 검사
         if(hd == null || !hd.equals("dsm.hs.kr")) {
-            log.info(hd);
             throw new InvalidEmailException();
         } else if(!(iss.equals("https://accounts.google.com") || iss.equals("accounts.google.com"))
                 || !aud.equals(GOOGLE_CLIENT_ID) || exp < System.currentTimeMillis()) {
-            log.info(iss);
-            log.info(aud);
-            log.info(exp + " & " + System.currentTimeMillis());
             throw new InvalidIdTokenInformationException();
         }
+
+        RefreshToken refreshToken = refreshTokenRepository.save(
+                RefreshToken.builder()
+                        .refreshExp(refreshExp * 10000)
+                        .refreshToken(jwtTokenProvider.generateRefreshToken(email))
+                        .email(email)
+                        .build());
 
         if(userRepository.findByEmail(email).isEmpty()) {
             userRepository.save(
@@ -97,14 +109,20 @@ public class AuthServiceImpl implements AuthService{
             );
         }
 
-        return new TokenResponse(jwtTokenProvider.generateAccessToken(email),
-                jwtTokenProvider.generateRefreshToken(email));
+        return TokenResponse.builder()
+                .accessToken(jwtTokenProvider.generateAccessToken(email))
+                .refreshToken(refreshToken.getRefreshToken())
+                .build();
     }
 
     @Override
-    public String tokenRefresh(String token) {
+    public AccessTokenResponse tokenRefresh(String token) {
         if (!jwtTokenProvider.isRefreshToken(token)) throw new InvalidUserTokenException();
-        String email = jwtTokenProvider.getBody(token).getSubject();
-        return jwtTokenProvider.generateAccessToken(email);
+
+        return refreshTokenRepository.findByRefreshToken(token)
+                .map(refreshToken -> refreshToken.update(refreshExp))
+                .map(refreshToken -> jwtTokenProvider.generateAccessToken(refreshToken.getEmail()))
+                .map(AccessTokenResponse::new)
+                .orElseThrow(InvalidUserTokenException::new);
     }
 }
