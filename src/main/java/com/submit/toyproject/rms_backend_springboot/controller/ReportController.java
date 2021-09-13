@@ -1,6 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
 import com.submit.toyproject.rms_backend_springboot.dto.request.ReportRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.response.ReportResponse;
 import com.submit.toyproject.rms_backend_springboot.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,11 @@ public class ReportController {
     public void updateReport(@PathVariable Integer id,
                              @RequestBody @Valid ReportRequest request) {
         reportService.updateReport(id, request);
+    }
+
+    @GetMapping("/{id}")
+    public ReportResponse getReportInfo(@PathVariable Integer id) {
+        return reportService.getReportInfo(id);
     }
 
 }

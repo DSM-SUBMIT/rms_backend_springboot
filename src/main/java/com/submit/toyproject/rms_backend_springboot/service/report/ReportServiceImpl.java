@@ -7,12 +7,15 @@ import com.submit.toyproject.rms_backend_springboot.domain.report.ReportReposito
 import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ReportRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.response.ReportResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.exception.ReportNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotHavePermissionException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -54,6 +57,24 @@ public class ReportServiceImpl implements ReportService {
         }
 
         reportRepository.save(report.update(request));
+    }
+
+    @Override
+    public ReportResponse getReportInfo(Integer id) {
+        authenticationFacade.certifiedUser();
+        Report report = getReport(id);
+
+        return ReportResponse.builder()
+                .writer(report.getProject().getUser().getName())
+                .projectType(report.getProject().getProjectType().toString())
+                .videoUrl(report.getVideoUrl())
+                .content(report.getContent())
+                .projectName(report.getProject().getProjectName())
+                .field(report.getProject().getProjectFields().stream()
+                    .map(
+                            field -> field.getField().getField().toString()
+                    ).collect(Collectors.toList()))
+                .build();
     }
 
     private Report getReport(Integer id) {
