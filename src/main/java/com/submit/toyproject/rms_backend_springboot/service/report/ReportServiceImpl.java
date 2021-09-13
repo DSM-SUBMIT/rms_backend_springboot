@@ -8,6 +8,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.status.StatusReposito
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ReportRequest;
 import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
+import com.submit.toyproject.rms_backend_springboot.exception.ReportNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotHavePermissionException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,23 @@ public class ReportServiceImpl implements ReportService {
         );
     }
 
+    @Override
+    public void updateReport(Integer id, ReportRequest request) {
+        User user = authenticationFacade.certifiedUser();
+
+        Report report = getReport(id);
+
+        if (!report.getProject().getUser().equals(user)) {
+            throw new UserNotHavePermissionException();
+        }
+
+        reportRepository.save(report.update(request));
+    }
+
+    private Report getReport(Integer id) {
+        return reportRepository.findById(id)
+                .orElseThrow(ReportNotFoundException::new);
+    }
 
 
 }

@@ -22,4 +22,11 @@ public class ReportController {
         reportService.saveReport(id, request);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{id}")
+    public void updateReport(@PathVariable Integer id,
+                             @RequestBody @Valid ReportRequest request) {
+        reportService.updateReport(id, request);
+    }
+
 }
