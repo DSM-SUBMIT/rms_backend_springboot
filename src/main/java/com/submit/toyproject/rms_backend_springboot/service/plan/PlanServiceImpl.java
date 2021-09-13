@@ -67,7 +67,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public void savePlanService(Integer id) {
+    public void savePlan(Integer id) {
         User user = authenticationFacade.certifiedUser();
 
         Plan plan = getPlan(id);
