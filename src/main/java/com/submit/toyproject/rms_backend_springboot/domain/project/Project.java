@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.domain.project;
 
+import com.submit.toyproject.rms_backend_springboot.domain.field.ProjectField;
 import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
 import com.submit.toyproject.rms_backend_springboot.domain.plan.Plan;
 import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
@@ -68,6 +69,9 @@ public class Project {
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Member> members;
+
+    @OneToMany(mappedBy = "field", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ProjectField> projectFields;
 
     @Builder
     public Project(String projectName, String teamName, String techStacks, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher) {
