@@ -35,22 +35,20 @@ public class JwtTokenProvider {
     private final AuthDetailService authDetailService;
 
     public String generateAccessToken(String email) {
-        return Jwts.builder()
-                .setHeaderParam("typ", "access")
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + accessExp * 1000))
-                .signWith(SignatureAlgorithm.HS256, getSecretKey())
-                .compact();
+        return generateToken(email, "access", accessExp);
     }
 
     public String generateRefreshToken(String email) {
+        return generateToken(email, "refresh", refreshExp);
+    }
+
+    private String generateToken(String email, String type, Long exp) {
         return Jwts.builder()
-                .setHeaderParam("typ", "refresh")
-                .setSubject(email)
+                .setHeaderParam("typ", type)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshExp * 1000))
-                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .setSubject(email)
+                .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 

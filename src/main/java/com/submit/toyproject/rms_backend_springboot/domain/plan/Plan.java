@@ -35,7 +35,16 @@ public class Plan {
 
     private Boolean includeOutCome;
 
+    @Size(max = 30)
     private String includeOthers;
+
+    @NotNull
+    @Column(columnDefinition = "char(7)")
+    private String startDate;
+
+    @NotNull
+    @Column(columnDefinition = "char(7)")
+    private String endDate;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
