@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "field")
 public class ProjectField {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
