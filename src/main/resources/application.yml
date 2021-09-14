@@ -2,15 +2,20 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    database: h2
+    database-platform: org.hibernate.dialect.MySQL55Dialect
+    database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379)
+
+
 
 oauth:
   google:
@@ -26,8 +31,8 @@ oauth:
       url: ${GOOGLE_TOKEN_INFO_URL}
 
 jwt:
-  secert: ${JWT_SECRET}
+  secert: ${JWT_SECRET:asdfgasdf}
   access:
-    exp: ${JWT_ACCESS_EXP}
+    exp: ${JWT_ACCESS_EXP:1000000}
   refresh:
-    exp: ${JWT_REFRESH_EXP}
+    exp: ${JWT_REFRESH_EXP:12101212}
