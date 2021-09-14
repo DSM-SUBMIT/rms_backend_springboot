@@ -1,12 +1,10 @@
 package com.submit.toyproject.rms_backend_springboot.service.user;
 
-import com.submit.toyproject.rms_backend_springboot.domain.field.Field;
 import com.submit.toyproject.rms_backend_springboot.domain.field.ProjectField;
 import com.submit.toyproject.rms_backend_springboot.domain.field.ProjectFieldRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
 import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
-import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.response.*;
