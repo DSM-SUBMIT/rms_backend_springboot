@@ -32,10 +32,7 @@ public class ReportServiceImpl implements ReportService {
         User user = authenticationFacade.certifiedUser();
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
-
-        if (!project.getUser().equals(user)) {
-            throw new UserNotHavePermissionException();
-        }
+        isAcceptable(project, user);
 
         reportRepository.save(
                 Report.builder()
@@ -49,12 +46,8 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void updateReport(Integer id, ReportRequest request) {
         User user = authenticationFacade.certifiedUser();
-
         Report report = getReport(id);
-
-        if (!report.getProject().getUser().equals(user)) {
-            throw new UserNotHavePermissionException();
-        }
+        isAcceptable(report.getProject(), user);
 
         reportRepository.save(report.update(request));
     }
@@ -81,12 +74,15 @@ public class ReportServiceImpl implements ReportService {
     public void submitReport(Integer id) {
         User user = authenticationFacade.certifiedUser();
         Report report = getReport(id);
-
-        if (!report.getProject().getUser().equals(user)) {
-            throw new UserNotHavePermissionException();
-        }
+        isAcceptable(report.getProject(), user);
 
         statusRepository.save(report.getProject().getStatus().reportSubmit());
+    }
+
+    private void isAcceptable(Project project, User user) {
+        if (!project.getUser().equals(user)) {
+            throw new UserNotHavePermissionException();
+        }
     }
 
     private Report getReport(Integer id) {

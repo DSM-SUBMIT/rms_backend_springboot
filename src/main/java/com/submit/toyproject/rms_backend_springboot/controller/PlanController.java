@@ -31,8 +31,8 @@ public class PlanController {
     }
 
     @PostMapping("/submit/{id}")
-    public void savePlanService(@PathVariable Integer id) {
-        planService.savePlan(id);
+    public void submitPlan(@PathVariable Integer id) {
+        planService.submitPlan(id);
     }
 
     @GetMapping("/{id}")
