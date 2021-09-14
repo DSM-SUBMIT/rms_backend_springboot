@@ -11,6 +11,9 @@ spring:
     database: h2
     hibernate:
       ddl-auto: create
+  redis:
+    port: 6380
+    host: localhost
 
 
 jwt:
@@ -19,3 +22,17 @@ jwt:
     exp: 1234
   refresh:
     exp: 124456
+
+oauth:
+  google:
+    url: asdf
+    client:
+      id: asdf
+      secret: asdf
+    redirect:
+      url: asdf
+    token:
+      url: asdf
+    tokenInfo:
+      url: asdf
+
