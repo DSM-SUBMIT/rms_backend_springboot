@@ -1,11 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.domain.field;
 
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
-import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
