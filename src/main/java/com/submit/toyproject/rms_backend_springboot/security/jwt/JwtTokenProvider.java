@@ -48,7 +48,7 @@ public class JwtTokenProvider {
                 .setIssuedAt(new Date())
                 .setSubject(email)
                 .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, getSecretKey())
                 .compact();
     }
 
@@ -56,7 +56,6 @@ public class JwtTokenProvider {
         try {
             return getHeader(token).get("typ").equals("refresh");
         } catch (Exception e) {
-            e.printStackTrace();
             throw new InvalidUserTokenException();
         }
     }
@@ -94,11 +93,6 @@ public class JwtTokenProvider {
     public JwsHeader getHeader(String token) {
         return Jwts.parser().setSigningKey(getSecretKey())
                 .parseClaimsJws(token).getHeader();
-    }
-
-    public Claims getBody(String token) {
-        return Jwts.parser().setSigningKey(getSecretKey())
-                .parseClaimsJws(token).getBody();
     }
 
     public String getSecretKey() {
