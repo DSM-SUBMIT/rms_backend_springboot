@@ -13,6 +13,7 @@ public enum ErrorCode {
     INVALID_ID_TOKEN_INFORMATION(400, "Id_Token information does not match."),
     INVALID_EMAIL(400, "Google email must end with '@dsm.hs.kr'."),
     USER_NOT_FOUND(404, "User not found."),
+    PROJECT_NOT_FOUND(404, "Project not found."),
     USER_NOT_AUTHENTICATED(401, "Not authenticated");
 
     private final int status;
