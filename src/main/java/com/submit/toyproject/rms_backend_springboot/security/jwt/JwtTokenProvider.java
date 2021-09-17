@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -48,7 +47,7 @@ public class JwtTokenProvider {
                 .setIssuedAt(new Date())
                 .setSubject(email)
                 .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
-                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
@@ -67,7 +66,7 @@ public class JwtTokenProvider {
 
     public String getId(String token) {
         return Jwts.parser()
-                .setSigningKey(getSecretKey())
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -83,7 +82,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(getSecretKey()).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return claims.getBody().getExpiration().after(new Date());
         } catch (Exception e) {
             throw new InvalidUserTokenException();
@@ -91,11 +90,8 @@ public class JwtTokenProvider {
     }
 
     public JwsHeader getHeader(String token) {
-        return Jwts.parser().setSigningKey(getSecretKey())
+        return Jwts.parser().setSigningKey(secretKey)
                 .parseClaimsJws(token).getHeader();
     }
 
-    public String getSecretKey() {
-        return Base64.getEncoder().encodeToString(secretKey.getBytes());
-    }
 }
