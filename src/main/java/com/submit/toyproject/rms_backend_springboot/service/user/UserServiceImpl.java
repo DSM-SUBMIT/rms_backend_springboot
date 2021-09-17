@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
                     .collect(Collectors.toList());
 
             MyPageProjectResponse projectResponse = MyPageProjectResponse.builder()
+                    .id(project.getId())
                     .projectName(project.getProjectName())
                     .teamName(project.getTeamName())
                     .projectType(project.getProjectType().toString())
