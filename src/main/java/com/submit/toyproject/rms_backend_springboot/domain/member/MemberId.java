@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -13,7 +12,5 @@ import java.io.Serializable;
 public class MemberId implements Serializable {
 
     private Integer user;
-
     private Integer project;
-
 }
