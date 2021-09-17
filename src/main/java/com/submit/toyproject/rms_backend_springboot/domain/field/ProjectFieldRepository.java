@@ -15,4 +15,6 @@ public interface ProjectFieldRepository extends CrudRepository<ProjectField, Int
     List<ProjectField> findAllByFieldAndYear(@Param("fields")List<Field> fields, @Param("yearStart") LocalDate date1, @Param("yearEnd") LocalDate date2);
 
     List<ProjectField> findByProject(Project project);
+
+    void deleteAllByProject(Project project);
 }
