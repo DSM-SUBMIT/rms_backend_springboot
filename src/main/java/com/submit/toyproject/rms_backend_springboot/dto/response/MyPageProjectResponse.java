@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MyPageProjectResponse {
 
+    private Integer id;
     private String projectName;
     private String teamName;
     private String projectType;
