@@ -15,7 +15,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "User not found."),
     PROJECT_NOT_FOUND(404, "Project not found."),
     USER_NOT_AUTHENTICATED(401, "Not authenticated"),
-    NOT_FOUND(404, "Something not found.");
+    NOT_FOUND(404, "Something not found."),
+    PERMISSION_DENIED(403, "Permission Denied");
 
     private final int status;
     private final String message;
