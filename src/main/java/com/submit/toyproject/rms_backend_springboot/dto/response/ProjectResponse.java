@@ -1,13 +1,11 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Builder
@@ -25,7 +23,7 @@ public class ProjectResponse {
 
     private String teamName;
 
-    private List<MemberResponse> memberList;
+    private List<MemberDto> memberList;
 
     private String githubUrl;
 

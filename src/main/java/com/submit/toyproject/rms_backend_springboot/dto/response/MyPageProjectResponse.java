@@ -6,8 +6,6 @@ import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class MyPageProjectResponse {
 
     private Integer id;

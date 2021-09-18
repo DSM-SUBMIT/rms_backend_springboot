@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface MemberRepository extends CrudRepository<Member, MemberId> {
     List<Member> findByUser(User user);
-
     List<Member> findByProject(Project project);
-
     void deleteAllByProject(Project project);
 }
