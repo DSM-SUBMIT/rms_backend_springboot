@@ -2,6 +2,7 @@ package com.submit.toyproject.rms_backend_springboot.service.project;
 
 import com.submit.toyproject.rms_backend_springboot.domain.field.*;
 import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
+import com.submit.toyproject.rms_backend_springboot.domain.member.MemberId;
 import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
@@ -10,9 +11,10 @@ import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
-import com.submit.toyproject.rms_backend_springboot.dto.response.MemberResponse;
+import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidUserTokenException;
+import com.submit.toyproject.rms_backend_springboot.exception.PermissionDeniedException;
 import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
@@ -51,19 +53,23 @@ public class ProjectServiceImpl implements ProjectService{
                 .techStacks(projectRequest.getTechStacks())
                 .projectType(ProjectType.valueOf(projectRequest.getProjectType()))
                 .teacher(projectRequest.getTeacher())
-                .user(user)
+                .writer(user)
                 .build();
 
         projectRepository.save(project);
 
         for(Map<String, String> memberMap : projectRequest.getMemberList()) {
+            User memberUser = userRepository.findByEmail(memberMap.get("email"))
+                    .orElseThrow(UserNotFoundException::new);
             Member member = Member.builder()
                     .project(project)
-                    .user(userRepository.findByEmail(memberMap.get("email"))
-                            .orElseThrow(UserNotFoundException::new))
+                    .user(memberUser)
                     .role(memberMap.get("role"))
                     .build();
-            memberRepository.save(member);
+            if(!memberRepository.findById(new MemberId(project.getId(), memberUser.getId())).isEmpty()) {
+                memberRepository.save(member);
+            }
+
             sendMail(memberMap.get("email"));
         }
 
@@ -96,8 +102,8 @@ public class ProjectServiceImpl implements ProjectService{
                 .map(projectField -> projectField.getField().getField().toString())
                 .collect(Collectors.toList());
 
-        List<MemberResponse> memberList = memberRepository.findByProject(project).stream()
-                .map(member -> MemberResponse.builder()
+        List<MemberDto> memberList = memberRepository.findByProject(project).stream()
+                .map(member -> MemberDto.builder()
                         .name(member.getUser().getName())
                         .email(member.getUser().getEmail())
                         .role(member.getRole())
@@ -120,8 +126,13 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public void updateProject(Integer id, ProjectRequest projectRequest) {
+
         Project project = projectRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
+
+        if(!authenticationFacade.getUserEmail().equals(project.getWriter().getEmail())) {
+            throw new PermissionDeniedException();
+        }
 
         project.update(projectRequest);
 
@@ -172,7 +183,5 @@ public class ProjectServiceImpl implements ProjectService{
     public void sendMail(String email) {
 
     }
-
-
 
 }
