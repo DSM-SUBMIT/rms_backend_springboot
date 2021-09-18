@@ -74,7 +74,7 @@ public class Project {
     private List<ProjectField> projectFields;
 
     @Builder
-    public Project(String projectName, String teamName, String techStacks, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher) {
+    public Project(String projectName, String teamName, String techStacks, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher, User user) {
         this.projectName = projectName;
         this.teamName = teamName;
         this.techStacks = techStacks;
@@ -83,6 +83,7 @@ public class Project {
         this.githubUrl = githubUrl;
         this.serviceUrl = serviceUrl;
         this.docsUrl = docsUrl;
+        this.user = user;
     }
 
 }
