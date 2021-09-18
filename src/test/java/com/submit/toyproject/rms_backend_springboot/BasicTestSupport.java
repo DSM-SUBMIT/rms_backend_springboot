@@ -53,10 +53,10 @@ public class BasicTestSupport {
     }
 
     public User createUser(String email, String name) {
-        return User.builder()
+        return userRepository.save(User.builder()
                 .email(email)
                 .name(name)
-                .build();
+                .build());
     }
 
     public Project createProject(String projectName, User writer) {
