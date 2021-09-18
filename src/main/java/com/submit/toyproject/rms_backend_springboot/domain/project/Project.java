@@ -55,8 +55,8 @@ public class Project {
     private String docsUrl;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "writer_id", nullable = false)
+    private User writer;
 
     @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Status status;
@@ -74,7 +74,7 @@ public class Project {
     private List<ProjectField> projectFields;
 
     @Builder
-    public Project(String projectName, String teamName, String techStacks, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher, User user) {
+    public Project(String projectName, String teamName, String techStacks, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher, User writer) {
         this.projectName = projectName;
         this.teamName = teamName;
         this.techStacks = techStacks;
@@ -83,7 +83,7 @@ public class Project {
         this.githubUrl = githubUrl;
         this.serviceUrl = serviceUrl;
         this.docsUrl = docsUrl;
-        this.user = user;
+        this.writer = writer;
     }
 
 }

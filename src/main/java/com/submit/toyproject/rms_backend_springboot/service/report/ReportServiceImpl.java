@@ -63,7 +63,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
         return ReportResponse.builder()
-                .writer(project.getUser().getName())
+                .writer(project.getWriter().getName())
                 .projectType(project.getProjectType().toString())
                 .videoUrl(report.getVideoUrl())
                 .content(report.getContent())
@@ -85,7 +85,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private void isWorkPossible(Project project, User user) {
-        if (!project.getUser().equals(user)) {
+        if (!project.getWriter().equals(user)) {
             throw new UserNotHavePermissionException();
         }
         if (project.getStatus().getIsReportSubmitted()) {

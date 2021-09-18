@@ -83,7 +83,7 @@ public class PlanServiceImpl implements PlanService {
 
         return PlanResponse.builder()
                 .projectName(project.getProjectName())
-                .writer(project.getUser().getName())
+                .writer(project.getWriter().getName())
                 .plannedStartDate(plan.getStartDate())
                 .plannedEndDate(plan.getEndDate())
                 .goal(plan.getGoal())
@@ -101,7 +101,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     private void isWorkPossible(Project project, User user) {
-        if (!project.getUser().equals(user)) {
+        if (!project.getWriter().equals(user)) {
             throw new UserNotHavePermissionException();
         }
         if (project.getStatus().getIsPlanSubmitted()) {
