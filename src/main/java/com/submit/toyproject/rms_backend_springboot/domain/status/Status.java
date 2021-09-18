@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -44,14 +43,18 @@ public class Status {
         this.project = project;
     }
 
-    public void planSubmit() {
+    public Status planSubmit() {
         this.isPlanSubmitted = true;
         this.planSubmittedAt = LocalDateTime.now();
+
+        return this;
     }
 
-    public void reportSubmit() {
+    public Status reportSubmit() {
         this.isReportSubmitted = true;
         this.reportSubmittedAt = LocalDateTime.now();
+
+        return this;
     }
 
 }

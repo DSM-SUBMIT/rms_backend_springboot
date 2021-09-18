@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReportsResponse {
+public class MemberDto {
 
-    private List<ReportDto> reports;
+    private String name;
+
+    private String role;
 
 }

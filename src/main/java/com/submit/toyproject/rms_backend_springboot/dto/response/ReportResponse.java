@@ -11,18 +11,18 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReportDto {
-
-    private Integer id;
-
-    private String projectName;
-
-    private String division;
-
-    private String team;
+public class ReportResponse {
 
     private String writer;
 
-    private List<String> fields;
+    private String projectName;
+
+    private List<String> field;
+
+    private String projectType;
+
+    private String content;
+
+    private String videoUrl;
 
 }
