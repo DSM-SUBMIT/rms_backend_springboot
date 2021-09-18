@@ -17,7 +17,9 @@ public enum ErrorCode {
     PROJECT_NOT_FOUND(404, "Project is not found."),
     DO_NOT_HAVE_PERMISSION_WRITE(403, "User don't have permission to write"),
     PLAN_NOT_FOUND(404, "Plan is not found."),
-    REPORT_NOT_FOUND(404, "Report is not found.");
+    REPORT_NOT_FOUND(404, "Report is not found."),
+    PLAN_ALREADY_SUBMITTED(400, "Plan is already submitted."),
+    REPORT_ALREADY_SUBMITTED(400, "Report is already submitted.");
 
     private final int status;
     private final String message;
