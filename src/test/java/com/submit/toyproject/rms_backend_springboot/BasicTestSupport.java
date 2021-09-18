@@ -9,17 +9,13 @@ import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectReposi
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
-import com.submit.toyproject.rms_backend_springboot.dto.response.MemberResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.NotFoundException;
-import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
 
 @Component
 public class BasicTestSupport {
@@ -69,18 +65,10 @@ public class BasicTestSupport {
                 .githubUrl("githubUrl")
                 .docsUrl("docsUrl")
                 .serviceUrl("serviceUrl")
-                .user(writer)
+                .writer(writer)
                 .build();
 
         projectRepository.save(project);
-
-//        for(String field : fieldList) {
-//            addProjectField(project, FieldEnum.valueOf(field));
-//        }
-//
-//        for(MemberResponse member : memberList) {
-//            addMember(project, member.getEmail(), member.getName(), member.getRole());
-//        }
 
         return project;
     }
