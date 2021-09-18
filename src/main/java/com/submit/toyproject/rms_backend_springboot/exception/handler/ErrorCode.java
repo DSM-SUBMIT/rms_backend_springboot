@@ -14,7 +14,8 @@ public enum ErrorCode {
     INVALID_EMAIL(400, "Google email must end with '@dsm.hs.kr'."),
     USER_NOT_FOUND(404, "User not found."),
     PROJECT_NOT_FOUND(404, "Project not found."),
-    USER_NOT_AUTHENTICATED(401, "Not authenticated");
+    USER_NOT_AUTHENTICATED(401, "Not authenticated"),
+    NOT_FOUND(404, "Something not found.");
 
     private final int status;
     private final String message;
