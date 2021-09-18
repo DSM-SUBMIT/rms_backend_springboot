@@ -41,7 +41,7 @@ public class PlanServiceImpl implements PlanService {
         planRepository.save(
                 Plan.builder()
                         .goal(request.getGoal())
-                        .content(request.getGoal())
+                        .content(request.getContent())
                         .project(project)
                         .includeResultReport(request.getIncludeResultReport())
                         .includeCode(request.getIncludeCode())
