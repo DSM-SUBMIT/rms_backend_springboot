@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.service.plan;
 
+import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.plan.Plan;
 import com.submit.toyproject.rms_backend_springboot.domain.plan.PlanRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
@@ -9,6 +10,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.dto.request.PlanRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.PlanResponse;
+import com.submit.toyproject.rms_backend_springboot.exception.PlanAlreadySubmittedException;
 import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotHavePermissionException;
 import com.submit.toyproject.rms_backend_springboot.exception.handler.PlanNotFoundException;
@@ -25,6 +27,7 @@ public class PlanServiceImpl implements PlanService {
     private final ProjectRepository projectRepository;
     private final PlanRepository planRepository;
     private final StatusRepository statusRepository;
+    private final MemberRepository memberRepository;
 
     private final AuthenticationFacade authenticationFacade;
 
@@ -55,6 +58,7 @@ public class PlanServiceImpl implements PlanService {
         User user = authenticationFacade.certifiedUser();
         Plan plan = getPlan(id);
         isAcceptable(plan.getProject(), user);
+        isSubmitted(plan.getProject());
 
         planRepository.save(plan.update(request));
     }
@@ -64,18 +68,24 @@ public class PlanServiceImpl implements PlanService {
         User user = authenticationFacade.certifiedUser();
         Plan plan = getPlan(id);
         isAcceptable(plan.getProject(), user);
+        isSubmitted(plan.getProject());
 
         statusRepository.save(plan.getProject().getStatus().planSubmit());
     }
 
     @Override
     public PlanResponse getPlanInfo(Integer id) {
-        authenticationFacade.certifiedUser();;
+        User user = authenticationFacade.certifiedUser();
         Plan plan = getPlan(id);
+        Project project = plan.getProject();
+
+        if (!project.getStatus().getIsPlanAccepted() && !memberRepository.existsByProjectAndUser(project, user)) {
+            throw new UserNotHavePermissionException();
+        }
 
         return PlanResponse.builder()
-                .projectName(plan.getProject().getProjectName())
-                .writer(plan.getProject().getUser().getName())
+                .projectName(project.getProjectName())
+                .writer(project.getUser().getName())
                 .plannedStartDate(plan.getStartDate())
                 .plannedEndDate(plan.getEndDate())
                 .goal(plan.getGoal())
@@ -85,7 +95,7 @@ public class PlanServiceImpl implements PlanService {
                 .includeOutCome(plan.getIncludeOutCome())
                 .includeOthers(plan.getIncludeOthers())
                 .members(
-                        plan.getProject().getMembers().stream()
+                        project.getMembers().stream()
                         .map(member -> new MemberDto(member.getUser().getName(), member.getRole()))
                         .collect(Collectors.toList())
                 )
@@ -95,6 +105,12 @@ public class PlanServiceImpl implements PlanService {
     private void isAcceptable(Project project, User user) {
         if (!project.getUser().equals(user)) {
             throw new UserNotHavePermissionException();
+        }
+    }
+
+    private void isSubmitted(Project project) {
+        if (project.getStatus().getIsPlanSubmitted()) {
+            throw new PlanAlreadySubmittedException();
         }
     }
 
