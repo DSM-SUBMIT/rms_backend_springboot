@@ -32,7 +32,7 @@ public class ReportServiceImpl implements ReportService {
         User user = authenticationFacade.certifiedUser();
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
-        isAcceptable(project, user);
+        isWorkPossible(project, user);
 
         reportRepository.save(
                 Report.builder()
@@ -47,8 +47,7 @@ public class ReportServiceImpl implements ReportService {
     public void updateReport(Integer id, ReportRequest request) {
         User user = authenticationFacade.certifiedUser();
         Report report = getReport(id);
-        isAcceptable(report.getProject(), user);
-        isSubmitted(report.getProject());
+        isWorkPossible(report.getProject(), user);
 
         reportRepository.save(report.update(request));
     }
@@ -79,21 +78,17 @@ public class ReportServiceImpl implements ReportService {
     public void submitReport(Integer id) {
         User user = authenticationFacade.certifiedUser();
         Report report = getReport(id);
-        isAcceptable(report.getProject(), user);
-        isSubmitted(report.getProject());
+        isWorkPossible(report.getProject(), user);
 
 
         statusRepository.save(report.getProject().getStatus().reportSubmit());
     }
 
-    private void isAcceptable(Project project, User user) {
+    private void isWorkPossible(Project project, User user) {
         if (!project.getUser().equals(user)) {
             throw new UserNotHavePermissionException();
         }
-    }
-
-    private void isSubmitted(Project project) {
-        if (project.getStatus().getIsPlanSubmitted()) {
+        if (project.getStatus().getIsReportSubmitted()) {
             throw new ReportAlreadySubmittedException();
         }
     }

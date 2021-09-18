@@ -36,7 +36,7 @@ public class PlanServiceImpl implements PlanService {
         User user = authenticationFacade.certifiedUser();
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
-        isAcceptable(project, user);
+        isWorkPossible(project, user);
 
         planRepository.save(
                 Plan.builder()
@@ -57,8 +57,7 @@ public class PlanServiceImpl implements PlanService {
     public void updatePlan(Integer id, PlanRequest request) {
         User user = authenticationFacade.certifiedUser();
         Plan plan = getPlan(id);
-        isAcceptable(plan.getProject(), user);
-        isSubmitted(plan.getProject());
+        isWorkPossible(plan.getProject(), user);
 
         planRepository.save(plan.update(request));
     }
@@ -67,8 +66,7 @@ public class PlanServiceImpl implements PlanService {
     public void submitPlan(Integer id) {
         User user = authenticationFacade.certifiedUser();
         Plan plan = getPlan(id);
-        isAcceptable(plan.getProject(), user);
-        isSubmitted(plan.getProject());
+        isWorkPossible(plan.getProject(), user);
 
         statusRepository.save(plan.getProject().getStatus().planSubmit());
     }
@@ -102,13 +100,10 @@ public class PlanServiceImpl implements PlanService {
                 .build();
     }
 
-    private void isAcceptable(Project project, User user) {
+    private void isWorkPossible(Project project, User user) {
         if (!project.getUser().equals(user)) {
             throw new UserNotHavePermissionException();
         }
-    }
-
-    private void isSubmitted(Project project) {
         if (project.getStatus().getIsPlanSubmitted()) {
             throw new PlanAlreadySubmittedException();
         }
