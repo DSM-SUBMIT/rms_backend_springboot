@@ -200,7 +200,7 @@ public class ProjectServiceImpl implements ProjectService{
                 final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
                 helper.setFrom("dsmsubmit@gmail.com");
                 helper.setTo(setTo);
-                helper.setSubject("");
+                helper.setSubject("새로운 팀에 가입되었습니다.");
                 helper.setText(convertNotificationMemberAdd(teamName), true);
             };
 
