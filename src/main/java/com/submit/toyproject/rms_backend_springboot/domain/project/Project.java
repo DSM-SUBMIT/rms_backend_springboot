@@ -6,6 +6,8 @@ import com.submit.toyproject.rms_backend_springboot.domain.plan.Plan;
 import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
 import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
+import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -74,7 +76,7 @@ public class Project {
     private List<ProjectField> projectFields;
 
     @Builder
-    public Project(String projectName, String teamName, String techStacks, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher) {
+    public Project(String projectName, String teamName, String techStacks, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher, User user) {
         this.projectName = projectName;
         this.teamName = teamName;
         this.techStacks = techStacks;
@@ -83,6 +85,21 @@ public class Project {
         this.githubUrl = githubUrl;
         this.serviceUrl = serviceUrl;
         this.docsUrl = docsUrl;
+        this.user = user;
+    }
+
+    public void update(ProjectRequest request) {
+        this.projectName = request.getProjectName();
+        this.teamName = request.getTeamName();
+        this.techStacks = request.getTechStacks();
+        this.projectType = ProjectType.valueOf(request.getProjectType());
+        this.teacher = request.getTeacher();
+    }
+
+    public void updateUrls(ProjectUrlsRequest request) {
+        this.githubUrl = request.getGithubUrl();
+        this.serviceUrl = request.getServiceUrl();
+        this.docsUrl = request.getDocsUrl();
     }
 
 }
