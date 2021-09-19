@@ -12,17 +12,11 @@ import javax.persistence.*;
 public class ProjectField {
 
     @Id
-    private Integer fieldId;
-
-    @Id
-    private Integer projectId;
-
-    @MapsId
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id", nullable = false)
     private Field field;
 
-    @MapsId
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;

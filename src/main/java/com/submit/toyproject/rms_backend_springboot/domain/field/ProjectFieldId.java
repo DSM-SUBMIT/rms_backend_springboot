@@ -11,11 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectFieldId implements Serializable {
-
-    @Id
     private Integer field;
-
-    @Id
     private Integer project;
 
 }
