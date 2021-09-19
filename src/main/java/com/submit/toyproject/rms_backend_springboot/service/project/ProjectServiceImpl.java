@@ -2,7 +2,6 @@ package com.submit.toyproject.rms_backend_springboot.service.project;
 
 import com.submit.toyproject.rms_backend_springboot.domain.field.*;
 import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
-import com.submit.toyproject.rms_backend_springboot.domain.member.MemberId;
 import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
@@ -14,11 +13,9 @@ import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsReque
 import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.*;
-import com.submit.toyproject.rms_backend_springboot.exception.handler.RmsException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -50,6 +47,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 
     @Override
+    @Transactional
     public Integer createProject(ProjectRequest projectRequest) {
         User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
                 .orElseThrow(InvalidUserTokenException::new);
@@ -64,38 +62,8 @@ public class ProjectServiceImpl implements ProjectService{
                 .build();
 
         projectRepository.save(project);
-
-        for(Map<String, String> memberMap : projectRequest.getMemberList()) {
-            User memberUser = userRepository.findByEmail(memberMap.get("email"))
-                    .orElseThrow(UserNotFoundException::new);
-            Member member = Member.builder()
-                    .project(project)
-                    .user(memberUser)
-                    .role(memberMap.get("role"))
-                    .build();
-            if(!memberRepository.findById(new MemberId(project.getId(), memberUser.getId())).isEmpty()) {
-                memberRepository.save(member);
-            }
-
-            sendMail(memberMap.get("email"), project.getTeamName());
-        }
-
-        for(String fieldReq : projectRequest.getFieldList()) {
-            FieldEnum fieldEnum = FieldEnum.valueOf(fieldReq);
-            if(fieldRepository.findByField(fieldEnum).isEmpty()) {
-                Field field = Field.builder()
-                        .field(FieldEnum.valueOf(fieldReq))
-                        .build();
-                fieldRepository.save(field);
-            }
-            Field field = fieldRepository.findByField(fieldEnum)
-                    .orElseThrow(FieldNotFoundException::new);
-            projectFieldRepository.save(ProjectField.builder()
-                    .field(field)
-                    .project(project)
-                    .build()
-            );
-        }
+        addMember(project, projectRequest.getMemberList());
+        addProjectField(project, projectRequest.getFieldList());
 
         return project.getId();
     }
@@ -143,33 +111,11 @@ public class ProjectServiceImpl implements ProjectService{
 
         project.update(projectRequest);
 
-        //프론트랑 말해봐야함
+        //수정 필요
         memberRepository.deleteAllByProject(project);
-
-        for(Map<String, String> memberMap : projectRequest.getMemberList()) {
-            Member member = Member.builder()
-                    .project(project)
-                    .user(userRepository.findByEmail(memberMap.get("email"))
-                            .orElseThrow(UserNotFoundException::new))
-                    .role(memberMap.get("role"))
-                    .build();
-            memberRepository.save(member);
-            sendMail(memberMap.get("email"), project.getTeamName());
-        }
-
+        addMember(project, projectRequest.getMemberList());
         projectFieldRepository.deleteAllByProject(project);
-
-        for(String fieldReq : projectRequest.getFieldList()) {
-            Field field = Field.builder()
-                    .field(FieldEnum.valueOf(fieldReq))
-                    .build();
-            fieldRepository.save(field);
-            projectFieldRepository.save(ProjectField.builder()
-                    .field(field)
-                    .project(project)
-                    .build()
-            );
-        }
+        addProjectField(project, projectRequest.getFieldList());
     }
 
     @Override
@@ -178,13 +124,62 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(id)
                 .orElseThrow(ProjectNotFoundException::new);
 
-        //project.updateUrls(request);
+        if(!authenticationFacade.getUserEmail().equals(project.getWriter().getEmail())) {
+            throw new PermissionDeniedException();
+        }
+
+        project.updateUrls(request);
     }
 
     @Override
+    @Transactional
     public void deleteProject(Integer id) {
         projectRepository.delete(projectRepository
                 .findById(id).orElseThrow(UserNotFoundException::new));
+    }
+
+    private void addProjectField(Project project, List<String> fieldList) {
+
+        for(String fieldReq : fieldList) {
+
+            //Field 는 db에 미리 넣는게 낫지 않을까?
+            FieldEnum fieldEnum = FieldEnum.valueOf(fieldReq);
+            if(fieldRepository.findByField(fieldEnum).isEmpty()) {
+                Field field = Field.builder()
+                        .field(FieldEnum.valueOf(fieldReq))
+                        .build();
+                fieldRepository.save(field);
+            }
+
+            Field field = fieldRepository.findByField(fieldEnum)
+                    .orElseThrow(FieldNotFoundException::new);
+
+            projectFieldRepository.save(
+                    ProjectField.builder()
+                    .field(field)
+                    .project(project)
+                    .build()
+            );
+        }
+    }
+
+    private void addMember(Project project, List<Map<String, String>> memberList) {
+
+        for(Map<String, String> memberMap : memberList) {
+
+            User user = userRepository.findByEmail(memberMap.get("email"))
+                    .orElseThrow(UserNotFoundException::new);
+
+            Member member = Member.builder()
+                    .project(project)
+                    .user(user)
+                    .role(memberMap.get("role"))
+                    .build();
+
+            memberRepository.save(member);
+
+            sendMail(user.getEmail(), project.getTeamName());
+        }
     }
 
     private void sendMail(String setTo, String teamName) {
