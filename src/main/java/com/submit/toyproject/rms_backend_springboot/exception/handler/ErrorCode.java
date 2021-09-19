@@ -15,7 +15,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "User not found."),
     PROJECT_NOT_FOUND(404, "Project not found."),
     USER_NOT_AUTHENTICATED(401, "Not authenticated"),
-    NOT_FOUND(404, "Something not found."),
+    FIELD_NOT_FOUND(404, "Field not found."),
     PERMISSION_DENIED(403, "Permission Denied"),
     EMAIL_SEND_FAIL(500, "Email send fail.");
 
