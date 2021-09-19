@@ -178,7 +178,7 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(id)
                 .orElseThrow(ProjectNotFoundException::new);
 
-        project.updateUrls(request);
+        //project.updateUrls(request);
     }
 
     @Override
