@@ -41,8 +41,6 @@ public class ProjectServiceImpl implements ProjectService{
     private final UserRepository userRepository;
     private final FieldRepository fieldRepository;
 
-    private final JavaMailSender mailSender;
-
     private final AuthenticationFacade authenticationFacade;
 
 
@@ -111,7 +109,6 @@ public class ProjectServiceImpl implements ProjectService{
 
         project.update(projectRequest);
 
-        //수정 필요
         memberRepository.deleteAllByProject(project);
         addMember(project, projectRequest.getMemberList());
         projectFieldRepository.deleteAllByProject(project);
@@ -177,42 +174,7 @@ public class ProjectServiceImpl implements ProjectService{
                     .build();
 
             memberRepository.save(member);
-
-            sendMail(user.getEmail(), project.getTeamName());
         }
     }
 
-    private void sendMail(String setTo, String teamName) {
-
-        try {
-            final MimeMessagePreparator preparator = mimeMessage -> {
-                final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                helper.setFrom("dsmsubmit@gmail.com");
-                helper.setTo(setTo);
-                helper.setSubject("새로운 팀에 가입되었습니다.");
-                helper.setText(convertNotificationMemberAdd(teamName), true);
-            };
-
-            mailSender.send(preparator);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new EmailSendFailException();
-        }
-    }
-
-    private String convertNotificationMemberAdd(String teamName) throws IOException {
-        InputStream inputStream = new ClassPathResource("static/add_member_email.html").getInputStream();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        bufferedReader.lines()
-                .filter(Objects::nonNull)
-                .forEach(stringBuilder::append);
-
-        String body = stringBuilder.toString();
-
-        return body.replace("{{server_url}}", "http://localhost:8081  " + teamName);
-    }
 }
