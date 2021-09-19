@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Id;
 import java.io.Serializable;
 
 @Getter
@@ -11,6 +12,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ProjectFieldId implements Serializable {
 
+    @Id
     private Integer field;
+
+    @Id
     private Integer project;
+
 }
