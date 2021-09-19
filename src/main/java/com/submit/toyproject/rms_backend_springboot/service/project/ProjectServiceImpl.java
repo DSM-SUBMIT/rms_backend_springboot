@@ -7,6 +7,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.member.MemberReposito
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
+import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
@@ -22,6 +23,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -43,6 +45,7 @@ public class ProjectServiceImpl implements ProjectService{
     private final ProjectFieldRepository projectFieldRepository;
     private final UserRepository userRepository;
     private final FieldRepository fieldRepository;
+    private final StatusRepository statusRepository;
 
     private final JavaMailSender mailSender;
 
@@ -65,37 +68,9 @@ public class ProjectServiceImpl implements ProjectService{
 
         projectRepository.save(project);
 
-        for(Map<String, String> memberMap : projectRequest.getMemberList()) {
-            User memberUser = userRepository.findByEmail(memberMap.get("email"))
-                    .orElseThrow(UserNotFoundException::new);
-            Member member = Member.builder()
-                    .project(project)
-                    .user(memberUser)
-                    .role(memberMap.get("role"))
-                    .build();
-            if(!memberRepository.findById(new MemberId(project.getId(), memberUser.getId())).isEmpty()) {
-                memberRepository.save(member);
-            }
+        addMember(project, projectRequest.getMemberList());
 
-            sendMail(memberMap.get("email"), project.getTeamName());
-        }
-
-        for(String fieldReq : projectRequest.getFieldList()) {
-            FieldEnum fieldEnum = FieldEnum.valueOf(fieldReq);
-            if(fieldRepository.findByField(fieldEnum).isEmpty()) {
-                Field field = Field.builder()
-                        .field(FieldEnum.valueOf(fieldReq))
-                        .build();
-                fieldRepository.save(field);
-            }
-            Field field = fieldRepository.findByField(fieldEnum)
-                    .orElseThrow(FieldNotFoundException::new);
-            projectFieldRepository.save(ProjectField.builder()
-                    .field(field)
-                    .project(project)
-                    .build()
-            );
-        }
+        addProjectField(project, projectRequest.getFieldList());
 
         return project.getId();
     }
@@ -146,30 +121,11 @@ public class ProjectServiceImpl implements ProjectService{
         //프론트랑 말해봐야함
         memberRepository.deleteAllByProject(project);
 
-        for(Map<String, String> memberMap : projectRequest.getMemberList()) {
-            Member member = Member.builder()
-                    .project(project)
-                    .user(userRepository.findByEmail(memberMap.get("email"))
-                            .orElseThrow(UserNotFoundException::new))
-                    .role(memberMap.get("role"))
-                    .build();
-            memberRepository.save(member);
-            sendMail(memberMap.get("email"), project.getTeamName());
-        }
+        addMember(project, projectRequest.getMemberList());
 
         projectFieldRepository.deleteAllByProject(project);
 
-        for(String fieldReq : projectRequest.getFieldList()) {
-            Field field = Field.builder()
-                    .field(FieldEnum.valueOf(fieldReq))
-                    .build();
-            fieldRepository.save(field);
-            projectFieldRepository.save(ProjectField.builder()
-                    .field(field)
-                    .project(project)
-                    .build()
-            );
-        }
+        addProjectField(project, projectRequest.getFieldList());
     }
 
     @Override
@@ -178,15 +134,56 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(id)
                 .orElseThrow(ProjectNotFoundException::new);
 
-        //project.updateUrls(request);
+        project.updateUrls(request);
     }
 
     @Override
     public void deleteProject(Integer id) {
         projectRepository.delete(projectRepository
-                .findById(id).orElseThrow(UserNotFoundException::new));
+                .findById(id).orElseThrow(ProjectNotFoundException::new));
     }
 
+    private void addProjectField(Project project, List<String> fieldList) {
+
+        for(String fieldReq : fieldList) {
+
+            //Field 는 그냥 db에 미리 넣어도 될거 같음
+            FieldEnum fieldEnum = FieldEnum.valueOf(fieldReq);
+            if(fieldRepository.findByField(fieldEnum).isEmpty()) {
+                Field field = Field.builder()
+                        .field(FieldEnum.valueOf(fieldReq))
+                        .build();
+                fieldRepository.save(field);
+            }
+
+            Field field = fieldRepository.findByField(fieldEnum)
+                    .orElseThrow(FieldNotFoundException::new);
+            projectFieldRepository.save(
+                    ProjectField.builder()
+                    .field(field)
+                    .project(project)
+                    .build()
+            );
+        }
+    }
+
+    private void addMember(Project project, List<Map<String, String>> memberList) {
+
+        for(Map<String, String> memberMap : memberList) {
+            User user = userRepository.findByEmail(memberMap.get("email"))
+                    .orElseThrow(UserNotFoundException::new);
+            Member member = Member.builder()
+                    .project(project)
+                    .user(user)
+                    .role(memberMap.get("role"))
+                    .build();
+            memberRepository.save(member);
+
+            sendMail(user.getEmail(), project.getTeamName());
+        }
+    }
+
+    @Async
     private void sendMail(String setTo, String teamName) {
 
         try {
@@ -206,6 +203,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
     }
 
+
     private String convertNotificationMemberAdd(String teamName) throws IOException {
         InputStream inputStream = new ClassPathResource("static/add_member_email.html").getInputStream();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -218,6 +216,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         String body = stringBuilder.toString();
 
+        // 템플릿 수정 필요
         return body.replace("{{server_url}}", "http://localhost:8081  " + teamName);
     }
 }
