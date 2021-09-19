@@ -13,10 +13,7 @@ import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectResponse;
-import com.submit.toyproject.rms_backend_springboot.exception.InvalidUserTokenException;
-import com.submit.toyproject.rms_backend_springboot.exception.PermissionDeniedException;
-import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
-import com.submit.toyproject.rms_backend_springboot.exception.UserNotFoundException;
+import com.submit.toyproject.rms_backend_springboot.exception.*;
 import com.submit.toyproject.rms_backend_springboot.exception.handler.RmsException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
@@ -92,7 +89,7 @@ public class ProjectServiceImpl implements ProjectService{
                 fieldRepository.save(field);
             }
             Field field = fieldRepository.findByField(fieldEnum)
-                    .orElseThrow(UserNotFoundException::new);
+                    .orElseThrow(FieldNotFoundException::new);
             projectFieldRepository.save(ProjectField.builder()
                     .field(field)
                     .project(project)
@@ -138,7 +135,7 @@ public class ProjectServiceImpl implements ProjectService{
     public void updateProject(Integer id, ProjectRequest projectRequest) {
 
         Project project = projectRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(ProjectNotFoundException::new);
 
         if(!authenticationFacade.getUserEmail().equals(project.getWriter().getEmail())) {
             throw new PermissionDeniedException();
@@ -146,9 +143,8 @@ public class ProjectServiceImpl implements ProjectService{
 
         project.update(projectRequest);
 
+        //프론트랑 말해봐야함
         memberRepository.deleteAllByProject(project);
-
-        List<Member> memberList = memberRepository.findByProject(project);
 
         for(Map<String, String> memberMap : projectRequest.getMemberList()) {
             Member member = Member.builder()
@@ -180,7 +176,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional
     public void updateUrls(Integer id, ProjectUrlsRequest request) {
         Project project = projectRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(ProjectNotFoundException::new);
 
         project.updateUrls(request);
     }
@@ -191,9 +187,7 @@ public class ProjectServiceImpl implements ProjectService{
                 .findById(id).orElseThrow(UserNotFoundException::new));
     }
 
-    @Override
-    public void sendMail(String setTo, String teamName) {
-        SimpleMailMessage message = new SimpleMailMessage();
+    private void sendMail(String setTo, String teamName) {
 
         try {
             final MimeMessagePreparator preparator = mimeMessage -> {
@@ -208,7 +202,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ProjectNotFoundException();
+            throw new EmailSendFailException();
         }
     }
 

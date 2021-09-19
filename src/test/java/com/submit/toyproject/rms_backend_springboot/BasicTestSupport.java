@@ -9,7 +9,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectReposi
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
-import com.submit.toyproject.rms_backend_springboot.exception.NotFoundException;
+import com.submit.toyproject.rms_backend_springboot.exception.FieldNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
@@ -97,7 +97,7 @@ public class BasicTestSupport {
                 ProjectField.builder()
                         .project(project)
                         .field(fieldRepository.findByField(fieldEnum)
-                        .orElseThrow(NotFoundException::new))
+                                .orElseThrow(FieldNotFoundException::new))
                         .build()
         );
     }

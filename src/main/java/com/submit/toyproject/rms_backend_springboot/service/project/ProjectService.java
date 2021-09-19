@@ -10,5 +10,4 @@ public interface ProjectService {
     void updateProject(Integer id, ProjectRequest projectRequest);
     void updateUrls(Integer id, ProjectUrlsRequest request);
     void deleteProject(Integer id);
-    void sendMail(String email, String teamName);
 }
