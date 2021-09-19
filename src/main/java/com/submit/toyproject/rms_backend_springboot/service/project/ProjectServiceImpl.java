@@ -51,21 +51,12 @@ public class ProjectServiceImpl implements ProjectService{
                 .techStacks(projectRequest.getTechStacks())
                 .projectType(ProjectType.valueOf(projectRequest.getProjectType()))
                 .teacher(projectRequest.getTeacher())
-                .user(user)
+                .writer(user)
                 .build();
 
         projectRepository.save(project);
 
-        for(Map<String, String> memberMap : projectRequest.getMemberList()) {
-            Member member = Member.builder()
-                    .project(project)
-                    .user(userRepository.findByEmail(memberMap.get("email"))
-                            .orElseThrow(UserNotFoundException::new))
-                    .role(memberMap.get("role"))
-                    .build();
-            memberRepository.save(member);
-            sendMail(memberMap.get("email"));
-        }
+        sendMail(project, projectRequest.getMemberList());
 
         for(String fieldReq : projectRequest.getFieldList()) {
             FieldEnum fieldEnum = FieldEnum.valueOf(fieldReq);
@@ -123,20 +114,11 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
 
-        project.update(projectRequest);
+        //project.update(projectRequest);
 
         memberRepository.deleteAllByProject(project);
 
-        for(Map<String, String> memberMap : projectRequest.getMemberList()) {
-            Member member = Member.builder()
-                    .project(project)
-                    .user(userRepository.findByEmail(memberMap.get("email"))
-                            .orElseThrow(UserNotFoundException::new))
-                    .role(memberMap.get("role"))
-                    .build();
-            memberRepository.save(member);
-            sendMail(memberMap.get("email"));
-        }
+        sendMail(project, projectRequest.getMemberList());
 
         projectFieldRepository.deleteAllByProject(project);
 
@@ -159,7 +141,7 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
 
-        project.updateUrls(request);
+        //project.updateUrls(request);
     }
 
     @Override
@@ -173,6 +155,17 @@ public class ProjectServiceImpl implements ProjectService{
 
     }
 
-
+    private void sendMail(Project project, List<Map<String, String>> memberList) {
+        for(Map<String, String> memberMap : memberList) {
+            Member member = Member.builder()
+                    .project(project)
+                    .user(userRepository.findByEmail(memberMap.get("email"))
+                            .orElseThrow(UserNotFoundException::new))
+                    .role(memberMap.get("role"))
+                    .build();
+            memberRepository.save(member);
+            sendMail(memberMap.get("email"));
+        }
+    }
 
 }
