@@ -6,6 +6,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.plan.Plan;
 import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
 import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
+import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

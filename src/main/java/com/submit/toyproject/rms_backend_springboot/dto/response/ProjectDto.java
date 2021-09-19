@@ -8,8 +8,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyPageProjectResponse {
+public class ProjectDto {
 
+    private Integer id;
     private String projectName;
     private String teamName;
     private String projectType;
