@@ -13,7 +13,7 @@ spring:
       ddl-auto: update
   redis:
     host: ${REDIS_HOST:127.0.0.1}
-    port: ${REDIS_PORT:6379)
+    port: ${REDIS_PORT:6379}
 
 
 
@@ -31,7 +31,7 @@ oauth:
       url: ${GOOGLE_TOKEN_INFO_URL}
 
 jwt:
-  secert: ${JWT_SECRET:asdfgasdf}
+  secret: ${JWT_SECRET:asdfgasdf}
   access:
     exp: ${JWT_ACCESS_EXP:1000000}
   refresh:

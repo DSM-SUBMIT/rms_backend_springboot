@@ -68,7 +68,7 @@ public class JwtTokenProvider {
 
     public String getId(String token) {
         return Jwts.parser()
-                .setSigningKey(getSecretKey())
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -84,7 +84,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(getSecretKey()).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return claims.getBody().getExpiration().after(new Date());
         } catch (Exception e) {
             throw new InvalidUserTokenException();
@@ -92,16 +92,13 @@ public class JwtTokenProvider {
     }
 
     public JwsHeader getHeader(String token) {
-        return Jwts.parser().setSigningKey(getSecretKey())
+        return Jwts.parser().setSigningKey(secretKey)
                 .parseClaimsJws(token).getHeader();
     }
 
     public Claims getBody(String token) {
-        return Jwts.parser().setSigningKey(getSecretKey())
+        return Jwts.parser().setSigningKey(secretKey)
                 .parseClaimsJws(token).getBody();
     }
 
-    public String getSecretKey() {
-        return Base64.getEncoder().encodeToString(secretKey.getBytes());
-    }
 }
