@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Field {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Integer id;
 
     @NotNull
