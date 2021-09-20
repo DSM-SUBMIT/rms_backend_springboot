@@ -53,7 +53,7 @@ public class JwtTokenProvider {
 
     public boolean isRefreshToken(String token) {
         try {
-            return getHeader(token).get("typ").equals("refresh");
+            return getClaims(token).getHeader().get("typ").equals("refresh");
         } catch (Exception e) {
             throw new InvalidUserTokenException();
         }
@@ -82,21 +82,15 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return claims.getBody().getExpiration().after(new Date());
+            return getClaims(jwtToken).getBody().getExpiration().after(new Date());
         } catch (Exception e) {
             throw new InvalidUserTokenException();
         }
     }
 
-    public JwsHeader getHeader(String token) {
+    public Jws<Claims> getClaims(String token) {
         return Jwts.parser().setSigningKey(secretKey)
-                .parseClaimsJws(token).getHeader();
-    }
-
-    public Claims getBody(String token) {
-        return Jwts.parser().setSigningKey(secretKey)
-                .parseClaimsJws(token).getBody();
+                .parseClaimsJws(token);
     }
 
 }
