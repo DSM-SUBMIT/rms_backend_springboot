@@ -11,24 +11,15 @@ import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
-import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectResponse;
+import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectDetailResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.*;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,7 +58,8 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public ProjectResponse getProject(Integer id) {
+    @Transactional
+    public MyPageProjectDetailResponse getProject(Integer id) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(ProjectNotFoundException::new);
 
@@ -83,17 +75,23 @@ public class ProjectServiceImpl implements ProjectService{
                         .build())
                 .collect(Collectors.toList());
 
-        return ProjectResponse.builder()
-                .id(project.getId())
-                .projectType(project.getProjectType().toString())
-                .projectName(project.getProjectName())
-                .fieldList(fieldList)
-                .teamName(project.getTeamName())
-                .memberList(memberList)
-                .githubUrl(project.getGithubUrl())
-                .serviceUrl(project.getServiceUrl())
-                .docsUrl(project.getDocsUrl())
-                .build();
+
+            return MyPageProjectDetailResponse.builder()
+                    .id(project.getId())
+                    .projectType(project.getProjectType().toString())
+                    .projectName(project.getProjectName())
+                    .fieldList(fieldList)
+                    .teamName(project.getTeamName())
+                    .isPlanSubmitted(project.getStatus().getIsPlanSubmitted())
+                    .isPlanAccepted(project.getStatus().getIsPlanAccepted())
+                    .isReportSubmitted(project.getStatus().getIsReportSubmitted())
+                    .isReportAccepted(project.getStatus().getIsReportAccepted())
+                    .memberList(memberList)
+                    .githubUrl(project.getGithubUrl())
+                    .serviceUrl(project.getServiceUrl())
+                    .docsUrl(project.getDocsUrl())
+                    .build();
+
     }
 
     @Override

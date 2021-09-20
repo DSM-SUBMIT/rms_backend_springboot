@@ -2,7 +2,7 @@ package com.submit.toyproject.rms_backend_springboot.controller;
 
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
-import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectResponse;
+import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectDetailResponse;
 import com.submit.toyproject.rms_backend_springboot.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class ProjectController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public MyPageProjectResponse getProject(@PathVariable Integer id) {
+    public MyPageProjectDetailResponse getProject(@PathVariable Integer id) {
         return projectService.getProject(id);
     }
 

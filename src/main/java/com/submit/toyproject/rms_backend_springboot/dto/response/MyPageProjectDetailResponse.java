@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyPageProjectResponse {
+public class MyPageProjectDetailResponse {
 
     private Integer id;
     private String projectType;
