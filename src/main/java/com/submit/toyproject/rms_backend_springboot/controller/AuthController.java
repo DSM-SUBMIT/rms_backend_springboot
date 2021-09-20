@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@RestController
-@RequestMapping("/auth")
 @RequiredArgsConstructor
+@RequestMapping("/auth")
+@RestController
 public class AuthController {
 
     private final AuthService authService;

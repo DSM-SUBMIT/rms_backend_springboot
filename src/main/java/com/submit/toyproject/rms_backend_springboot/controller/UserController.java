@@ -1,13 +1,10 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
-import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectDetailResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.UsersResponse;
 import com.submit.toyproject.rms_backend_springboot.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 
 @RequiredArgsConstructor
 @RequestMapping("/user")
