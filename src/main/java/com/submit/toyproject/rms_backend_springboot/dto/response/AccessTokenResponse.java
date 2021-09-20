@@ -1,12 +1,12 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public class AccessTokenResponse {
 
-    @JsonProperty("access_token")
     private final String accessToken;
 
 }

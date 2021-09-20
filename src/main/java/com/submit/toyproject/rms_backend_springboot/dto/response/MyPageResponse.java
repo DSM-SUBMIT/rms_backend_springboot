@@ -4,13 +4,16 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class MyPageResponse {
 
     private String name;
+
     private String email;
+
     private List<ProjectListElementDto> projectList;
+
 }

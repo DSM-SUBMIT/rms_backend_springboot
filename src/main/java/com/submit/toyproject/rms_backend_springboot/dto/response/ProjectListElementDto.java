@@ -11,8 +11,13 @@ import java.util.List;
 public class ProjectListElementDto {
 
     private Integer id;
+
     private String projectName;
+
     private String teamName;
+
     private String projectType;
+
     private List<String> fieldList;
+
 }

@@ -1,12 +1,16 @@
 package com.submit.toyproject.rms_backend_springboot.dto.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProjectRequest {
 
     @NotNull
