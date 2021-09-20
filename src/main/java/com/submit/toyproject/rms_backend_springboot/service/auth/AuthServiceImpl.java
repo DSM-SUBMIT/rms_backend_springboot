@@ -66,7 +66,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public TokenResponse requestTokenByCode(String code) throws JsonProcessingException {
+    public TokenResponse requestTokenByCode(String code) {
 
         GoogleTokenRequest googleTokenRequest = GoogleTokenRequest
                 .builder()
