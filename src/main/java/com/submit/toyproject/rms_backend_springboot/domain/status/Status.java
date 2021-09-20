@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,12 +21,14 @@ public class Status {
     @Column(columnDefinition = "bit(1)")
     private Boolean isPlanAccepted;
 
+    @NotNull
     @Column(columnDefinition = "bit(1)")
     private Boolean isPlanSubmitted;
 
     @Column(columnDefinition = "bit(1)")
     private Boolean isReportAccepted;
 
+    @NotNull
     @Column(columnDefinition = "bit(1)")
     private Boolean isReportSubmitted;
 
@@ -46,6 +49,7 @@ public class Status {
     public Status planSubmit() {
         this.isPlanSubmitted = true;
         this.planSubmittedAt = LocalDateTime.now();
+        this.isPlanAccepted = null;
 
         return this;
     }
@@ -53,6 +57,7 @@ public class Status {
     public Status reportSubmit() {
         this.isReportSubmitted = true;
         this.reportSubmittedAt = LocalDateTime.now();
+        this.isReportAccepted = null;
 
         return this;
     }
