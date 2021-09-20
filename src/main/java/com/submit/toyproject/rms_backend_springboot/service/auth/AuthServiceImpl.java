@@ -81,7 +81,7 @@ public class AuthServiceImpl implements AuthService{
         String name = userInfo.get("name");
         String hd = userInfo.get("hd");
         String aud = userInfo.get("aud");
-        Long exp = Long.parseLong(userInfo.get("exp")) * 1000;
+        long exp = Long.parseLong(userInfo.get("exp")) * 1000;
 
         // ID 토큰 유효성 검사 4단계 & 학교 이메일 검사
         if(hd == null || !hd.equals("dsm.hs.kr")) {
@@ -93,7 +93,7 @@ public class AuthServiceImpl implements AuthService{
 
         RefreshToken refreshToken = refreshTokenRepository.save(
                 RefreshToken.builder()
-                        .refreshExp(refreshExp * 10000)
+                        .refreshExp(refreshExp)
                         .refreshToken(jwtTokenProvider.generateRefreshToken(email))
                         .email(email)
                         .build());
