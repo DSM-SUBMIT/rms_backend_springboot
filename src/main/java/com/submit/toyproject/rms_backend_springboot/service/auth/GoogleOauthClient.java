@@ -31,7 +31,7 @@ public class GoogleOauthClient {
         ObjectMapper mapper = new ObjectMapper();
 
         GoogleOauthResponse result = mapper.readValue(responseEntity.getBody()
-                , new TypeReference<GoogleOauthResponse>() {});
+                , new TypeReference<>() {});
 
         String jwtToken = result.getId_token();
         String requestUri = UriComponentsBuilder.fromHttpUrl(GOOGLE_TOKEN_INFO_URL)
@@ -40,7 +40,7 @@ public class GoogleOauthClient {
         String resultJson = restTemplate.getForObject(requestUri, String.class);
 
         return mapper.readValue(resultJson,
-                new TypeReference<Map<String, String>>() {});
+                new TypeReference<>() {});
     }
 
 }

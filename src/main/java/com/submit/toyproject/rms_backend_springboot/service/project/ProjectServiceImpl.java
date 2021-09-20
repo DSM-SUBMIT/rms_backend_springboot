@@ -42,8 +42,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public Integer createProject(ProjectRequest projectRequest) {
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(InvalidUserTokenException::new);
+        User user = authenticationFacade.certifiedUser();
 
         Project project = Project.builder()
                 .projectName(projectRequest.getProjectName())
@@ -71,21 +70,12 @@ public class ProjectServiceImpl implements ProjectService{
             throw new PermissionDeniedException();
         }
 
-        List<String> fieldList = projectFieldRepository.findByProject(project).stream()
-                .map(projectField -> projectField.getField().getField().toString())
-                .collect(Collectors.toList());
-
-        List<ProjectMemberDto> memberList = memberRepository.findByProject(project).stream()
-                .map(member -> ProjectMemberDto.builder()
-                        .name(member.getUser().getName())
-                        .email(member.getUser().getEmail())
-                        .role(member.getRole())
-                        .build())
-                .collect(Collectors.toList());
+        List<String> fieldList = getProjectField(project);
+        List<ProjectMemberDto> memberList = getMemberList(project);
 
         return MyPageProjectDetailResponse.builder()
                 .id(project.getId())
-                .projectType(project.getProjectType().toString())
+                .projectType(project.getProjectType().getDivision())
                 .projectName(project.getProjectName())
                 .fieldList(fieldList)
                 .teamName(project.getTeamName())
@@ -105,17 +95,8 @@ public class ProjectServiceImpl implements ProjectService{
     public MainFeedProjectDetailResponse getProjectDetail(Integer id) {
         Project project = projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
 
-        List<String> fieldList = projectFieldRepository.findByProject(project).stream()
-                .map(projectField -> projectField.getField().getField().toString())
-                .collect(Collectors.toList());
-
-        List<ProjectMemberDto> memberList = memberRepository.findByProject(project).stream()
-                .map(member -> ProjectMemberDto.builder()
-                        .name(member.getUser().getName())
-                        .email(member.getUser().getEmail())
-                        .role(member.getRole())
-                        .build())
-                .collect(Collectors.toList());
+        List<String> fieldList = getProjectField(project);
+        List<ProjectMemberDto> memberList = getMemberList(project);
 
         return MainFeedProjectDetailResponse.builder()
                 .id(project.getId())
@@ -170,19 +151,8 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     private void addProjectField(Project project, List<String> fieldList) {
-
         for(String fieldReq : fieldList) {
-
-            //Field 는 db에 미리 넣는게 낫지 않을까?
-            FieldEnum fieldEnum = FieldEnum.valueOf(fieldReq);
-            if(fieldRepository.findByField(fieldEnum).isEmpty()) {
-                Field field = Field.builder()
-                        .field(FieldEnum.valueOf(fieldReq))
-                        .build();
-                fieldRepository.save(field);
-            }
-
-            Field field = fieldRepository.findByField(fieldEnum)
+            Field field = fieldRepository.findByField(FieldEnum.valueOf(fieldReq))
                     .orElseThrow(FieldNotFoundException::new);
 
             projectFieldRepository.save(
@@ -194,8 +164,23 @@ public class ProjectServiceImpl implements ProjectService{
         }
     }
 
-    private void addMember(Project project, List<Map<String, String>> memberList) {
+    private List<String> getProjectField(Project project) {
+        return projectFieldRepository.findByProject(project).stream()
+                .map(projectField -> projectField.getField().getField().toString())
+                .collect(Collectors.toList());
+    }
 
+    private List<ProjectMemberDto> getMemberList(Project project) {
+        return memberRepository.findByProject(project).stream()
+                .map(member -> ProjectMemberDto.builder()
+                        .name(member.getUser().getName())
+                        .email(member.getUser().getEmail())
+                        .role(member.getRole())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    private void addMember(Project project, List<Map<String, String>> memberList) {
         for(Map<String, String> memberMap : memberList) {
 
             User user = userRepository.findByEmail(memberMap.get("email"))

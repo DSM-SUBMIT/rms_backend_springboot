@@ -27,13 +27,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
-    private final AuthenticationFacade authenticationFacade;
     private final ProjectFieldRepository projectFieldRepository;
+
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     public UsersResponse getUsers(String name) {
-        userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotAuthenticatedException::new);
+        authenticationFacade.certifiedUser();
         List<User> users = userRepository.findByNameLike("%" + name + "%");
         return new UsersResponse(users.stream().map(
                 user -> UserDto.builder()
@@ -47,8 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public MyPageResponse getMyPage() {
-        User user = userRepository.findByEmail(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+        User user = authenticationFacade.certifiedUser();
         List<Member> memberList = memberRepository.findByUser(user);
 
         List<ProjectListElementDto> projectList = new ArrayList<>();

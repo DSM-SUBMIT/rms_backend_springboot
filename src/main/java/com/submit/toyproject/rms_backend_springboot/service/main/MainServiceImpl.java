@@ -5,7 +5,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,11 +21,8 @@ public class MainServiceImpl implements MainService{
 
     @Override
     @Transactional
-    public MainFeedResponse getMainFeed(Integer page, int size, List<FieldEnum> filteringFields) {
-
-        PageRequest pageRequest = PageRequest.of(page, size);
-
-        Page<Project> projectPage = projectFieldRepository.findAllByFields(filteringFields, pageRequest);
+    public MainFeedResponse getMainFeed(Pageable page, List<FieldEnum> filteringFields) {
+        Page<Project> projectPage = projectFieldRepository.findAllByFields(filteringFields, page);
 
         List<ProjectListElementDto> projectDtoList = new ArrayList<>();
 
