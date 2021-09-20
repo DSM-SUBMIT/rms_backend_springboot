@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(UserNotFoundException::new);
         List<Member> memberList = memberRepository.findByUser(user);
 
-        List<ProjectDto> projectList = new ArrayList<>();
+        List<ProjectListElementDto> projectList = new ArrayList<>();
 
         for (Member member : memberList) {
             Project project = member.getProject();
@@ -60,7 +60,8 @@ public class UserServiceImpl implements UserService {
                     .map(projectField -> projectField.getField().getField().toString())
                     .collect(Collectors.toList());
 
-            ProjectDto projectResponse = ProjectDto.builder()
+            ProjectListElementDto projectResponse = ProjectListElementDto.builder()
+                    .id(project.getId())
                     .projectName(project.getProjectName())
                     .teamName(project.getTeamName())
                     .projectType(project.getProjectType().toString())

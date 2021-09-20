@@ -9,4 +9,6 @@ import java.util.List;
 public interface MemberRepository extends CrudRepository<Member, MemberId> {
     Boolean existsByProjectAndUser(Project project, User user);
     List<Member> findByUser(User user);
+    List<Member> findByProject(Project project);
+    void deleteAllByProject(Project project);
 }

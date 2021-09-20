@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Entity
 public class Field {
 
@@ -19,7 +20,7 @@ public class Field {
     @Enumerated(EnumType.STRING)
     private FieldEnum field;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "field", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ProjectField> projectFields;
 
 }

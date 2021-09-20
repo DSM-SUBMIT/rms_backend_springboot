@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -56,7 +55,6 @@ public class JwtTokenProvider {
         try {
             return getHeader(token).get("typ").equals("refresh");
         } catch (Exception e) {
-            e.printStackTrace();
             throw new InvalidUserTokenException();
         }
     }

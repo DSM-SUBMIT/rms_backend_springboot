@@ -12,5 +12,5 @@ public class MyPageResponse {
 
     private String name;
     private String email;
-    private List<ProjectDto> projectList;
+    private List<ProjectListElementDto> projectList;
 }

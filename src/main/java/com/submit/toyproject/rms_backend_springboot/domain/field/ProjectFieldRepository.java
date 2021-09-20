@@ -16,4 +16,6 @@ public interface ProjectFieldRepository extends CrudRepository<ProjectField, Pro
     Page<Project> findAllByFields(@Param("fields")List<FieldEnum> fields, Pageable pageable);
 
     List<ProjectField> findByProject(Project project);
+
+    void deleteAllByProject(Project project);
 }

@@ -1,8 +1,8 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class GoogleOauthResponse {
 
     private String access_token;
