@@ -20,7 +20,8 @@ public enum ErrorCode {
     REPORT_NOT_FOUND(404, "Report is not found."),
     PLAN_ALREADY_SUBMITTED(400, "Plan is already submitted."),
     REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
-    EMAIL_SEND_FAIL(400, "Email was not sent properly.");
+    EMAIL_SEND_FAIL(400, "Email was not sent properly."),
+    PLAN_NOT_ACCEPTED(400, "This project's plan is not accepted.");
 
     private final int status;
     private final String message;
