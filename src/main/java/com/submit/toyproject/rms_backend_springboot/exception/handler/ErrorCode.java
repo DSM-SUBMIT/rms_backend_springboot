@@ -23,7 +23,8 @@ public enum ErrorCode {
     PERMISSION_DENIED(403, "Permission Denied"),
     EMAIL_SEND_FAIL(500, "Email send fail."),
     REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
-    REDIRECT_ERROR(500, "Server error.");
+    REDIRECT_ERROR(500, "Server error."),
+    JSON_PROCESSING(500, "Json processing exception.");
 
     private final int status;
     private final String message;
