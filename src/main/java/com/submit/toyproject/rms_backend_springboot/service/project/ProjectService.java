@@ -7,7 +7,7 @@ import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectDe
 
 public interface ProjectService {
     Integer createProject(ProjectRequest projectRequest);
-    MyPageProjectDetailResponse getProject(Integer id);
+    MyPageProjectDetailResponse getMyProject(Integer id);
     MainFeedProjectDetailResponse getProjectDetail(Integer id);
     void updateProject(Integer id, ProjectRequest projectRequest);
     void updateUrls(Integer id, ProjectUrlsRequest request);

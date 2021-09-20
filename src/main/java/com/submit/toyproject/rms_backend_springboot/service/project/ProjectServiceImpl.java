@@ -59,13 +59,10 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     @Transactional
-    public MyPageProjectDetailResponse getProject(Integer id) {
-        Project project = projectRepository.findById(id)
-                .orElseThrow(ProjectNotFoundException::new);
+    public MyPageProjectDetailResponse getMyProject(Integer id) {
+        Project project = getProject(id);
 
-        if(!project.getWriter().getEmail().equals(authenticationFacade.getUserEmail())) {
-            throw new PermissionDeniedException();
-        }
+        checkPermission(project);
 
         List<String> fieldList = getProjectField(project);
         List<ProjectMemberDto> memberList = getMemberList(project);
@@ -90,7 +87,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public MainFeedProjectDetailResponse getProjectDetail(Integer id) {
-        Project project = projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
+        Project project = getProject(id);
 
         List<String> fieldList = getProjectField(project);
         List<ProjectMemberDto> memberList = getMemberList(project);
@@ -112,12 +109,9 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional
     public void updateProject(Integer id, ProjectRequest projectRequest) {
 
-        Project project = projectRepository.findById(id)
-                .orElseThrow(ProjectNotFoundException::new);
+        Project project = getProject(id);
 
-        if(!authenticationFacade.getUserEmail().equals(project.getWriter().getEmail())) {
-            throw new PermissionDeniedException();
-        }
+        checkPermission(project);
 
         project.update(projectRequest);
 
@@ -130,12 +124,9 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public void updateUrls(Integer id, ProjectUrlsRequest request) {
-        Project project = projectRepository.findById(id)
-                .orElseThrow(ProjectNotFoundException::new);
+        Project project = getProject(id);
 
-        if(!authenticationFacade.getUserEmail().equals(project.getWriter().getEmail())) {
-            throw new PermissionDeniedException();
-        }
+        checkPermission(project);
 
         project.updateUrls(request);
     }
@@ -143,6 +134,8 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public void deleteProject(Integer id) {
+        checkPermission(getProject(id));
+
         projectRepository.delete(projectRepository
                 .findById(id).orElseThrow(UserNotFoundException::new));
     }
@@ -190,6 +183,17 @@ public class ProjectServiceImpl implements ProjectService{
                     .build();
 
             memberRepository.save(member);
+        }
+    }
+
+    private Project getProject(Integer id) {
+        return projectRepository.findById(id)
+                .orElseThrow(ProjectNotFoundException::new);
+    }
+
+    private void checkPermission(Project project) {
+        if(!authenticationFacade.getUserEmail().equals(project.getWriter().getEmail())) {
+            throw new PermissionDeniedException();
         }
     }
 

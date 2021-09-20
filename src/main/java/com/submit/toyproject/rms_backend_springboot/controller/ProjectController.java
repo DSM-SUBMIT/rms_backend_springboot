@@ -27,7 +27,7 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/me/{id}")
     public MyPageProjectDetailResponse getProject(@PathVariable Integer id) {
-        return projectService.getProject(id);
+        return projectService.getMyProject(id);
     }
 
     @GetMapping("/{id}")
