@@ -52,23 +52,27 @@ public class ReportServiceImpl implements ReportService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         isWorkPossible(project, user);
+        Report report;
 
-        reportRepository.save(
-                Report.builder()
-                        .project(project)
-                        .content(request.getContent())
-                        .videoUrl(request.getVideoUrl())
-                        .build()
-        );
+        if (!reportRepository.existsById(projectId)) {
+            report = new Report(project);
+        } else {
+            report = getReport(projectId);
+        }
+        report.save(request);
     }
 
+    @Async
+    @Transactional
     @Override
-    public void updateReport(Integer id, ReportRequest request) {
+    public void submitReport(Integer id) {
         User user = authenticationFacade.certifiedUser();
         Report report = getReport(id);
         isWorkPossible(report.getProject(), user);
 
-        reportRepository.save(report.update(request));
+        sendMail(report.getProject());
+
+        statusRepository.save(report.getProject().getStatus().reportSubmit());
     }
 
     @Override
@@ -77,7 +81,7 @@ public class ReportServiceImpl implements ReportService {
         Report report = getReport(id);
         Project project = report.getProject();
 
-        if (!project.getStatus().getIsPlanAccepted() && !memberRepository.existsByProjectAndUser(project, user)) {
+        if (!project.getStatus().getIsReportAccepted() && !memberRepository.existsByProjectAndUser(project, user)) {
             throw new UserNotHavePermissionException();
         }
 
@@ -93,22 +97,12 @@ public class ReportServiceImpl implements ReportService {
                 .build();
     }
 
-    @Async
-    @Transactional
-    @Override
-    public void submitReport(Integer id) {
-        User user = authenticationFacade.certifiedUser();
-        Report report = getReport(id);
-        isWorkPossible(report.getProject(), user);
-
-        sendMail(report.getProject());
-        
-        statusRepository.save(report.getProject().getStatus().reportSubmit());
-    }
-
     private void isWorkPossible(Project project, User user) {
         if (!project.getWriter().equals(user)) {
             throw new UserNotHavePermissionException();
+        }
+        if (!project.getStatus().getIsPlanAccepted()) {
+            throw new PlanNotAcceptedException();
         }
         if (project.getStatus().getIsReportSubmitted()) {
             throw new ReportAlreadySubmittedException();
