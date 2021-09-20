@@ -43,8 +43,8 @@ public class ReportServiceImpl implements ReportService {
 
     private final JavaMailSender mailSender;
 
-    @Value("${server.base.url}")
-    private final String SERVER_BASE_URL;
+    /*@Value("${server.base.url}")
+    private final String SERVER_BASE_URL;*/
 
     @Override
     public void saveReport(Integer projectId, ReportRequest request) {
@@ -70,7 +70,7 @@ public class ReportServiceImpl implements ReportService {
         Report report = getReport(id);
         isWorkPossible(report.getProject(), user);
 
-        sendMail(report.getProject());
+        //sendMail(report.getProject());
 
         statusRepository.save(report.getProject().getStatus().reportSubmit());
     }
@@ -114,7 +114,7 @@ public class ReportServiceImpl implements ReportService {
                 .orElseThrow(ReportNotFoundException::new);
     }
 
-    private void sendMail(Project project) {
+    /*private void sendMail(Project project) {
         for (Member member : project.getMembers()) {
             try {
                 final MimeMessagePreparator preparator = mimeMessage -> {
@@ -144,6 +144,6 @@ public class ReportServiceImpl implements ReportService {
         String body = stringBuilder.toString();
 
         return body.replace("{{server_url}}", SERVER_BASE_URL +"/report" + projectId);
-    }
+    }*/
 
 }
