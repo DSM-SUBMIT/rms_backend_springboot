@@ -1,3 +1,53 @@
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL55Dialect
+    database: mysql
+    hibernate:
+      ddl-auto: update
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+
+oauth:
+  google:
+    url: ${GOOGLE_BASE_URL}
+    client:
+      id: ${GOOGLE_CLIENT_ID}
+      secret: ${GOOGLE_CLIENT_SECRET}
+    redirect:
+      url: ${GOOGLE_REDIRECT_URL}
+    token:
+      url: ${GOOGLE_TOKEN_BASE_URL}
+    tokenInfo:
+      url: ${GOOGLE_TOKEN_INFO_URL}
+
+jwt:
+  secret: ${JWT_SECRET:asdfgasdf}
+  access:
+    exp: ${JWT_ACCESS_EXP:1000000}
+  refresh:
+    exp: ${JWT_REFRESH_EXP:12101212}
+
 server:
   base:
     url: ${SERVER_BASE_URL}
