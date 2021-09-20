@@ -2,8 +2,7 @@ package com.submit.toyproject.rms_backend_springboot.service.main;
 
 import com.submit.toyproject.rms_backend_springboot.domain.field.*;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
-import com.submit.toyproject.rms_backend_springboot.dto.response.MainFeedResponse;
-import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectDto;
+import com.submit.toyproject.rms_backend_springboot.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,14 +27,14 @@ public class MainServiceImpl implements MainService{
 
         Page<Project> projectPage = projectFieldRepository.findAllByFields(filteringFields, pageRequest);
 
-        List<ProjectDto> projectDtoList = new ArrayList<>();
+        List<ProjectListElementDto> projectDtoList = new ArrayList<>();
 
         for (Project project : projectPage.getContent()) {
             List<String> fieldList = projectFieldRepository.findByProject(project).stream()
                     .map(projectField -> projectField.getField().getField().toString())
                     .collect(Collectors.toList());
 
-             ProjectDto projectDto = ProjectDto.builder()
+             ProjectListElementDto projectDto = ProjectListElementDto.builder()
                     .id(project.getId())
                     .projectName(project.getProjectName())
                     .teamName(project.getTeamName())
@@ -59,4 +58,5 @@ public class MainServiceImpl implements MainService{
                 .projectList(projectDtoList)
                 .build();
     }
+
 }

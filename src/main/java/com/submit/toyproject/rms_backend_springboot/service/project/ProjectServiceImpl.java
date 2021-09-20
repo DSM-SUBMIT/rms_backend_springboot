@@ -6,12 +6,16 @@ import com.submit.toyproject.rms_backend_springboot.domain.member.MemberReposito
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
+import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
+import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.response.MainFeedProjectDetailResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectDetailResponse;
+import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectMemberDto;
 import com.submit.toyproject.rms_backend_springboot.exception.*;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
@@ -63,35 +67,67 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(id)
                 .orElseThrow(ProjectNotFoundException::new);
 
+        if(!project.getWriter().getEmail().equals(authenticationFacade.getUserEmail())) {
+            throw new PermissionDeniedException();
+        }
+
         List<String> fieldList = projectFieldRepository.findByProject(project).stream()
                 .map(projectField -> projectField.getField().getField().toString())
                 .collect(Collectors.toList());
 
-        List<MemberDto> memberList = memberRepository.findByProject(project).stream()
-                .map(member -> MemberDto.builder()
+        List<ProjectMemberDto> memberList = memberRepository.findByProject(project).stream()
+                .map(member -> ProjectMemberDto.builder()
                         .name(member.getUser().getName())
                         .email(member.getUser().getEmail())
                         .role(member.getRole())
                         .build())
                 .collect(Collectors.toList());
 
+        return MyPageProjectDetailResponse.builder()
+                .id(project.getId())
+                .projectType(project.getProjectType().toString())
+                .projectName(project.getProjectName())
+                .fieldList(fieldList)
+                .teamName(project.getTeamName())
+                .isPlanSubmitted(project.getStatus().getIsPlanSubmitted())
+                .isPlanAccepted(project.getStatus().getIsPlanAccepted())
+                .isReportSubmitted(project.getStatus().getIsReportSubmitted())
+                .isReportAccepted(project.getStatus().getIsReportAccepted())
+                .memberList(memberList)
+                .githubUrl(project.getGithubUrl())
+                .serviceUrl(project.getServiceUrl())
+                .docsUrl(project.getDocsUrl())
+                .build();
+    }
 
-            return MyPageProjectDetailResponse.builder()
-                    .id(project.getId())
-                    .projectType(project.getProjectType().toString())
-                    .projectName(project.getProjectName())
-                    .fieldList(fieldList)
-                    .teamName(project.getTeamName())
-                    .isPlanSubmitted(project.getStatus().getIsPlanSubmitted())
-                    .isPlanAccepted(project.getStatus().getIsPlanAccepted())
-                    .isReportSubmitted(project.getStatus().getIsReportSubmitted())
-                    .isReportAccepted(project.getStatus().getIsReportAccepted())
-                    .memberList(memberList)
-                    .githubUrl(project.getGithubUrl())
-                    .serviceUrl(project.getServiceUrl())
-                    .docsUrl(project.getDocsUrl())
-                    .build();
+    @Override
+    @Transactional
+    public MainFeedProjectDetailResponse getProjectDetail(Integer id) {
+        Project project = projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
 
+        List<String> fieldList = projectFieldRepository.findByProject(project).stream()
+                .map(projectField -> projectField.getField().getField().toString())
+                .collect(Collectors.toList());
+
+        List<ProjectMemberDto> memberList = memberRepository.findByProject(project).stream()
+                .map(member -> ProjectMemberDto.builder()
+                        .name(member.getUser().getName())
+                        .email(member.getUser().getEmail())
+                        .role(member.getRole())
+                        .build())
+                .collect(Collectors.toList());
+
+        return MainFeedProjectDetailResponse.builder()
+                .id(project.getId())
+                .projectType(project.getProjectType().toString())
+                .projectName(project.getProjectName())
+                .fieldList(fieldList)
+                .teamName(project.getTeamName())
+                .memberList(memberList)
+                .githubUrl(project.getGithubUrl())
+                .serviceUrl(project.getServiceUrl())
+                .docsUrl(project.getDocsUrl())
+                .build();
     }
 
     @Override

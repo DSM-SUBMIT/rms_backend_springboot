@@ -2,6 +2,7 @@ package com.submit.toyproject.rms_backend_springboot.controller;
 
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.response.MainFeedProjectDetailResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectDetailResponse;
 import com.submit.toyproject.rms_backend_springboot.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,17 @@ public class ProjectController {
         return projectService.createProject(projectRequest);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("me/project/{id}")
+    public MyPageProjectDetailResponse getProject(@PathVariable Integer id) {
+        return projectService.getProject(id);
+    }
+
+    @GetMapping("/{id}")
+    public MainFeedProjectDetailResponse getProjectDetail(@PathVariable Integer id) {
+        return projectService.getProjectDetail(id);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
     public void updateProject(@PathVariable Integer id, @Valid @RequestBody ProjectRequest projectRequest) {
@@ -33,12 +45,6 @@ public class ProjectController {
     @PutMapping("/{id}/url")
     public void updateProjectUrls(@PathVariable Integer id, @Valid @RequestBody ProjectUrlsRequest projectUrlsRequest) {
         projectService.updateUrls(id, projectUrlsRequest);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{id}")
-    public MyPageProjectDetailResponse getProject(@PathVariable Integer id) {
-        return projectService.getProject(id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

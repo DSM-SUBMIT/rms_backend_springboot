@@ -21,6 +21,7 @@ public enum ErrorCode {
     PROJECT_NOT_FOUND(404, "Project not found."),
     FIELD_NOT_FOUND(404, "Field not found."),
     PERMISSION_DENIED(403, "Permission Denied"),
+    EMAIL_SEND_FAIL(500, "Email send fail."),
     REPORT_ALREADY_SUBMITTED(400, "Report is already submitted.");
 
     private final int status;
