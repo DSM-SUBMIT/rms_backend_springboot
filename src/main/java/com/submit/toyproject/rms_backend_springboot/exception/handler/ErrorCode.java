@@ -22,7 +22,8 @@ public enum ErrorCode {
     FIELD_NOT_FOUND(404, "Field not found."),
     PERMISSION_DENIED(403, "Permission Denied"),
     EMAIL_SEND_FAIL(500, "Email send fail."),
-    REPORT_ALREADY_SUBMITTED(400, "Report is already submitted.");
+    REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
+    REDIRECT_ERROR(500, "Server error.");
 
     private final int status;
     private final String message;
