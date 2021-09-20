@@ -39,6 +39,15 @@ public class BasicTestSupport {
     private FieldRepository fieldRepository;
 
     public MockMvc setUp() {
+
+        fieldRepository.save(Field.builder().id(1).field(FieldEnum.WEB).build());
+        fieldRepository.save(Field.builder().id(2).field(FieldEnum.APP).build());
+        fieldRepository.save(Field.builder().id(3).field(FieldEnum.AI_BIGDATA).build());
+        fieldRepository.save(Field.builder().id(4).field(FieldEnum.EMBEDDED).build());
+        fieldRepository.save(Field.builder().id(5).field(FieldEnum.GAME).build());
+        fieldRepository.save(Field.builder().id(6).field(FieldEnum.SECURITY).build());
+
+
         return MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
@@ -87,11 +96,6 @@ public class BasicTestSupport {
     }
 
     public ProjectField addProjectField(Project project, FieldEnum fieldEnum) {
-        if(fieldRepository.findByField(fieldEnum).isEmpty()) {
-            fieldRepository.save(Field.builder()
-                    .field(fieldEnum)
-                    .build());
-        }
 
         return projectFieldRepository.save(
                 ProjectField.builder()

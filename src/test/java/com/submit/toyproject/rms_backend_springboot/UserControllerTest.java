@@ -122,14 +122,14 @@ public class UserControllerTest {
     @WithMockUser(value = "000000@dsm.hs.kr")
     @Test
     public void 마이페이지_보기_200() throws Exception {
-        mvc.perform(get("/user/me"))
+        mvc.perform(get("/me"))
                 .andExpect(status().isOk());
     }
 
     @WithMockUser
     @Test
-    public void 마이페이지가_없다_404() throws Exception {
-        mvc.perform(get("/user/me"))
-                .andExpect(status().isNotFound());
+    public void 마이페이지가_없다_401() throws Exception {
+        mvc.perform(get("/me"))
+                .andExpect(status().isUnauthorized());
     }
 }
