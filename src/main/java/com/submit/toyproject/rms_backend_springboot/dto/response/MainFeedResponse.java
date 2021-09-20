@@ -8,7 +8,18 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class MainFeedResponse {
+    private int currentPage;
+    private int size;
+    private int totalPages;
+    private int currentPageElements;
+    private Long totalElements;
+    private boolean hasPreviousPage;
+    private boolean isFirstPage;
+    private boolean hasNextPage;
+    private boolean isLastPage;
     private List<ProjectDto> projectList;
 }
