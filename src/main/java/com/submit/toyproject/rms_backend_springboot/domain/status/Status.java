@@ -1,32 +1,30 @@
 package com.submit.toyproject.rms_backend_springboot.domain.status;
 
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class Status {
 
     @Id
     private Integer reportId;
 
-    @Column(columnDefinition = "bit(1)")
+    @Column(columnDefinition = "tinyint(1)")
     private Boolean isPlanAccepted;
 
-    @Column(columnDefinition = "bit(1)")
+    @Column(columnDefinition = "tinyint(1) default false")
     private Boolean isPlanSubmitted;
 
-    @Column(columnDefinition = "bit(1)")
+    @Column(columnDefinition = "tinyint(1)")
     private Boolean isReportAccepted;
 
-    @Column(columnDefinition = "bit(1)")
+    @Column(columnDefinition = "tinyint(1) default false")
     private Boolean isReportSubmitted;
 
     private LocalDateTime planSubmittedAt;
