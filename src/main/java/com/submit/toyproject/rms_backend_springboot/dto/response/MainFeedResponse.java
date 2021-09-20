@@ -21,5 +21,5 @@ public class MainFeedResponse {
     private boolean isFirstPage;
     private boolean hasNextPage;
     private boolean isLastPage;
-    private List<ProjectDto> projectList;
+    private List<ProjectListElementDto> projectList;
 }
