@@ -6,14 +6,11 @@ import com.submit.toyproject.rms_backend_springboot.domain.member.MemberReposito
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
-import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
-import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MainFeedProjectDetailResponse;
-import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectDetailResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectMemberDto;
 import com.submit.toyproject.rms_backend_springboot.exception.*;

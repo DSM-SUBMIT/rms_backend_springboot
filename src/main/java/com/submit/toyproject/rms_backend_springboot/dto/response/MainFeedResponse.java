@@ -21,7 +21,7 @@ public class MainFeedResponse {
 
     private int currentPageElements;
 
-    private Long totalElements;
+    private long totalElements;
 
     private boolean hasPreviousPage;
 

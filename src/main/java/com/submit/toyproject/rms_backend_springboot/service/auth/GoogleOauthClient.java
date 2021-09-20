@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.submit.toyproject.rms_backend_springboot.dto.request.GoogleTokenRequest;
-import com.submit.toyproject.rms_backend_springboot.dto.response.GoogleOauthResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.RmsJsonProcessingException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -40,12 +39,11 @@ public class GoogleOauthClient {
 
             String resultJson = restTemplate.getForObject(requestUri, String.class);
 
-            return mapper.readValue(resultJson,
-                    new TypeReference<>() {});
+            return mapper.readValue(resultJson, new TypeReference<>() {});
+
         } catch (JsonProcessingException e) {
             throw new RmsJsonProcessingException();
         }
-
     }
 
 }
