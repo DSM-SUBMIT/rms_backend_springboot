@@ -1,6 +1,5 @@
 package com.submit.toyproject.rms_backend_springboot.service.auth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshToken;
 import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshTokenRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
@@ -11,7 +10,6 @@ import com.submit.toyproject.rms_backend_springboot.dto.response.TokenResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidEmailException;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidIdTokenInformationException;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidUserTokenException;
-import com.submit.toyproject.rms_backend_springboot.exception.UserNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

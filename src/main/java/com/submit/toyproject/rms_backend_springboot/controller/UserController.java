@@ -7,13 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/user")
 @RestController
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/search")
+    @GetMapping("/user/search")
     public UsersResponse getUsers(@RequestParam(defaultValue = "%%") String name) {
         return userService.getUsers(name);
     }
