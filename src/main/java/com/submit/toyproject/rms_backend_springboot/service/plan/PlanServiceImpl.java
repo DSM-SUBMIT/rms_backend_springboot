@@ -13,7 +13,7 @@ import com.submit.toyproject.rms_backend_springboot.dto.response.PlanResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.PlanAlreadySubmittedException;
 import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotHavePermissionException;
-import com.submit.toyproject.rms_backend_springboot.exception.handler.PlanNotFoundException;
+import com.submit.toyproject.rms_backend_springboot.exception.PlanNotFoundException;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

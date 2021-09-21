@@ -7,9 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
     INVALID_USER_TOKEN(401,"Invalid token."),
-    INVALID_ADMIN_TOKEN(401,"Invalid token."),
-    TEAM_ALREADY_EXISTS(409, "Team name is already exists."),
-    LANGUAGE_ALREADY_EXISTS(409, "Language is already exists."),
     INVALID_ID_TOKEN_INFORMATION(400, "Id_Token information does not match."),
     INVALID_EMAIL(400, "Google email must end with '@dsm.hs.kr'."),
     USER_NOT_FOUND(404, "User not found."),
@@ -21,8 +18,6 @@ public enum ErrorCode {
     PROJECT_NOT_FOUND(404, "Project not found."),
     FIELD_NOT_FOUND(404, "Field not found."),
     PERMISSION_DENIED(403, "Permission Denied"),
-    EMAIL_SEND_FAIL(500, "Email send fail."),
-    REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
     REDIRECT_ERROR(500, "Server error."),
     JSON_PROCESSING(500, "Json processing exception."),
     REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
