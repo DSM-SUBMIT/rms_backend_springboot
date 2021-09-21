@@ -10,6 +10,7 @@ import com.submit.toyproject.rms_backend_springboot.dto.response.AccessTokenResp
 import com.submit.toyproject.rms_backend_springboot.dto.response.TokenResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidEmailException;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidIdTokenInformationException;
+import com.submit.toyproject.rms_backend_springboot.exception.InvalidTokenException;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidUserTokenException;
 import com.submit.toyproject.rms_backend_springboot.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -116,11 +117,12 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public AccessTokenResponse tokenRefresh(String token) {
-        if (!jwtTokenProvider.isRefreshToken(token)) throw new InvalidUserTokenException();
+        if (!jwtTokenProvider.isRefreshToken(token)) throw new InvalidTokenException();
 
         return refreshTokenRepository.findByRefreshToken(token)
                 .map(refreshToken -> refreshToken.update(refreshExp))
                 .map(refreshToken -> new AccessTokenResponse(jwtTokenProvider.generateAccessToken(refreshToken.getEmail())))
                 .orElseThrow(InvalidUserTokenException::new);
     }
+
 }

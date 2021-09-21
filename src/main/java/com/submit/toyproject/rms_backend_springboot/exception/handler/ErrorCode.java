@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    INVALID_TOKEN(401, "This token's type is not refresh."),
     INVALID_USER_TOKEN(401,"Invalid token."),
     INVALID_ID_TOKEN_INFORMATION(400, "Id_Token information does not match."),
     INVALID_EMAIL(400, "Google email must end with '@dsm.hs.kr'."),
