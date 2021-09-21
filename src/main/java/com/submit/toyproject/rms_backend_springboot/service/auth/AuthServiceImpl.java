@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.service.auth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshToken;
 import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshTokenRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
@@ -64,7 +65,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public TokenResponse requestTokenByCode(String code) {
+    public TokenResponse requestTokenByCode(String code) throws JsonProcessingException {
 
         GoogleTokenRequest googleTokenRequest = GoogleTokenRequest.builder()
                 .client_id(GOOGLE_CLIENT_ID)

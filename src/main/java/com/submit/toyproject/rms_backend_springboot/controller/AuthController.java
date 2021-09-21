@@ -1,8 +1,8 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.submit.toyproject.rms_backend_springboot.dto.response.AccessTokenResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.TokenResponse;
-import com.submit.toyproject.rms_backend_springboot.exception.RedirectException;
 import com.submit.toyproject.rms_backend_springboot.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,17 +21,12 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/login")
-    public void googleLogin() {
-        try {
-            String redirectURL = authService.getGoogleLink();
-            response.sendRedirect(redirectURL);
-        } catch (IOException e) {
-            throw new RedirectException();
-        }
+    public void googleLogin() throws IOException {
+        response.sendRedirect(authService.getGoogleLink());
     }
 
     @GetMapping("/google/callback")
-    public TokenResponse requestTokenByCode(@RequestParam String code) {
+    public TokenResponse requestTokenByCode(@RequestParam String code) throws JsonProcessingException {
         return authService.requestTokenByCode(code);
     }
 

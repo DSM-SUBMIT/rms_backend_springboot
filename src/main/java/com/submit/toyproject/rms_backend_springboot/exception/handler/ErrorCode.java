@@ -18,8 +18,6 @@ public enum ErrorCode {
     PROJECT_NOT_FOUND(404, "Project not found."),
     FIELD_NOT_FOUND(404, "Field not found."),
     PERMISSION_DENIED(403, "Permission Denied"),
-    REDIRECT_ERROR(500, "Server error."),
-    JSON_PROCESSING(500, "Json processing exception."),
     REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
     EMAIL_SEND_FAIL(400, "Email was not sent properly."),
     PLAN_NOT_ACCEPTED(400, "This project's plan is not accepted.");
