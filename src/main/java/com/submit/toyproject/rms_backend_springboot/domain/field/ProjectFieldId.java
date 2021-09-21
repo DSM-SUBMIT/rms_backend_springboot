@@ -1,4 +1,4 @@
-package com.submit.toyproject.rms_backend_springboot.domain.member;
+package com.submit.toyproject.rms_backend_springboot.domain.field;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberId implements Serializable {
-
-    private Integer user;
+public class ProjectFieldId implements Serializable {
+    private Integer field;
     private Integer project;
+
 }

@@ -26,8 +26,6 @@ spring:
           starttls:
             enable: true
 
-
-
 oauth:
   google:
     url: ${GOOGLE_BASE_URL}
@@ -46,7 +44,7 @@ jwt:
   access:
     exp: ${JWT_ACCESS_EXP:1000000}
   refresh:
-    exp: ${JWT_REFRESH_EXP:12101212}
+    exp: ${JWT_REFRESH_EXP:1209600}
 
 server:
   base:

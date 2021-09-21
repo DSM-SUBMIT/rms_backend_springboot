@@ -19,4 +19,5 @@ public class AuthDetailService implements UserDetailsService {
                 .map(AuthDetails::new)
                 .orElseThrow(UserNotFoundException::new);
     }
+
 }

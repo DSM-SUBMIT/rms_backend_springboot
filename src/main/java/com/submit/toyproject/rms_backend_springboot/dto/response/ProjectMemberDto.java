@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDto {
+public class ProjectMemberDto {
 
     private String name;
+
+    private String email;
 
     private String role;
 

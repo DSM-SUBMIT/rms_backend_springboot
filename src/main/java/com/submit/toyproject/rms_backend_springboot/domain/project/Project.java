@@ -6,6 +6,8 @@ import com.submit.toyproject.rms_backend_springboot.domain.plan.Plan;
 import com.submit.toyproject.rms_backend_springboot.domain.report.Report;
 import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
+import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -70,7 +72,7 @@ public class Project {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Member> members;
 
-    @OneToMany(mappedBy = "field", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ProjectField> projectFields;
 
     @Builder
@@ -84,6 +86,20 @@ public class Project {
         this.serviceUrl = serviceUrl;
         this.docsUrl = docsUrl;
         this.writer = writer;
+    }
+
+    public void update(ProjectRequest request) {
+        this.projectName = request.getProjectName();
+        this.teamName = request.getTeamName();
+        this.techStacks = request.getTechStacks();
+        this.projectType = ProjectType.valueOf(request.getProjectType());
+        this.teacher = request.getTeacher();
+    }
+
+    public void updateUrls(ProjectUrlsRequest request) {
+        this.githubUrl = request.getGithubUrl();
+        this.serviceUrl = request.getServiceUrl();
+        this.docsUrl = request.getDocsUrl();
     }
 
 }

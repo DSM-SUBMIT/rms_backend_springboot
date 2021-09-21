@@ -1,9 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.domain.field;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,17 +9,18 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Entity
 public class Field {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Integer id;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private FieldEnum field;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "field", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ProjectField> projectFields;
 
 }
