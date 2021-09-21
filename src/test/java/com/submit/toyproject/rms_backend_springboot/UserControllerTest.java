@@ -1,7 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot;
 
 import com.submit.toyproject.rms_backend_springboot.domain.field.FieldEnum;
-import com.submit.toyproject.rms_backend_springboot.domain.field.FieldRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.field.ProjectFieldRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
@@ -18,8 +17,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,9 +31,6 @@ public class UserControllerTest {
 
     @Autowired
     private BasicTestSupport basicTestSupport;
-
-    @Autowired
-    private WebApplicationContext context;
 
     @Autowired
     private UserRepository userRepository;
@@ -94,28 +88,28 @@ public class UserControllerTest {
     @WithMockUser(value = "000000@dsm.hs.kr")
     @Test
     public void getUsers_200() throws Exception {
-        mvc.perform(get("/user/search"))
+        mvc.perform(get("/search"))
                 .andExpect(status().isOk()).andDo(print());
     }
 
     @WithMockUser(value = "000000@dsm.hs.kr")
     @Test
     public void getUsers_200_keyword1() throws Exception {
-        mvc.perform(get("/user/search?name=김"))
+        mvc.perform(get("/search?name=김"))
                 .andExpect(status().isOk()).andDo(print());
     }
 
     @WithMockUser(value = "000000@dsm.hs.kr")
     @Test
     public void getUsers_200_keyword2() throws Exception {
-        mvc.perform(get("/user/search?name=길동"))
+        mvc.perform(get("/search?name=길동"))
                 .andExpect(status().isOk()).andDo(print());
     }
 
     @WithMockUser
     @Test
     public void getUsers_401() throws Exception {
-        mvc.perform(get("/user/search?name=길동"))
+        mvc.perform(get("/search?name=길동"))
                 .andExpect(status().isUnauthorized()).andDo(print());
     }
 
