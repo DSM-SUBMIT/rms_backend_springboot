@@ -37,29 +37,14 @@ public class PlanServiceImpl implements PlanService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         isWorkPossible(project, user);
+        Plan plan;
 
-        planRepository.save(
-                Plan.builder()
-                        .goal(request.getGoal())
-                        .content(request.getContent())
-                        .project(project)
-                        .includeResultReport(request.getIncludeResultReport())
-                        .includeCode(request.getIncludeCode())
-                        .includeOutCome(request.getIncludeOutCome())
-                        .includeOthers(request.getIncludeOthers())
-                        .plannedStartDate(request.getPlannedStartDate())
-                        .plannedEndDate(request.getPlannedEndDate())
-                        .build()
-        );
-    }
-
-    @Override
-    public void updatePlan(Integer id, PlanRequest request) {
-        User user = authenticationFacade.certifiedUser();
-        Plan plan = getPlan(id);
-        isWorkPossible(plan.getProject(), user);
-
-        planRepository.save(plan.update(request));
+        if (!planRepository.existsById(projectId)) {
+            plan = new Plan(project);
+        } else {
+            plan = getPlan(projectId);
+        }
+        plan.save(request);
     }
 
     @Override
@@ -100,6 +85,11 @@ public class PlanServiceImpl implements PlanService {
                 .build();
     }
 
+    private Plan getPlan(Integer id) {
+        return planRepository.findById(id)
+                .orElseThrow(PlanNotFoundException::new);
+    }
+
     private void isWorkPossible(Project project, User user) {
         if (!project.getWriter().equals(user)) {
             throw new UserNotHavePermissionException();
@@ -107,11 +97,6 @@ public class PlanServiceImpl implements PlanService {
         if (project.getStatus().getIsPlanSubmitted()) {
             throw new PlanAlreadySubmittedException();
         }
-    }
-
-    public Plan getPlan(Integer id) {
-        return planRepository.findById(id)
-                .orElseThrow(PlanNotFoundException::new);
     }
 
 }

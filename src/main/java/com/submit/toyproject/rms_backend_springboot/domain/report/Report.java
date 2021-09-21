@@ -30,18 +30,13 @@ public class Report {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @Builder
-    public Report(String content, String videoUrl, Project project) {
-        this.content = content;
-        this.videoUrl = videoUrl;
+    public Report(Project project) {
         this.project = project;
     }
 
-    public Report update(ReportRequest request) {
+    public void save(ReportRequest request) {
         this.content = request.getContent();
         this.videoUrl = request.getVideoUrl();
-
-        return this;
     }
 
 }

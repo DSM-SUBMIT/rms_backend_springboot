@@ -9,7 +9,6 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL55Dialect
     database: mysql
-    generate-ddl: true
     hibernate:
       ddl-auto: update
   redis:
@@ -46,3 +45,7 @@ jwt:
     exp: ${JWT_ACCESS_EXP:1000000}
   refresh:
     exp: ${JWT_REFRESH_EXP:1209600}
+
+server:
+  base:
+    url: ${SERVER_BASE_URL}

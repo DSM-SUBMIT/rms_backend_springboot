@@ -24,7 +24,10 @@ public enum ErrorCode {
     EMAIL_SEND_FAIL(500, "Email send fail."),
     REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
     REDIRECT_ERROR(500, "Server error."),
-    JSON_PROCESSING(500, "Json processing exception.");
+    JSON_PROCESSING(500, "Json processing exception."),
+    REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
+    EMAIL_SEND_FAIL(400, "Email was not sent properly."),
+    PLAN_NOT_ACCEPTED(400, "This project's plan is not accepted.");
 
     private final int status;
     private final String message;
