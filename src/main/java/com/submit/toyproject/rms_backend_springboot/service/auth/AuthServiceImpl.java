@@ -4,7 +4,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshT
 import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshTokenRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
-import com.submit.toyproject.rms_backend_springboot.dto.request.GoogleTokenRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.oauth.GoogleTokenRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.AccessTokenResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.TokenResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.InvalidEmailException;
@@ -66,13 +66,13 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public TokenResponse requestTokenByCode(String code) {
 
-        GoogleTokenRequest googleTokenRequest = GoogleTokenRequest
-                .builder()
+        GoogleTokenRequest googleTokenRequest = GoogleTokenRequest.builder()
                 .client_id(GOOGLE_CLIENT_ID)
                 .client_secret(GOOGLE_CLIENT_SECRET)
                 .code(code)
                 .redirect_uri(GOOGLE_REDIRECT_URL)
-                .grant_type("authorization_code").build();
+                .grant_type("authorization_code")
+                .build();
 
         Map<String, String> userInfo = googleOauthClient.requestUserInfo(googleTokenRequest);
 

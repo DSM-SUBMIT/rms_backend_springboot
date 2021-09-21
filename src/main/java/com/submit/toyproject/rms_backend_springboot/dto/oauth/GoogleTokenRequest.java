@@ -1,4 +1,4 @@
-package com.submit.toyproject.rms_backend_springboot.dto.request;
+package com.submit.toyproject.rms_backend_springboot.dto.oauth;
 
 import lombok.*;
 

@@ -64,20 +64,17 @@ public class ProjectServiceImpl implements ProjectService{
 
         checkPermission(project);
 
-        List<String> fieldList = getProjectField(project);
-        List<ProjectMemberDto> memberList = getMemberList(project);
-
         return MyPageProjectDetailResponse.builder()
                 .id(project.getId())
                 .projectType(project.getProjectType().getDivision())
                 .projectName(project.getProjectName())
-                .fieldList(fieldList)
+                .fieldList(getProjectField(project))
                 .teamName(project.getTeamName())
                 .isPlanSubmitted(project.getStatus().getIsPlanSubmitted())
                 .isPlanAccepted(project.getStatus().getIsPlanAccepted())
                 .isReportSubmitted(project.getStatus().getIsReportSubmitted())
                 .isReportAccepted(project.getStatus().getIsReportAccepted())
-                .memberList(memberList)
+                .memberList(getMemberList(project))
                 .githubUrl(project.getGithubUrl())
                 .serviceUrl(project.getServiceUrl())
                 .docsUrl(project.getDocsUrl())
@@ -89,16 +86,13 @@ public class ProjectServiceImpl implements ProjectService{
     public MainFeedProjectDetailResponse getProjectDetail(Integer id) {
         Project project = getProject(id);
 
-        List<String> fieldList = getProjectField(project);
-        List<ProjectMemberDto> memberList = getMemberList(project);
-
         return MainFeedProjectDetailResponse.builder()
                 .id(project.getId())
                 .projectType(project.getProjectType().toString())
                 .projectName(project.getProjectName())
-                .fieldList(fieldList)
+                .fieldList(getProjectField(project))
                 .teamName(project.getTeamName())
-                .memberList(memberList)
+                .memberList(getMemberList(project))
                 .githubUrl(project.getGithubUrl())
                 .serviceUrl(project.getServiceUrl())
                 .docsUrl(project.getDocsUrl())
@@ -108,7 +102,6 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public void updateProject(Integer id, ProjectRequest projectRequest) {
-
         Project project = getProject(id);
 
         checkPermission(project);
@@ -137,7 +130,7 @@ public class ProjectServiceImpl implements ProjectService{
         checkPermission(getProject(id));
 
         projectRepository.delete(projectRepository
-                .findById(id).orElseThrow(UserNotFoundException::new));
+                .findById(id).orElseThrow(ProjectNotFoundException::new));
     }
 
     private void addProjectField(Project project, List<String> fieldList) {
@@ -172,7 +165,6 @@ public class ProjectServiceImpl implements ProjectService{
 
     private void addMember(Project project, List<Map<String, String>> memberList) {
         for(Map<String, String> memberMap : memberList) {
-
             User user = userRepository.findByEmail(memberMap.get("email"))
                     .orElseThrow(UserNotFoundException::new);
 

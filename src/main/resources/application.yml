@@ -27,8 +27,6 @@ spring:
           starttls:
             enable: true
 
-
-
 oauth:
   google:
     url: ${GOOGLE_BASE_URL}
