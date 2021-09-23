@@ -27,11 +27,11 @@ public class ProjectRequest {
     @NotNull
     private String teacher;
 
-    private String githubUrl;
+    @ApiModelProperty(value = "필드 리스트(Enum)", example = "[WEB, APP]")
     @NotNull
     private List<FieldEnum> fieldList;
 
-    private String docsUrl;
+    @ApiModelProperty(value = "멤버 리스트")
     @NotNull
     private List<ProjectMemberDto> memberList;
 }
