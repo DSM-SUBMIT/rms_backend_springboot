@@ -19,6 +19,7 @@ public class UserController {
         return userService.getUsers(name);
     }
 
+    @ApiOperation(value = "마이페이지 정보가져오기")
     @GetMapping("/me")
     public MyPageResponse getMyPage() {
         return userService.getMyPage();
