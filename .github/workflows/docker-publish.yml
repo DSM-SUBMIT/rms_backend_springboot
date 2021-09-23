@@ -8,10 +8,37 @@ on:
       - completed
 
 jobs:
-  push_to_ec2:
-    name: Trigger CodeDeploy
+  push_to_registry:
+    name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1.10.0
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3.5.0
+        with:
+          images: pjp0704/rms-backend-node
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Trigger the CodeDeploy in EC2 instance
         run: aws deploy --region ap-northeast-2 create-deployment --application-name rms --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name rms-codedeploy-group-springboot --github-location repository=DSM-SUBMIT/rms_backend_springboot,commitId=${GITHUB_SHA}
         env:
