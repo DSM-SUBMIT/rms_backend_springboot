@@ -36,7 +36,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rms-backend-springboot:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Trigger the CodeDeploy in EC2 instance
