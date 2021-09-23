@@ -1,0 +1,20 @@
+name: Publish to Docker image
+
+on:
+  workflow_run:
+    workflows: ["Java CI with Gradle"]
+    branches: [main]
+    types:
+      - completed
+
+jobs:
+  push_to_ec2:
+    name: Trigger CodeDeploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the CodeDeploy in EC2 instance
+        run: aws deploy --region ap-northeast-2 create-deployment --application-name rms --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name rms-codedeploy-group-springboot --github-location repository=DSM-SUBMIT/rms_backend_springboot,commitId=${GITHUB_SHA}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          Default_region_name: ap-northeast-2
