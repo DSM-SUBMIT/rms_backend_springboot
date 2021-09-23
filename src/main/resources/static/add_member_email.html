@@ -1,10 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>email</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
 </head>
-<body>
-    {{server_url}}
+<body style="margin: 0; padding: 0">
+<table align="center" cellpadding="0" cellspacing="0" width="60%">
+    <tr>
+        <td style="padding: 0">
+            <img src="blue.svg" align="right" height="127px"/>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 12px">
+            <table align="center" width="84%">
+                <tr>
+                    <td
+                            style="
+                  text-align: center;
+                  font-size: 35px;
+                  font-family: 'Noto Sans KR';
+                  font-weight: bold;
+                "
+                    >
+                        {projectName} 보고서가<br/>제출되었습니다.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 54px"></td>
+                </tr>
+                <tr>
+                    <td
+                            style="
+                        text-align: center;
+                        font-size: 20px;
+                        font-family: 'Noto Sans KR';
+                "
+                    >
+                        {name} 님이 {teamName} 팀에 가입되었습니다.
+                        <br/>
+                        바로 가기를 눌러, {teamName} 팀의 보고서를 확인하세요!
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 12px 0px; cursor: pointer">
+            <table
+                    align="center"
+                    width="30%"
+                    height="60px"
+                    bgcolor="#386BEE"
+                    margin-top="12px"
+            >
+                <tr>
+                    <td style="text-align: center">
+                        <a
+                                href="https://www.google.co.kr"
+                                style="
+                    color: #ffffff;
+                    font-family: 'Noto Sans KR';
+                    font-size: 20px;
+                    text-decoration: none;
+                    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+                  "
+                        >바로 가기</a
+                        >
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
