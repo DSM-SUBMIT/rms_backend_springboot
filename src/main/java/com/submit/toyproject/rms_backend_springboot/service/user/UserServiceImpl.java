@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.service.user;
 
+import com.submit.toyproject.rms_backend_springboot.domain.field.FieldEnum;
 import com.submit.toyproject.rms_backend_springboot.domain.field.ProjectField;
 import com.submit.toyproject.rms_backend_springboot.domain.field.ProjectFieldRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
@@ -53,8 +54,8 @@ public class UserServiceImpl implements UserService {
         for (Member member : memberList) {
             Project project = member.getProject();
             List<ProjectField> projectFieldList = projectFieldRepository.findByProject(project);
-            List<String> fieldList = projectFieldList.stream()
-                    .map(projectField -> projectField.getField().getField().toString())
+            List<FieldEnum> fieldList = projectFieldList.stream()
+                    .map(projectField -> projectField.getField().getField())
                     .collect(Collectors.toList());
 
             ProjectListElementDto projectResponse = ProjectListElementDto.builder()

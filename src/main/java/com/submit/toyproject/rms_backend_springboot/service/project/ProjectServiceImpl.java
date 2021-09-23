@@ -5,7 +5,8 @@ import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
 import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
-import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
+import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
+import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +32,7 @@ public class ProjectServiceImpl implements ProjectService{
     private final ProjectFieldRepository projectFieldRepository;
     private final UserRepository userRepository;
     private final FieldRepository fieldRepository;
+    private final StatusRepository statusRepository;
 
     private final AuthenticationFacade authenticationFacade;
 
@@ -45,12 +46,19 @@ public class ProjectServiceImpl implements ProjectService{
                 .projectName(projectRequest.getProjectName())
                 .teamName(projectRequest.getTeamName())
                 .techStacks(projectRequest.getTechStacks())
-                .projectType(ProjectType.valueOf(projectRequest.getProjectType()))
+                .projectType(projectRequest.getProjectType())
                 .teacher(projectRequest.getTeacher())
                 .writer(user)
                 .build();
 
+        statusRepository.save(Status.builder()
+                .project(project)
+                .isPlanSubmitted(false)
+                .isReportSubmitted(false)
+                .build());
+
         projectRepository.save(project);
+
         addMember(project, projectRequest.getMemberList());
         addProjectField(project, projectRequest.getFieldList());
 
@@ -88,7 +96,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         return MainFeedProjectDetailResponse.builder()
                 .id(project.getId())
-                .projectType(project.getProjectType().toString())
+                .projectType(project.getProjectType().getDivision())
                 .projectName(project.getProjectName())
                 .fieldList(getProjectField(project))
                 .teamName(project.getTeamName())
@@ -133,9 +141,9 @@ public class ProjectServiceImpl implements ProjectService{
                 .findById(id).orElseThrow(ProjectNotFoundException::new));
     }
 
-    private void addProjectField(Project project, List<String> fieldList) {
-        for(String fieldReq : fieldList) {
-            Field field = fieldRepository.findByField(FieldEnum.valueOf(fieldReq))
+    private void addProjectField(Project project, List<FieldEnum> fieldList) {
+        for(FieldEnum fieldEnum : fieldList) {
+            Field field = fieldRepository.findByField(fieldEnum)
                     .orElseThrow(FieldNotFoundException::new);
 
             projectFieldRepository.save(
@@ -147,9 +155,9 @@ public class ProjectServiceImpl implements ProjectService{
         }
     }
 
-    private List<String> getProjectField(Project project) {
+    private List<FieldEnum> getProjectField(Project project) {
         return projectFieldRepository.findByProject(project).stream()
-                .map(projectField -> projectField.getField().getField().toString())
+                .map(projectField -> projectField.getField().getField())
                 .collect(Collectors.toList());
     }
 
@@ -163,15 +171,15 @@ public class ProjectServiceImpl implements ProjectService{
                 .collect(Collectors.toList());
     }
 
-    private void addMember(Project project, List<Map<String, String>> memberList) {
-        for(Map<String, String> memberMap : memberList) {
-            User user = userRepository.findByEmail(memberMap.get("email"))
+    private void addMember(Project project, List<ProjectMemberDto> memberList) {
+        for(ProjectMemberDto memberDto : memberList) {
+            User user = userRepository.findByEmail(memberDto.getEmail())
                     .orElseThrow(UserNotFoundException::new);
 
             Member member = Member.builder()
                     .project(project)
                     .user(user)
-                    .role(memberMap.get("role"))
+                    .role(memberDto.getRole())
                     .build();
 
             memberRepository.save(member);

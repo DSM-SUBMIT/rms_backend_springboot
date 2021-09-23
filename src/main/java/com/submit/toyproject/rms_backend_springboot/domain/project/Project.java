@@ -92,7 +92,7 @@ public class Project {
         this.projectName = request.getProjectName();
         this.teamName = request.getTeamName();
         this.techStacks = request.getTechStacks();
-        this.projectType = ProjectType.valueOf(request.getProjectType());
+        this.projectType = request.getProjectType();
         this.teacher = request.getTeacher();
     }
 

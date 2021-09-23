@@ -1,41 +1,46 @@
 package com.submit.toyproject.rms_backend_springboot.dto.request;
 
+import com.submit.toyproject.rms_backend_springboot.domain.field.FieldEnum;
+import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
+import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectMemberDto;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectRequest {
 
+    @ApiModelProperty(value = "프로젝트 이름", example = "RMS")
     @NotNull
     private String projectName;
 
+    @ApiModelProperty(value = "팀 이름", example = "Submit")
     @NotNull
     private String teamName;
 
+    @ApiModelProperty(value = "기술 스택1, 기술 스택2", example = "Java, Spring boot")
     @NotNull
     private String techStacks;
 
+    @ApiModelProperty(value = "프로젝트 타입", example = "CLUB")
     @NotNull
-    private String projectType;
+    private ProjectType projectType;
 
+    @ApiModelProperty(value = "선생님 성함", example = "양은정")
     @NotNull
     private String teacher;
 
-    private String githubUrl;
-
-    private String docsUrl;
-
-    private String serviceUrl;
-
+    @ApiModelProperty(value = "필드 리스트(Enum)", example = "[WEB, APP]")
     @NotNull
-    private List<String> fieldList;
+    private List<FieldEnum> fieldList;
 
-    private List<Map<String, String>> memberList;
+    @ApiModelProperty(value = "멤버 리스트")
+    @NotNull
+    private List<ProjectMemberDto> memberList;
 }

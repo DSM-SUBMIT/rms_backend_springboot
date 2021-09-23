@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Status {
 
     @Id
-    private Integer reportId;
+    private Integer projectId;
 
     @Column(columnDefinition = "tinyint(1)")
     private Boolean isPlanAccepted;
@@ -40,8 +40,10 @@ public class Status {
     private Project project;
 
     @Builder
-    public Status(Project project) {
+    public Status(Project project, Boolean isPlanSubmitted, Boolean isReportSubmitted) {
         this.project = project;
+        this.isPlanSubmitted = isPlanSubmitted;
+        this.isReportSubmitted = isReportSubmitted;
     }
 
     public Status planSubmit() {
