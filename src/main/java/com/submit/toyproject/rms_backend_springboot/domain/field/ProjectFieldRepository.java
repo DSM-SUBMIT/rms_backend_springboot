@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProjectFieldRepository extends CrudRepository<ProjectField, ProjectFieldId> {
-    @Query(value = "select DISTINCT r.project from ProjectField r where (:fields is null or r.field.field in (:fields)) " +
+    @Query(value = "select DISTINCT r.project from ProjectField r where (coalesce(:fields) is null or r.field.field in (:fields)) " +
             "and r.project.status.isReportAccepted = true " +
             "order by r.project.status.reportSubmittedAt desc")
     Page<Project> findAllByFields(@Param("fields")List<FieldEnum> fields, Pageable pageable);
