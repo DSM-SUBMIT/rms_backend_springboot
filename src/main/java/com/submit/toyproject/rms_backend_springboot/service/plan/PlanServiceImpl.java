@@ -17,6 +17,7 @@ import com.submit.toyproject.rms_backend_springboot.exception.PlanNotFoundExcept
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
@@ -47,6 +48,7 @@ public class PlanServiceImpl implements PlanService {
         plan.save(request);
     }
 
+    @Transactional
     @Override
     public void submitPlan(Integer id) {
         User user = authenticationFacade.certifiedUser();
