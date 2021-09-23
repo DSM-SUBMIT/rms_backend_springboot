@@ -31,6 +31,7 @@ public class ProjectServiceImpl implements ProjectService{
     private final ProjectFieldRepository projectFieldRepository;
     private final UserRepository userRepository;
     private final FieldRepository fieldRepository;
+    private final StatusRepository statusRepository;
 
     private final AuthenticationFacade authenticationFacade;
 
@@ -44,7 +45,7 @@ public class ProjectServiceImpl implements ProjectService{
                 .projectName(projectRequest.getProjectName())
                 .teamName(projectRequest.getTeamName())
                 .techStacks(projectRequest.getTechStacks())
-                .projectType(ProjectType.valueOf(projectRequest.getProjectType()))
+                .projectType(projectRequest.getProjectType())
                 .teacher(projectRequest.getTeacher())
                 .writer(user)
                 .build();
@@ -87,7 +88,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         return MainFeedProjectDetailResponse.builder()
                 .id(project.getId())
-                .projectType(project.getProjectType().toString())
+                .projectType(project.getProjectType().getDivision())
                 .projectName(project.getProjectName())
                 .fieldList(getProjectField(project))
                 .teamName(project.getTeamName())
@@ -132,9 +133,9 @@ public class ProjectServiceImpl implements ProjectService{
                 .findById(id).orElseThrow(ProjectNotFoundException::new));
     }
 
-    private void addProjectField(Project project, List<String> fieldList) {
-        for(String fieldReq : fieldList) {
-            Field field = fieldRepository.findByField(FieldEnum.valueOf(fieldReq))
+    private void addProjectField(Project project, List<FieldEnum> fieldList) {
+        for(FieldEnum fieldEnum : fieldList) {
+            Field field = fieldRepository.findByField(fieldEnum)
                     .orElseThrow(FieldNotFoundException::new);
 
             projectFieldRepository.save(
@@ -146,9 +147,9 @@ public class ProjectServiceImpl implements ProjectService{
         }
     }
 
-    private List<String> getProjectField(Project project) {
+    private List<FieldEnum> getProjectField(Project project) {
         return projectFieldRepository.findByProject(project).stream()
-                .map(projectField -> projectField.getField().getField().toString())
+                .map(projectField -> projectField.getField().getField())
                 .collect(Collectors.toList());
     }
 

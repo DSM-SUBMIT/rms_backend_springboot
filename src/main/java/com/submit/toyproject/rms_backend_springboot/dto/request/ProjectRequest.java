@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @NoArgsConstructor
@@ -23,19 +22,16 @@ public class ProjectRequest {
     private String techStacks;
 
     @NotNull
-    private String projectType;
+    private ProjectType projectType;
 
     @NotNull
     private String teacher;
 
     private String githubUrl;
+    @NotNull
+    private List<FieldEnum> fieldList;
 
     private String docsUrl;
-
-    private String serviceUrl;
-
     @NotNull
-    private List<String> fieldList;
-
-    private List<Map<String, String>> memberList;
+    private List<ProjectMemberDto> memberList;
 }
