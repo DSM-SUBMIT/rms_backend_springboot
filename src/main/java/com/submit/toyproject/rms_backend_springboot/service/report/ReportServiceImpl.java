@@ -42,9 +42,6 @@ public class ReportServiceImpl implements ReportService {
 
     private final JavaMailSender mailSender;
 
-    @Value("${server.base.url}")
-    private final String SERVER_BASE_URL;
-
     @Override
     public void saveReport(Integer projectId, ReportRequest request) {
         User user = authenticationFacade.certifiedUser();

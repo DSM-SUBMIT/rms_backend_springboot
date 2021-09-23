@@ -45,7 +45,3 @@ jwt:
     exp: ${JWT_ACCESS_EXP:1000000}
   refresh:
     exp: ${JWT_REFRESH_EXP:1209600}
-
-server:
-  base:
-    url: ${SERVER_BASE_URL}
