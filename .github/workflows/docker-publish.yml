@@ -28,7 +28,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3.5.0
         with:
-          images: pjp0704/rms-backend-node
+          images: pjp0704/rms-backend-springboot
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
