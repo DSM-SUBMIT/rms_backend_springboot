@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -163,15 +162,15 @@ public class ProjectServiceImpl implements ProjectService{
                 .collect(Collectors.toList());
     }
 
-    private void addMember(Project project, List<Map<String, String>> memberList) {
-        for(Map<String, String> memberMap : memberList) {
-            User user = userRepository.findByEmail(memberMap.get("email"))
+    private void addMember(Project project, List<ProjectMemberDto> memberList) {
+        for(ProjectMemberDto memberDto : memberList) {
+            User user = userRepository.findByEmail(memberDto.getEmail())
                     .orElseThrow(UserNotFoundException::new);
 
             Member member = Member.builder()
                     .project(project)
                     .user(user)
-                    .role(memberMap.get("role"))
+                    .role(memberDto.getRole())
                     .build();
 
             memberRepository.save(member);
