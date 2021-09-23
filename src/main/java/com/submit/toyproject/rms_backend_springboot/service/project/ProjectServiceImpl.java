@@ -5,7 +5,8 @@ import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
 import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
-import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
+import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
+import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
@@ -50,7 +51,14 @@ public class ProjectServiceImpl implements ProjectService{
                 .writer(user)
                 .build();
 
+        statusRepository.save(Status.builder()
+                .project(project)
+                .isPlanSubmitted(false)
+                .isReportSubmitted(false)
+                .build());
+
         projectRepository.save(project);
+
         addMember(project, projectRequest.getMemberList());
         addProjectField(project, projectRequest.getFieldList());
 
