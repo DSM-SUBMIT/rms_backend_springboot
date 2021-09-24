@@ -23,8 +23,7 @@ public class MainController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "?page=&size= 이렇게 하시면 됩니다. ※ 페이지 1부터 시작"),
             @ApiImplicitParam(name = "size", value = "사이즈"),
-            @ApiImplicitParam(name = "field", value = "필터링, ','로 구분, 허용 값 : WEB, APP, GAME, EMBEDDED, AI_BIGDATA, SECURITY"
-            , dataType = "list")
+            @ApiImplicitParam(name = "field", value = "필터링, ','로 구분, 허용 값 : WEB, APP, GAME, EMBEDDED, AI_BIGDATA, SECURITY")
     })
     @GetMapping
     public MainFeedResponse getMainFeed(Pageable page, @RequestParam(required = false) List<String> field) {
