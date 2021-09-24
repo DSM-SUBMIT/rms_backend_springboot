@@ -3,6 +3,7 @@ package com.submit.toyproject.rms_backend_springboot.service.main;
 import com.submit.toyproject.rms_backend_springboot.domain.field.*;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.dto.response.*;
+import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,12 @@ public class MainServiceImpl implements MainService{
     @Transactional
     public MainFeedResponse getMainFeed(Pageable page, List<String> filteringFieldsStr) {
 
-        List<FieldEnum> filteringFields = filteringFieldsStr.stream().map(FieldEnum::valueOf).collect(Collectors.toList());
+        List<FieldEnum> filteringFields;
+        try {
+            filteringFields = filteringFieldsStr.stream().map(FieldEnum::valueOf).collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw new ProjectNotFoundException();
+        }
         Page<Project> projectPage = projectFieldRepository.findAllByFields(filteringFields, page);
 
         List<ProjectListElementDto> projectDtoList = new ArrayList<>();
