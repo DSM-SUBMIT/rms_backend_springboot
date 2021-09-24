@@ -4,7 +4,6 @@ import com.submit.toyproject.rms_backend_springboot.exception.InvalidUserTokenEx
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthDetailService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +15,6 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
-@Slf4j
 public class JwtTokenProvider {
 
     @Value("${jwt.secret}")
@@ -29,7 +27,7 @@ public class JwtTokenProvider {
     private Long refreshExp;
 
     private static final String HEADER = "Authorization";
-    private static final String PREFIX = "Bearer";
+    private static final String PREFIX = "Bearer ";
 
     private final AuthDetailService authDetailService;
 
