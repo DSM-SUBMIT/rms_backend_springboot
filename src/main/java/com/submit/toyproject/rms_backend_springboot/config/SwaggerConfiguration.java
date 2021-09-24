@@ -112,6 +112,7 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
                 .build();
     }
 
+    @Getter @Setter
     @ApiModel
     static class Page {
         private int page;

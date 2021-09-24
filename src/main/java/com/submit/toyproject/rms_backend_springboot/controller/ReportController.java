@@ -3,6 +3,7 @@ package com.submit.toyproject.rms_backend_springboot.controller;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ReportRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.ReportResponse;
 import com.submit.toyproject.rms_backend_springboot.service.report.ReportService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Api(tags = {"보고서"})
 @RequiredArgsConstructor
 @RequestMapping("/report")
 @RestController

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Api(tags = {"인증"})
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @RestController
@@ -34,7 +35,7 @@ public class AuthController {
     }
 
     @ApiOperation(value = "토큰 리프레시")
-    @ApiImplicitParam(name = "token", value = "리프레시 토큰")
+    @ApiImplicitParam(name = "X-Refresh-Token", value = "리프레시 토큰")
     @PutMapping("/token")
     public AccessTokenResponse accessTokenRefresh(@RequestHeader(name = "X-Refresh-Token") String token) {
         return authService.tokenRefresh(token);

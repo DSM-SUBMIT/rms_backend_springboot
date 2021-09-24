@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Api(tags = {"프로젝트"})
 @RequiredArgsConstructor
 @RequestMapping("/project")
 @RestController
