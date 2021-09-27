@@ -40,10 +40,10 @@ public class Status {
     private Project project;
 
     @Builder
-    public Status(Project project, Boolean isPlanSubmitted, Boolean isReportSubmitted) {
+    public Status(Project project) {
         this.project = project;
-        this.isPlanSubmitted = isPlanSubmitted;
-        this.isReportSubmitted = isReportSubmitted;
+        this.isPlanSubmitted = false;
+        this.isReportSubmitted = false;
     }
 
     public Status planSubmit() {

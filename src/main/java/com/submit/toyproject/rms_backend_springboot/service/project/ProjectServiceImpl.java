@@ -51,11 +51,11 @@ public class ProjectServiceImpl implements ProjectService{
                 .writer(user)
                 .build();
 
-        statusRepository.save(Status.builder()
+        statusRepository.save(
+                Status.builder()
                 .project(project)
-                .isPlanSubmitted(false)
-                .isReportSubmitted(false)
-                .build());
+                .build()
+        );
 
         projectRepository.save(project);
 
