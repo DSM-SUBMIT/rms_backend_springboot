@@ -21,7 +21,8 @@ public enum ErrorCode {
     PERMISSION_DENIED(403, "Permission Denied"),
     REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
     EMAIL_SEND_FAIL(400, "Email was not sent properly."),
-    PLAN_NOT_ACCEPTED(400, "This project's plan is not accepted.");
+    PLAN_NOT_ACCEPTED(400, "This project's plan is not accepted."),
+    MEMBER_NOT_FOUND(404, "Member not found");
 
     private final int status;
     private final String message;
