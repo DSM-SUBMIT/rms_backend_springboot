@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
+import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -20,4 +21,11 @@ public class MyPageResponse {
     @ApiModelProperty(value = "내가 참여한 프로젝트 리스트")
     private List<ProjectListElementDto> projectList;
 
+    public static MyPageResponse of(User user, List<ProjectListElementDto> projectList) {
+        return MyPageResponse.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .projectList(projectList)
+                .build();
+    }
 }

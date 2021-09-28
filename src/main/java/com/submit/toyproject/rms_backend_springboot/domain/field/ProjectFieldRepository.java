@@ -15,7 +15,8 @@ public interface ProjectFieldRepository extends CrudRepository<ProjectField, Pro
             "order by r.project.status.reportSubmittedAt desc")
     Page<Project> findAllByFields(@Param("fields")List<FieldEnum> fields, Pageable pageable);
 
-    List<ProjectField> findByProject(Project project);
+    @Query(value = "select p.field.field from ProjectField p where p.project = :project")
+    List<FieldEnum> findFieldEnumByProject(@Param("project")Project project);
 
     void deleteAllByProject(Project project);
 }

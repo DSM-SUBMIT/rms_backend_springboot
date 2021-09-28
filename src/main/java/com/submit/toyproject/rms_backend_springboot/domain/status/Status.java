@@ -39,7 +39,6 @@ public class Status {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @Builder
     public Status(Project project) {
         this.project = project;
         this.isPlanSubmitted = false;

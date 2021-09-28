@@ -1,10 +1,12 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
+import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -43,5 +45,20 @@ public class MainFeedResponse {
 
     @ApiModelProperty(value = "프로젝트 리스트")
     private List<ProjectListElementDto> projectList;
+
+    public static MainFeedResponse of(Page<Project> projectPage, List<ProjectListElementDto> projectDtoList) {
+        return MainFeedResponse.builder()
+                .currentPage(projectPage.getNumber()+1) // 1부터 시작
+                .size(projectPage.getSize())
+                .totalPages(projectPage.getTotalPages())
+                .currentPageElements(projectPage.getNumberOfElements())
+                .totalElements(projectPage.getTotalElements())
+                .hasPreviousPage(projectPage.hasPrevious())
+                .isFirstPage(projectPage.isFirst())
+                .hasNextPage(projectPage.hasNext())
+                .isLastPage(projectPage.isLast())
+                .projectList(projectDtoList)
+                .build();
+    }
 
 }

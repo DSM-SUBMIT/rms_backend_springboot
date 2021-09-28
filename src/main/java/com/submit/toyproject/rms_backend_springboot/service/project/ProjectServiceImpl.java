@@ -39,28 +39,15 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     @Transactional
-    public Integer createProject(ProjectRequest projectRequest) {
+    public Integer createProject(ProjectRequest request) {
         User user = authenticationFacade.certifiedUser();
+        Project project = Project.of(request, user);
 
-        Project project = Project.builder()
-                .projectName(projectRequest.getProjectName())
-                .teamName(projectRequest.getTeamName())
-                .techStacks(projectRequest.getTechStacks())
-                .projectType(projectRequest.getProjectType())
-                .teacher(projectRequest.getTeacher())
-                .writer(user)
-                .build();
-
-        statusRepository.save(
-                Status.builder()
-                .project(project)
-                .build()
-        );
-
+        statusRepository.save(new Status(project));
         projectRepository.save(project);
 
-        addMember(project, projectRequest.getMemberList());
-        addProjectField(project, projectRequest.getFieldList());
+        addMember(project, request.getMemberList());
+        addProjectField(project, request.getFieldList());
 
         return project.getId();
     }
@@ -69,24 +56,9 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional
     public MyPageProjectDetailResponse getMyProject(Integer id) {
         Project project = getProject(id);
-
         checkPermission(project);
 
-        return MyPageProjectDetailResponse.builder()
-                .id(project.getId())
-                .projectType(project.getProjectType().getDivision())
-                .projectName(project.getProjectName())
-                .fieldList(getProjectField(project))
-                .teamName(project.getTeamName())
-                .isPlanSubmitted(project.getStatus().getIsPlanSubmitted())
-                .isPlanAccepted(project.getStatus().getIsPlanAccepted())
-                .isReportSubmitted(project.getStatus().getIsReportSubmitted())
-                .isReportAccepted(project.getStatus().getIsReportAccepted())
-                .memberList(getMemberList(project))
-                .githubUrl(project.getGithubUrl())
-                .serviceUrl(project.getServiceUrl())
-                .docsUrl(project.getDocsUrl())
-                .build();
+        return MyPageProjectDetailResponse.of(project, getFieldEnumList(project), getProjectMemberList(project));
     }
 
     @Override
@@ -94,41 +66,25 @@ public class ProjectServiceImpl implements ProjectService{
     public MainFeedProjectDetailResponse getProjectDetail(Integer id) {
         Project project = getProject(id);
 
-        return MainFeedProjectDetailResponse.builder()
-                .id(project.getId())
-                .projectType(project.getProjectType().getDivision())
-                .projectName(project.getProjectName())
-                .fieldList(getProjectField(project))
-                .teamName(project.getTeamName())
-                .memberList(getMemberList(project))
-                .githubUrl(project.getGithubUrl())
-                .serviceUrl(project.getServiceUrl())
-                .docsUrl(project.getDocsUrl())
-                .build();
+        return MainFeedProjectDetailResponse.of(project, getFieldEnumList(project), getProjectMemberList(project));
     }
 
     @Override
     @Transactional
-    public void updateProject(Integer id, ProjectRequest projectRequest) {
+    public void updateProject(Integer id, ProjectRequest request) {
         Project project = getProject(id);
-
         checkPermission(project);
+        project.update(request);
 
-        project.update(projectRequest);
-
-        memberRepository.deleteAllByProject(project);
-        addMember(project, projectRequest.getMemberList());
-        projectFieldRepository.deleteAllByProject(project);
-        addProjectField(project, projectRequest.getFieldList());
+        addMember(project, request.getMemberList());
+        addProjectField(project, request.getFieldList());
     }
 
     @Override
     @Transactional
     public void updateUrls(Integer id, ProjectUrlsRequest request) {
         Project project = getProject(id);
-
         checkPermission(project);
-
         project.updateUrls(request);
     }
 
@@ -136,54 +92,35 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional
     public void deleteProject(Integer id) {
         checkPermission(getProject(id));
-
-        projectRepository.delete(projectRepository
-                .findById(id).orElseThrow(ProjectNotFoundException::new));
+        projectRepository.delete(getProject(id));
     }
 
     private void addProjectField(Project project, List<FieldEnum> fieldList) {
-        for(FieldEnum fieldEnum : fieldList) {
-            Field field = fieldRepository.findByField(fieldEnum)
-                    .orElseThrow(FieldNotFoundException::new);
-
-            projectFieldRepository.save(
-                    ProjectField.builder()
-                    .field(field)
-                    .project(project)
-                    .build()
-            );
-        }
-    }
-
-    private List<FieldEnum> getProjectField(Project project) {
-        return projectFieldRepository.findByProject(project).stream()
-                .map(projectField -> projectField.getField().getField())
-                .collect(Collectors.toList());
-    }
-
-    private List<ProjectMemberDto> getMemberList(Project project) {
-        return memberRepository.findByProject(project).stream()
-                .map(member -> ProjectMemberDto.builder()
-                        .name(member.getUser().getName())
-                        .email(member.getUser().getEmail())
-                        .role(member.getRole())
-                        .build())
-                .collect(Collectors.toList());
+        projectFieldRepository.deleteAllByProject(project);
+        fieldList.forEach(fieldEnum -> projectFieldRepository
+                .save(new ProjectField(getField(fieldEnum), project)));
     }
 
     private void addMember(Project project, List<ProjectMemberDto> memberList) {
-        for(ProjectMemberDto memberDto : memberList) {
-            User user = userRepository.findByEmail(memberDto.getEmail())
-                    .orElseThrow(UserNotFoundException::new);
+        memberRepository.deleteAllByProject(project);
+        memberList.forEach(member -> memberRepository
+                .save(new Member(getUserByMember(member), project, member.getRole())));
+    }
 
-            Member member = Member.builder()
-                    .project(project)
-                    .user(user)
-                    .role(memberDto.getRole())
-                    .build();
+    private void checkPermission(Project project) {
+        if(!authenticationFacade.getUserEmail().equals(project.getWriter().getEmail()))
+            throw new PermissionDeniedException();
+    }
 
-            memberRepository.save(member);
-        }
+
+    private List<ProjectMemberDto> getProjectMemberList(Project project) {
+        return memberRepository.findByProject(project).stream()
+                .map(ProjectMemberDto::of)
+                .collect(Collectors.toList());
+    }
+
+    private List<FieldEnum> getFieldEnumList(Project project) {
+        return projectFieldRepository.findFieldEnumByProject(project);
     }
 
     private Project getProject(Integer id) {
@@ -191,10 +128,14 @@ public class ProjectServiceImpl implements ProjectService{
                 .orElseThrow(ProjectNotFoundException::new);
     }
 
-    private void checkPermission(Project project) {
-        if(!authenticationFacade.getUserEmail().equals(project.getWriter().getEmail())) {
-            throw new PermissionDeniedException();
-        }
+    private User getUserByMember(ProjectMemberDto member) {
+        return userRepository.findByEmail(member.getEmail())
+                .orElseThrow(MemberNotFoundException::new);
+    }
+
+    private Field getField(FieldEnum fieldEnum) {
+        return fieldRepository.findByField(fieldEnum)
+                .orElseThrow(FieldNotFoundException::new);
     }
 
 }

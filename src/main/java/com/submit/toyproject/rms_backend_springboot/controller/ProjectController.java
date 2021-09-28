@@ -39,7 +39,7 @@ public class ProjectController {
     }
 
     @ApiOperation(value = "프로젝트 상세보기(마이페이지 x)")
-    @ApiImplicitParam(value = "프로젝트 아이디")
+    @ApiImplicitParam(name = "id", value = "프로젝트 아이디")
     @GetMapping("/{id}")
     public MainFeedProjectDetailResponse getProjectDetail(@PathVariable Integer id) {
         return projectService.getProjectDetail(id);

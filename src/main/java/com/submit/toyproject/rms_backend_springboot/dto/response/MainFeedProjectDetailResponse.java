@@ -1,6 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
 import com.submit.toyproject.rms_backend_springboot.domain.field.FieldEnum;
+import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,4 +44,17 @@ public class MainFeedProjectDetailResponse {
     @ApiModelProperty(value = "문서 url", example = "https:///notion.so", allowEmptyValue = true)
     private String docsUrl;
 
+    public static MainFeedProjectDetailResponse of(Project project, List<FieldEnum> fieldList, List<ProjectMemberDto> memberList) {
+        return MainFeedProjectDetailResponse.builder()
+                .id(project.getId())
+                .projectType(project.getProjectType().getDivision())
+                .projectName(project.getProjectName())
+                .fieldList(fieldList)
+                .teamName(project.getTeamName())
+                .memberList(memberList)
+                .githubUrl(project.getGithubUrl())
+                .serviceUrl(project.getServiceUrl())
+                .docsUrl(project.getDocsUrl())
+                .build();
+    }
 }

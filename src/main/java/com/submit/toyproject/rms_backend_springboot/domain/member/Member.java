@@ -38,8 +38,4 @@ public class Member {
         this.role = role;
     }
 
-    public void updateRole(String role) {
-        this.role = role;
-    }
-
 }

@@ -1,6 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
 import com.submit.toyproject.rms_backend_springboot.domain.field.FieldEnum;
+import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -28,5 +29,15 @@ public class ProjectListElementDto {
 
     @ApiModelProperty(value = "분야 리스트", example = "[WEB, APP, EMBEDDED]")
     private List<FieldEnum> fieldList;
+
+    public static ProjectListElementDto of(Project project, List<FieldEnum> fieldList) {
+        return ProjectListElementDto.builder()
+                .id(project.getId())
+                .projectName(project.getProjectName())
+                .teamName(project.getTeamName())
+                .projectType(project.getProjectType().getDivision())
+                .fieldList(fieldList)
+                .build();
+    }
 
 }

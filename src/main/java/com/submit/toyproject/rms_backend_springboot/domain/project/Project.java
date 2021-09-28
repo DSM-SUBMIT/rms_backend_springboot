@@ -102,4 +102,15 @@ public class Project {
         this.docsUrl = request.getDocsUrl();
     }
 
+    public static Project of(ProjectRequest projectRequest, User user) {
+        return Project.builder()
+                .projectName(projectRequest.getProjectName())
+                .teamName(projectRequest.getTeamName())
+                .techStacks(projectRequest.getTechStacks())
+                .projectType(projectRequest.getProjectType())
+                .teacher(projectRequest.getTeacher())
+                .writer(user)
+                .build();
+    }
+
 }
