@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
+import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProjectMemberDto {
 
-    @ApiModelProperty(value = "멤버 이름", example = "곽도현")
-    private String name;
-
-    @ApiModelProperty(value = "멤버 이메일", example = "200000gdh@dsm.hs.kr")
+    @ApiModelProperty(value = "멤버 이메일", example = "201403gdh@dsm.hs.kr")
     private String email;
 
     @ApiModelProperty(value = "멤버의 역할", example = "PM, Design, Server")
