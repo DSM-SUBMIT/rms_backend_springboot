@@ -29,7 +29,7 @@ public class AuthController {
     }
 
     @ApiOperation(value = "액세스 토큰과 리프레시 토큰 반환")
-    @PostMapping("/google/callback")
+    @PostMapping("/token")
     public TokenResponse requestTokenByCode(@RequestParam String code) throws JsonProcessingException {
         return authService.requestTokenByCode(code);
     }
