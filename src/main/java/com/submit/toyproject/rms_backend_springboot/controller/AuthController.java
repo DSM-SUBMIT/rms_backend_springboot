@@ -28,8 +28,8 @@ public class AuthController {
         response.sendRedirect(authService.getGoogleLink());
     }
 
-    @ApiOperation(value = "액세스 토큰과 리프레시 토큰 반환", notes = "구글 로그인 성공 시 이곳으로 리다이렉트 되고 액세스 토큰 & 리프레시 토큰 반환")
-    @GetMapping("/google/callback")
+    @ApiOperation(value = "액세스 토큰과 리프레시 토큰 반환")
+    @PostMapping("/google/callback")
     public TokenResponse requestTokenByCode(@RequestParam String code) throws JsonProcessingException {
         return authService.requestTokenByCode(code);
     }
