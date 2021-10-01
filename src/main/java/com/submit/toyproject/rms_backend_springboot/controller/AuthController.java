@@ -15,6 +15,7 @@ import java.io.IOException;
 @Api(tags = {"인증"})
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@CrossOrigin(origins = "*")
 @RestController
 public class AuthController {
 
