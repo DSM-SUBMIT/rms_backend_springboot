@@ -12,8 +12,6 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.servlet.FilterConfig;
-
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor

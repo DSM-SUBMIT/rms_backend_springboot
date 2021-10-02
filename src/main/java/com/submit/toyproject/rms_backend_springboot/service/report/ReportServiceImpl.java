@@ -83,10 +83,7 @@ public class ReportServiceImpl implements ReportService {
 
         return ReportResponse.builder()
                 .writer(project.getWriter().getName())
-                .projectType(project.getProjectType().getDivision())
-                .videoUrl(report.getVideoUrl())
                 .content(report.getContent())
-                .projectName(project.getProjectName())
                 .field(project.getProjectFields().stream()
                     .map(field -> field.getField().getField().getField())
                     .collect(Collectors.toList()))
