@@ -27,12 +27,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .antMatchers ( "/auth/**").permitAll()
                     .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                .cors().and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         http
                 .headers().frameOptions().disable();
