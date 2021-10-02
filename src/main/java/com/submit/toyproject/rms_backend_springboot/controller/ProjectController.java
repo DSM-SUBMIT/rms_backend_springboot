@@ -46,10 +46,7 @@ public class ProjectController {
     }
 
     @ApiOperation(value = "프로젝트 수정하기")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "프로젝트 아이디"),
-            @ApiImplicitParam(name = "request", value = "수정된 프로젝트")
-    })
+    @ApiImplicitParam(name = "id", value = "프로젝트 아이디")
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
     public void updateProject(@PathVariable Integer id, @Valid @RequestBody ProjectRequest request) {
@@ -57,10 +54,7 @@ public class ProjectController {
     }
 
     @ApiOperation(value = "프로젝트의 url들 수정하기")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "프로젝트 아이디"),
-            @ApiImplicitParam(name = "request", value = "수정된 프로젝트 urls")
-    })
+    @ApiImplicitParam(name = "id", value = "프로젝트 아이디")
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}/url")
     public void updateProjectUrls(@PathVariable Integer id, @Valid @RequestBody ProjectUrlsRequest request) {
