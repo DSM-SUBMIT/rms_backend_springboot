@@ -76,7 +76,10 @@ public class ProjectServiceImpl implements ProjectService{
         checkPermission(project);
         project.update(request);
 
+        memberRepository.deleteAllByProject(project);
         addMember(project, request.getMemberList());
+
+        projectFieldRepository.deleteAllByProject(project);
         addProjectField(project, request.getFieldList());
     }
 
@@ -96,13 +99,11 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     private void addProjectField(Project project, List<FieldEnum> fieldList) {
-        projectFieldRepository.deleteAllByProject(project);
         fieldList.forEach(fieldEnum -> projectFieldRepository
                 .save(new ProjectField(getField(fieldEnum), project)));
     }
 
     private void addMember(Project project, List<ProjectMemberDto> memberList) {
-        memberRepository.deleteAllByProject(project);
         memberList.forEach(member -> memberRepository
                 .save(new Member(getUserByMember(member), project, member.getRole())));
     }

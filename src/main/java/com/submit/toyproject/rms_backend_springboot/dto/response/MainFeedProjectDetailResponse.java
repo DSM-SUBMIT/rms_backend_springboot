@@ -26,6 +26,9 @@ public class MainFeedProjectDetailResponse {
     @ApiModelProperty(value = "프로젝트 이름", example = "RMS")
     private String projectName;
 
+    @ApiModelProperty(value = "기술 스택", example = "Java, Python")
+    private String techStack;
+
     @ApiModelProperty(value = "분야 리스트", example = "[WEB, APP, EMBEDDED]")
     private List<FieldEnum> fieldList;
 
@@ -51,6 +54,7 @@ public class MainFeedProjectDetailResponse {
                 .projectName(project.getProjectName())
                 .fieldList(fieldList)
                 .teamName(project.getTeamName())
+                .techStack(project.getTechStacks())
                 .memberList(memberList)
                 .githubUrl(project.getGithubUrl())
                 .serviceUrl(project.getServiceUrl())

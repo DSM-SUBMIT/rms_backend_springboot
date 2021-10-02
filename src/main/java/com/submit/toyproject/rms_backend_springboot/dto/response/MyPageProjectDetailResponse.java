@@ -28,6 +28,9 @@ public class MyPageProjectDetailResponse {
     @ApiModelProperty(value = "분야 리스트", example = "[WEB, APP, EMBEDDED]")
     private List<FieldEnum> fieldList;
 
+    @ApiModelProperty(value = "기술 스택", example = "Java, Python")
+    private String techStack;
+
     @ApiModelProperty(value = "팀 이름", example = "SUBMIT")
     private String teamName;
 
@@ -62,6 +65,7 @@ public class MyPageProjectDetailResponse {
                 .projectName(project.getProjectName())
                 .fieldList(fieldList)
                 .teamName(project.getTeamName())
+                .techStack(project.getTechStacks())
                 .isPlanSubmitted(project.getStatus().getIsPlanSubmitted())
                 .isPlanAccepted(project.getStatus().getIsPlanAccepted())
                 .isReportSubmitted(project.getStatus().getIsReportSubmitted())
