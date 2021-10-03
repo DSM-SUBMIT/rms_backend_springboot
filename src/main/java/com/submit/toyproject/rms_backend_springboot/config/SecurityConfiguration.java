@@ -41,7 +41,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                     .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                .cors()
                 .apply(new FilterConfiguration(jwtTokenProvider, exceptionHandlerFilter, corsFilter));
         http
                 .headers().frameOptions().disable();
