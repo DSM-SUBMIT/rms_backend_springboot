@@ -33,7 +33,7 @@ public class PlanRequest {
 
     @ApiModelProperty(example = "<실행물 제출 여부>")
     @NotNull
-    private Boolean includeOutCome;
+    private Boolean includeOutcome;
 
     @ApiModelProperty(example = "<기타>")
     private String includeOthers;
