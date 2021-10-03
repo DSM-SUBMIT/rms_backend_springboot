@@ -77,7 +77,7 @@ public class PlanServiceImpl implements PlanService {
                 .content(plan.getContent())
                 .includeResultReport(plan.getIncludeResultReport())
                 .includeCode(plan.getIncludeCode())
-                .includeOutCome(plan.getIncludeOutcome())
+                .includeOutcome(plan.getIncludeOutcome())
                 .includeOthers(plan.getIncludeOthers())
                 .members(
                         project.getMembers().stream()
