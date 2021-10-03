@@ -26,7 +26,7 @@ public class ProjectRequest {
 
     @ApiModelProperty(value = "기술 스택1, 기술 스택2", example = "Java, Spring boot")
     @NotNull
-    private String techStacks;
+    private String techStack;
 
     @ApiModelProperty(value = "프로젝트 타입", example = "CLUB")
     @NotNull

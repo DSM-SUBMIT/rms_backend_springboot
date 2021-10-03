@@ -54,7 +54,7 @@ public class MainFeedProjectDetailResponse {
                 .projectName(project.getProjectName())
                 .fieldList(fieldList)
                 .teamName(project.getTeamName())
-                .techStack(project.getTechStacks())
+                .techStack(project.getTechStack())
                 .memberList(memberList)
                 .githubUrl(project.getGithubUrl())
                 .serviceUrl(project.getServiceUrl())
