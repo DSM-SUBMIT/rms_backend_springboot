@@ -38,13 +38,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .headers().frameOptions().disable();
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedMethods("*")
-                .allowedHeaders("*")
-                .allowedOriginPatterns("*");
-    }
-
 }
