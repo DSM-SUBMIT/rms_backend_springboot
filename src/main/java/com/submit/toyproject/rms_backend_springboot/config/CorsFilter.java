@@ -20,6 +20,7 @@ public class CorsFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, PATCH, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Refresh-Token");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Max-Age", "3600");
 
         if (OPTIONS.name().equalsIgnoreCase(request.getMethod())) {
