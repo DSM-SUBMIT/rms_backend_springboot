@@ -4,6 +4,8 @@ import com.submit.toyproject.rms_backend_springboot.exception.handler.ExceptionH
 import com.submit.toyproject.rms_backend_springboot.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.http.HttpServletRequest;
 
 @EnableWebSecurity
 @Configuration
@@ -28,14 +32,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .antMatchers ( "/auth/**").permitAll()
                     .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
+                .cors().disable()
                 .apply(new FilterConfiguration(jwtTokenProvider, exceptionHandlerFilter, corsFilter));
         http
                 .headers().frameOptions().disable();
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedOriginPatterns("*")
+                .allowedMethods("*");
     }
 
 }
