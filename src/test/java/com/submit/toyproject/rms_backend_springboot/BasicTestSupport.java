@@ -68,7 +68,7 @@ public class BasicTestSupport {
         Project project = Project.builder()
                 .projectName(projectName)
                 .teamName("submit")
-                .techStacks("Spring boot, ")
+                .techStack("Spring boot, python")
                 .projectType(ProjectType.CLUB)
                 .teacher("teacher")
                 .githubUrl("githubUrl")
