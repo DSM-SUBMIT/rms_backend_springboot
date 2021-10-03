@@ -33,7 +33,7 @@ public class Plan {
     private Boolean includeCode;
 
     @NotNull
-    private Boolean includeOutCome;
+    private Boolean includeOutcome;
 
     @Size(max = 30)
     private String includeOthers;
@@ -60,7 +60,7 @@ public class Plan {
         this.content = request.getContent();
         this.includeResultReport = request.getIncludeResultReport();
         this.includeCode = request.getIncludeCode();
-        this.includeOutCome = request.getIncludeOutCome();
+        this.includeOutcome = request.getIncludeOutcome();
         this.includeOthers = request.getIncludeOthers();
         this.startDate = request.getPlannedStartDate();
         this.endDate = request.getPlannedEndDate();

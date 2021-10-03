@@ -39,7 +39,7 @@ public class PlanResponse {
     private Boolean includeCode;
 
     @ApiModelProperty(example = "<실행물 제출 여부>")
-    private Boolean includeOutCome;
+    private Boolean includeOutcome;
 
     @ApiModelProperty(example = "<기타>")
     private String includeOthers;
