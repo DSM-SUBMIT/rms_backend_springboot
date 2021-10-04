@@ -10,10 +10,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.dto.request.PlanRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.PlanResponse;
-import com.submit.toyproject.rms_backend_springboot.exception.PlanAlreadySubmittedException;
-import com.submit.toyproject.rms_backend_springboot.exception.ProjectNotFoundException;
-import com.submit.toyproject.rms_backend_springboot.exception.UserNotHavePermissionException;
-import com.submit.toyproject.rms_backend_springboot.exception.PlanNotFoundException;
+import com.submit.toyproject.rms_backend_springboot.exception.*;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,6 +63,10 @@ public class PlanServiceImpl implements PlanService {
 
         if (!project.getStatus().getIsPlanAccepted() && !memberRepository.existsByProjectAndUser(project, user)) {
             throw new UserNotHavePermissionException();
+        }
+
+        if (plan.getGoal() == null) {
+            throw new PlanNotSubmittedException();
         }
 
         return PlanResponse.builder()

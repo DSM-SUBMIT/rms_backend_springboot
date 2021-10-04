@@ -22,7 +22,9 @@ public enum ErrorCode {
     REPORT_ALREADY_SUBMITTED(400, "Report is already submitted."),
     EMAIL_SEND_FAIL(400, "Email was not sent properly."),
     PLAN_NOT_ACCEPTED(400, "This project's plan is not accepted."),
-    MEMBER_NOT_FOUND(404, "Member not found");
+    MEMBER_NOT_FOUND(404, "Member not found"),
+    PLAN_NOT_SUBMITTED(400, "Plan is not submitted."),
+    REPORT_NOT_SUBMITTED(400, "Report is not submitted.");
 
     private final int status;
     private final String message;
