@@ -16,12 +16,15 @@ public class ProjectMemberDto {
     @ApiModelProperty(value = "멤버 이메일", example = "201403gdh@dsm.hs.kr")
     private String email;
 
+    @ApiModelProperty(value = "멤버 이름", example = "김해교")
+    private String name;
+
     @ApiModelProperty(value = "멤버의 역할", example = "PM, Design, Server")
     private String role;
 
     public static ProjectMemberDto of(Member member) {
         return ProjectMemberDto.builder()
-                .email(member.getUser().getEmail())
+                .name(member.getUser().getName())
                 .role(member.getRole())
                 .build();
     }
