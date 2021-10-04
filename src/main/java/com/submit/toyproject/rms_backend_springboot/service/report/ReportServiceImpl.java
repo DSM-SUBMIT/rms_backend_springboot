@@ -81,6 +81,10 @@ public class ReportServiceImpl implements ReportService {
             throw new UserNotHavePermissionException();
         }
 
+        if(report.getContent() == null) {
+            throw new ReportNotSubmittedException();
+        }
+
         return ReportResponse.builder()
                 .writer(project.getWriter().getName())
                 .content(report.getContent())
