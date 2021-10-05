@@ -2,6 +2,10 @@ package com.submit.toyproject.rms_backend_springboot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
+import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
+import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
+import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
+import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.PlanRequest;
@@ -17,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,13 +33,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class PlanControllerTest {
 
-    /*private MockMvc mvc;
+    private MockMvc mvc;
 
     @Autowired
     private WebApplicationContext context;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private StatusRepository statusRepository;
 
     Integer id;
 
@@ -49,6 +60,8 @@ public class PlanControllerTest {
     @AfterEach
     public void deleteAll() {
         userRepository.deleteAll();
+        projectRepository.deleteAll();
+        statusRepository.deleteAll();
     }
 
     @WithMockUser(value = "202020@gmail.com")
@@ -57,27 +70,32 @@ public class PlanControllerTest {
         mvc.perform(post("/plan/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(createRequest("안녕하십니까")))
-        ).andExpect(status().isCreated());
+        ).andDo(print()).andExpect(status().isCreated());
     }
 
     private User createUser(String email) {
-        return User.builder()
-                .email(email)
-                .name("스프링")
-                .build();
+        return userRepository.save(
+                User.builder()
+                        .email(email)
+                        .name("스프링")
+                        .build()
+        );
     }
 
     private Project createProject(User user) {
-        return Project.builder()
-                .projectName("프로젝트")
-                .teamName("서브밋")
-                .teacher("2학년 담당 선생님")
-                .githubUrl("http://github.com")
-                .techStacks("Java, Typescript, Springboot, Node.js")
-                .serviceUrl("몰랑")
-                .docsUrl("http://notion.com")
-                .user(user)
-                .build();
+        return projectRepository.save(
+                Project.builder()
+                        .projectName("프로젝트")
+                        .teamName("서브밋")
+                        .teacher("2학년 담당 선생님")
+                        .githubUrl("http://github.com")
+                        .techStacks("Java, Typescript, Springboot, Node.js")
+                        .projectType(ProjectType.PERS)
+                        .serviceUrl("몰랑")
+                        .docsUrl("http://notion.com")
+                        .writer(user)
+                        .build()
+        );
     }
 
     private PlanRequest createRequest(String goal) {
@@ -86,11 +104,11 @@ public class PlanControllerTest {
                 .content("보고서 관리 시스템")
                 .includeResultReport(true)
                 .includeCode(true)
-                .includeOutCome(true)
+                .includeOutcome(true)
                 .includeOthers(null)
                 .plannedStartDate("2020.09")
                 .plannedEndDate("2021.06")
                 .build();
-    }*/
+    }
 
 }
