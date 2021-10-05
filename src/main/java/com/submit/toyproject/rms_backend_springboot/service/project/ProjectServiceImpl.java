@@ -130,7 +130,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     private User getUserByMember(ProjectMemberDto member) {
-        return userRepository.findByEmail(member.getEmail())
+        return userRepository.findById(member.getId())
                 .orElseThrow(MemberNotFoundException::new);
     }
 
