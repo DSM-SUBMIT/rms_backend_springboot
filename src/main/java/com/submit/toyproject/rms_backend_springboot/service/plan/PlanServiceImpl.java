@@ -55,6 +55,7 @@ public class PlanServiceImpl implements PlanService {
         statusRepository.save(plan.getProject().getStatus().planSubmit());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PlanResponse getPlanInfo(Integer id) {
         User user = authenticationFacade.certifiedUser();

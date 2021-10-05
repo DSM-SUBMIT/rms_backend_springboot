@@ -71,6 +71,7 @@ public class ReportServiceImpl implements ReportService {
         statusRepository.save(report.getProject().getStatus().reportSubmit());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ReportResponse getReportInfo(Integer id) {
         User user = authenticationFacade.certifiedUser();
