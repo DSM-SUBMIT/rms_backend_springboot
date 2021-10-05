@@ -43,12 +43,10 @@ public class AuthServiceImpl implements AuthService{
     private Long refreshExp;
 
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     private final JwtTokenProvider jwtTokenProvider;
-
     private final GoogleOauthClient googleOauthClient;
-
-    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public String getGoogleLink() {
@@ -112,6 +110,7 @@ public class AuthServiceImpl implements AuthService{
         return TokenResponse.builder()
                 .accessToken(jwtTokenProvider.generateAccessToken(email))
                 .refreshToken(refreshToken.getRefreshToken())
+                .name(name)
                 .build();
     }
 
