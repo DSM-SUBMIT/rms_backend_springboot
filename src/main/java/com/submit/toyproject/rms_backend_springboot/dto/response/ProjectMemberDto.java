@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProjectMemberDto {
 
+    @ApiModelProperty(value = "멤버의 유저 아이디", example = "1")
+    private Integer id;
+
     @ApiModelProperty(value = "멤버 이메일", example = "201403gdh@dsm.hs.kr")
     private String email;
 
@@ -24,6 +27,7 @@ public class ProjectMemberDto {
 
     public static ProjectMemberDto of(Member member) {
         return ProjectMemberDto.builder()
+                .id(member.getUser().getId())
                 .name(member.getUser().getName())
                 .role(member.getRole())
                 .build();
