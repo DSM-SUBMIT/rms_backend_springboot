@@ -28,6 +28,7 @@ public class ProjectMemberDto {
     public static ProjectMemberDto of(Member member) {
         return ProjectMemberDto.builder()
                 .id(member.getUser().getId())
+                .email(member.getUser().getEmail())
                 .name(member.getUser().getName())
                 .role(member.getRole())
                 .build();
