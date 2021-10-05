@@ -95,7 +95,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     private void isWorkPossible(Project project, User user) {
-        if (!project.getWriter().equals(user)) {
+        if (!project.getWriter().getEmail().equals(user.getEmail())) {
             throw new UserNotHavePermissionException();
         }
         if (project.getStatus().getIsPlanSubmitted()) {

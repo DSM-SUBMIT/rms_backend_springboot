@@ -60,7 +60,7 @@ public class Project {
     @JoinColumn(name = "writer_id", nullable = false)
     private User writer;
 
-    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private Status status;
 
     @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -86,6 +86,7 @@ public class Project {
         this.serviceUrl = serviceUrl;
         this.docsUrl = docsUrl;
         this.writer = writer;
+        this.status = new Status(this);
     }
 
     public void update(ProjectRequest request) {
