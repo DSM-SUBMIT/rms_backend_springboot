@@ -17,8 +17,8 @@ public class ReportResponse {
     @ApiModelProperty(example = "<작성자>")
     private String writer;
 
-    @ApiModelProperty(example = "<프로젝트 분야 목록>")
-    private List<String> field;
+    @ApiModelProperty(example = "<프로젝트명>")
+    private String projectName;
 
     @ApiModelProperty(example = "<보고서 내용>")
     private String content;

@@ -13,7 +13,6 @@ import com.submit.toyproject.rms_backend_springboot.dto.response.ReportResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.*;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -27,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -89,9 +87,7 @@ public class ReportServiceImpl implements ReportService {
         return ReportResponse.builder()
                 .writer(project.getWriter().getName())
                 .content(report.getContent())
-                .field(project.getProjectFields().stream()
-                    .map(field -> field.getField().getField().getField())
-                    .collect(Collectors.toList()))
+                .projectName(report.getProject().getProjectName())
                 .build();
     }
 
