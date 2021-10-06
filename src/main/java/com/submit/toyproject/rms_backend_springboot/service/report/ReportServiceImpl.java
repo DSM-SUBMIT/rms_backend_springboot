@@ -40,6 +40,7 @@ public class ReportServiceImpl implements ReportService {
 
     private final JavaMailSender mailSender;
 
+    @Transactional
     @Override
     public void saveReport(Integer projectId, ReportRequest request) {
         User user = authenticationFacade.certifiedUser();

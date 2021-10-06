@@ -29,6 +29,7 @@ public class PlanServiceImpl implements PlanService {
 
     private final AuthenticationFacade authenticationFacade;
 
+    @Transactional
     @Override
     public void savePlan(Integer projectId, PlanRequest request) {
         User user = authenticationFacade.certifiedUser();
@@ -42,7 +43,8 @@ public class PlanServiceImpl implements PlanService {
         } else {
             plan = getPlan(projectId);
         }
-        planRepository.save(plan.save(request));
+        plan.save(request);
+        planRepository.save(plan);
     }
 
     @Transactional
