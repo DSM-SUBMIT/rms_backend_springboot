@@ -32,7 +32,6 @@ public class ProjectServiceImpl implements ProjectService{
     private final ProjectFieldRepository projectFieldRepository;
     private final UserRepository userRepository;
     private final FieldRepository fieldRepository;
-    private final StatusRepository statusRepository;
 
     private final AuthenticationFacade authenticationFacade;
 
@@ -43,7 +42,6 @@ public class ProjectServiceImpl implements ProjectService{
         User user = authenticationFacade.certifiedUser();
         Project project = Project.of(request, user);
 
-        statusRepository.save(new Status(project));
         projectRepository.save(project);
 
         addMember(project, request.getMemberList());
