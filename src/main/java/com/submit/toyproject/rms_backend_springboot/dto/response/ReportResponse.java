@@ -14,6 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ReportResponse {
 
+    @ApiModelProperty(example = "<팀여부>")
+    private Boolean isTeam;
+
     @ApiModelProperty(example = "<작성자>")
     private String writer;
 
