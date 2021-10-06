@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .antMatchers ( "/auth/**").permitAll()
-                    .antMatchers("/v3/api-docs/**", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
+                    .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .apply(new FilterConfiguration(jwtTokenProvider, exceptionHandlerFilter, corsFilter));
