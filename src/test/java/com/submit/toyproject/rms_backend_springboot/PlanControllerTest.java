@@ -1,6 +1,8 @@
 package com.submit.toyproject.rms_backend_springboot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.submit.toyproject.rms_backend_springboot.domain.plan.Plan;
+import com.submit.toyproject.rms_backend_springboot.domain.plan.PlanRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
@@ -47,14 +49,14 @@ public class PlanControllerTest {
     @Autowired
     private StatusRepository statusRepository;
 
-    Integer id;
+    Project project;
 
     @BeforeEach
     public void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
         User user = createUser("202020@gmail.com");
         createUser("20202012@gmail.com");
-        id = createProject(user).getId();
+        project = createProject(user);
     }
 
     @AfterEach
@@ -67,10 +69,41 @@ public class PlanControllerTest {
     @WithMockUser(value = "202020@gmail.com")
     @Test
     public void savePlan_201() throws Exception {
-        mvc.perform(post("/plan/" + id)
+        mvc.perform(post("/plan/" + project.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(createRequest("안녕하십니까")))
-        ).andDo(print()).andExpect(status().isCreated());
+        ).andExpect(status().isCreated());
+    }
+
+    @WithMockUser(value = "20202012@gmail.com")
+    @Test
+    public void savePlan_403() throws Exception {
+        mvc.perform(post("/plan/" + project.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(createRequest("안녕하십니까")))
+        ).andExpect(status().isForbidden());
+    }
+
+    @WithMockUser(value = "202020@gmail.com")
+    @Test
+    public void savePlan_400() throws Exception {
+        statusRepository.save(project.getStatus().planSubmit());
+
+        mvc.perform(post("/plan/" + project.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(createRequest("안녕하십니까")))
+        ).andExpect(status().isBadRequest());
+    }
+
+    @WithMockUser(value = "202020@gmail.com")
+    @Test
+    public void savePlan_404() throws Exception {
+        statusRepository.save(project.getStatus().planSubmit());
+
+        mvc.perform(post("/plan/" + 123456789)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(createRequest("안녕하십니까")))
+        ).andExpect(status().isNotFound());
     }
 
     private User createUser(String email) {

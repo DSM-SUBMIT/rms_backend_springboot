@@ -42,7 +42,7 @@ public class PlanServiceImpl implements PlanService {
         } else {
             plan = getPlan(projectId);
         }
-        plan.save(request);
+        planRepository.save(plan.save(request));
     }
 
     @Transactional

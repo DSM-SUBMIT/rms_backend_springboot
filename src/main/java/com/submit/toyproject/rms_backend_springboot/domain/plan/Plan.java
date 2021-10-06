@@ -55,7 +55,7 @@ public class Plan {
         this.project = project;
     }
 
-    public void save(PlanRequest request) {
+    public Plan save(PlanRequest request) {
         this.goal = request.getGoal();
         this.content = request.getContent();
         this.includeResultReport = request.getIncludeResultReport();
@@ -64,6 +64,8 @@ public class Plan {
         this.includeOthers = request.getIncludeOthers();
         this.startDate = request.getPlannedStartDate();
         this.endDate = request.getPlannedEndDate();
+
+        return this;
     }
 
 }
