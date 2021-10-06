@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
         return MyPageResponse.of(user, projectDtoList);
     }
 
+    @Override
+    public NameResponse getName() {
+        return new NameResponse(authenticationFacade.certifiedUser().getName());
+    }
+
     private List<FieldEnum> getFieldEnumList(Project project) {
         return projectFieldRepository.findFieldEnumByProject(project);
     }

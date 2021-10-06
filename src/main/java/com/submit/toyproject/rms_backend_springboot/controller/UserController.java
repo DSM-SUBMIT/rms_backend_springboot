@@ -1,6 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
 import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageResponse;
+import com.submit.toyproject.rms_backend_springboot.dto.response.NameResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.UsersResponse;
 import com.submit.toyproject.rms_backend_springboot.service.user.UserService;
 import io.swagger.annotations.Api;
@@ -25,6 +26,12 @@ public class UserController {
     @GetMapping("/me")
     public MyPageResponse getMyPage() {
         return userService.getMyPage();
+    }
+
+    @ApiOperation(value = "헤더에서 사용될 사용자 이름 불러오기")
+    @GetMapping("/name")
+    public NameResponse getName() {
+        return userService.getName();
     }
 
 }

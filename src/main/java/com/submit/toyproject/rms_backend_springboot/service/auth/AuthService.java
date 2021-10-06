@@ -5,7 +5,6 @@ import com.submit.toyproject.rms_backend_springboot.dto.response.AccessTokenResp
 import com.submit.toyproject.rms_backend_springboot.dto.response.TokenResponse;
 
 public interface AuthService {
-
     String getGoogleLink();
     TokenResponse requestTokenByCode(String code) throws JsonProcessingException;
     AccessTokenResponse tokenRefresh(String token);
