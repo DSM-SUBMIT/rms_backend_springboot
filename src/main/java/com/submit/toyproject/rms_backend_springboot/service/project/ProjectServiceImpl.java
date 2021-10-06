@@ -5,8 +5,6 @@ import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
 import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
-import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
-import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
