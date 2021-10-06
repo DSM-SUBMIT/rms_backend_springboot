@@ -1,7 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
 import com.submit.toyproject.rms_backend_springboot.domain.member.Member;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,16 +13,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProjectMemberDto {
 
-    @ApiModelProperty(value = "멤버의 유저 아이디", example = "1")
+    @Schema(description = "멤버의 유저 아이디", example = "1")
     private Integer id;
 
-    @ApiModelProperty(value = "멤버 이메일", example = "201403gdh@dsm.hs.kr")
+    @Schema(description = "멤버 이메일", example = "201403gdh@dsm.hs.kr")
     private String email;
 
-    @ApiModelProperty(value = "멤버 이름", example = "김해교")
+    @Schema(description = "멤버 이름", example = "김해교")
     private String name;
 
-    @ApiModelProperty(value = "멤버의 역할", example = "PM, Design, Server")
+    @Schema(description = "멤버의 역할", example = "PM, Design, Server")
     private String role;
 
     public static ProjectMemberDto of(Member member) {

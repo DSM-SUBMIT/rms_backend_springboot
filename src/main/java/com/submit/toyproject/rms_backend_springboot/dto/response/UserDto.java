@@ -1,7 +1,7 @@
 package com.submit.toyproject.rms_backend_springboot.dto.response;
 
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDto {
 
-    @ApiModelProperty(example = "<유저 id>")
+    @Schema(example = "<유저 id>")
     private Integer id;
 
-    @ApiModelProperty(example = "<이름>")
+    @Schema(example = "<이름>")
     private String name;
 
-    @ApiModelProperty(example = "<이메일>")
+    @Schema(example = "<이메일>")
     private String email;
 
     public static UserDto of(User user) {

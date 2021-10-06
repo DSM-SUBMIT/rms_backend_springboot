@@ -1,6 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.dto.request;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,35 +15,35 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class PlanRequest {
 
-    @ApiModelProperty(example = "<프로젝트 목표>")
+    @Schema(example = "<프로젝트 목표>")
     @NotNull
     private String goal;
 
-    @ApiModelProperty(example = "<프로젝트 내용>")
+    @Schema(example = "<프로젝트 내용>")
     @NotNull
     private String content;
 
-    @ApiModelProperty(example = "<결과 보고서 제출 여부>")
+    @Schema(example = "<결과 보고서 제출 여부>")
     @NotNull
     private Boolean includeResultReport;
 
-    @ApiModelProperty(example = "<프로그램 코드 제출 여부>")
+    @Schema(example = "<프로그램 코드 제출 여부>")
     @NotNull
     private Boolean includeCode;
 
-    @ApiModelProperty(example = "<실행물 제출 여부>")
+    @Schema(example = "<실행물 제출 여부>")
     @NotNull
     private Boolean includeOutcome;
 
-    @ApiModelProperty(example = "<기타>")
+    @Schema(example = "<기타>")
     private String includeOthers;
 
-    @ApiModelProperty(example = "<프로젝트 시작 예정일>")
+    @Schema(example = "<프로젝트 시작 예정일>")
     @Size(min = 7, max = 7)
     @NotNull
     private String plannedStartDate;
 
-    @ApiModelProperty(example = "<프로젝트 완료 예정일>")
+    @Schema(example = "<프로젝트 완료 예정일>")
     @Size(min = 7, max = 7)
     @NotNull
     private String plannedEndDate;
