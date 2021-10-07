@@ -1,12 +1,9 @@
 package com.submit.toyproject.rms_backend_springboot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.submit.toyproject.rms_backend_springboot.domain.plan.Plan;
-import com.submit.toyproject.rms_backend_springboot.domain.plan.PlanRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
-import com.submit.toyproject.rms_backend_springboot.domain.status.Status;
 import com.submit.toyproject.rms_backend_springboot.domain.status.StatusRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
@@ -23,11 +20,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
