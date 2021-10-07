@@ -82,6 +82,7 @@ public class PlanServiceImpl implements PlanService {
                 .includeResultReport(plan.getIncludeResultReport())
                 .includeCode(plan.getIncludeCode())
                 .includeOutcome(plan.getIncludeOutcome())
+                .isTeam(project.getMembers().size() > 2)
                 .includeOthers(plan.getIncludeOthers())
                 .members(
                         project.getMembers().stream()

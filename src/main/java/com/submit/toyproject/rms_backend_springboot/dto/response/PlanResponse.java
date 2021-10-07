@@ -47,4 +47,7 @@ public class PlanResponse {
     @ApiModelProperty(example = "<작성자>")
     private String writer;
 
+    @ApiModelProperty(example = "<팀여부>")
+    private Boolean isTeam;
+
 }
