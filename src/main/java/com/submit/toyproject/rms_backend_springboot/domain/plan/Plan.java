@@ -18,31 +18,24 @@ public class Plan {
     @Id
     private Integer projectId;
 
-    @NotNull
     @Size(max = 4000)
     private String goal;
 
-    @NotNull
     @Size(max = 10000)
     private String content;
 
-    @NotNull
     private Boolean includeResultReport;
 
-    @NotNull
     private Boolean includeCode;
 
-    @NotNull
     private Boolean includeOutcome;
 
     @Size(max = 30)
     private String includeOthers;
 
-    @NotNull
     @Column(columnDefinition = "char(7)")
     private String startDate;
 
-    @NotNull
     @Column(columnDefinition = "char(7)")
     private String endDate;
 
