@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
+import com.submit.toyproject.rms_backend_springboot.dto.request.NumberRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.NameResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.UsersResponse;
@@ -34,4 +35,9 @@ public class UserController {
         return userService.getName();
     }
 
+    @ApiOperation(value = "처음 로그인 시 학년 / 반 / 번호 받기")
+    @PostMapping("/number")
+    public void saveNumber(@RequestBody NumberRequest request) {
+        userService.saveNumber(request);
+    }
 }
