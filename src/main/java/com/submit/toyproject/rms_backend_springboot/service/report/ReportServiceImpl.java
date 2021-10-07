@@ -87,9 +87,7 @@ public class ReportServiceImpl implements ReportService {
 
         return ReportResponse.builder()
                 .writer(project.getWriter().getName())
-                .writerGrade(project.getWriter().getGrade())
-                .writerClass(project.getWriter().getCls())
-                .writerNumber(project.getWriter().getNumber())
+                .writerStudentNumber(project.getWriter().getStudentNumber())
                 .content(report.getContent())
                 .projectName(report.getProject().getProjectName())
                 .isTeam(project.getMembers().size() > 2)

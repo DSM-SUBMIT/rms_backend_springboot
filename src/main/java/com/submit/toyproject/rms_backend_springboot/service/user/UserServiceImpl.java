@@ -6,7 +6,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.member.MemberReposito
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
-import com.submit.toyproject.rms_backend_springboot.dto.request.NumberRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.request.StudentNumberRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.*;
 import com.submit.toyproject.rms_backend_springboot.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void saveNumber(NumberRequest request) {
-        authenticationFacade.certifiedUser().saveNumber(request);
+    public void saveNumber(StudentNumberRequest request) {
+        authenticationFacade.certifiedUser().saveNumber(request.getStudentNumber());
     }
 
     private List<FieldEnum> getFieldEnumList(Project project) {

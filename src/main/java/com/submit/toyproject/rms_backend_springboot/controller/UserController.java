@@ -1,11 +1,12 @@
 package com.submit.toyproject.rms_backend_springboot.controller;
 
-import com.submit.toyproject.rms_backend_springboot.dto.request.NumberRequest;
+import com.submit.toyproject.rms_backend_springboot.dto.request.StudentNumberRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.NameResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.UsersResponse;
 import com.submit.toyproject.rms_backend_springboot.service.user.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class UserController {
 
     @ApiOperation(value = "처음 로그인 시 학년 / 반 / 번호 받기")
     @PatchMapping("/number")
-    public void saveNumber(@RequestBody NumberRequest request) {
+    public void saveNumber(@RequestBody StudentNumberRequest request) {
         userService.saveNumber(request);
     }
 }
