@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "처음 로그인 시 학년 / 반 / 번호 받기")
-    @PostMapping("/number")
+    @PatchMapping("/number")
     public void saveNumber(@RequestBody NumberRequest request) {
         userService.saveNumber(request);
     }
