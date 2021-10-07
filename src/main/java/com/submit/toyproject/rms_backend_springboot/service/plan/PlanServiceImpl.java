@@ -64,7 +64,7 @@ public class PlanServiceImpl implements PlanService {
         Plan plan = getPlan(id);
         Project project = plan.getProject();
 
-        if (!project.getStatus().getIsPlanAccepted() && !memberRepository.existsByProjectAndUser(project, user)) {
+        if ((project.getStatus().getIsPlanAccepted() == null || !project.getStatus().getIsPlanAccepted()) && !memberRepository.existsByProjectAndUser(project, user)) {
             throw new UserNotHavePermissionException();
         }
 
