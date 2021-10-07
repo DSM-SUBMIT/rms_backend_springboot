@@ -28,7 +28,7 @@ public class User {
     @Size(max = 6)
     @NotNull
     private String name;
-    
+
     private Integer studentNumber;
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

@@ -15,6 +15,9 @@ public class MyPageResponse {
     @ApiModelProperty(value = "내 이름", example = "곽도현")
     private String name;
 
+    @ApiModelProperty(example = "1111")
+    private Integer studentNumber;
+
     @ApiModelProperty(value = "내 이메일", example = "200000kkk@dsm.hs.kr")
     private String email;
 
@@ -26,6 +29,7 @@ public class MyPageResponse {
                 .name(user.getName())
                 .email(user.getEmail())
                 .projectList(projectList)
+                .studentNumber(user.getStudentNumber())
                 .build();
     }
 }
