@@ -20,7 +20,6 @@ public class Report {
     private Integer projectId;
 
     @Size(max = 15000)
-    @NotNull
     private String content;
 
     private String videoUrl;
