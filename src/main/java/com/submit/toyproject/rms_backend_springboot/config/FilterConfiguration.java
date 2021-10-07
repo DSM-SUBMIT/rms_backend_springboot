@@ -1,5 +1,6 @@
 package com.submit.toyproject.rms_backend_springboot.config;
 
+import com.submit.toyproject.rms_backend_springboot.exception.handler.ExceptionHandlerFilter;
 import com.submit.toyproject.rms_backend_springboot.security.jwt.JwtAuthenticationFilter;
 import com.submit.toyproject.rms_backend_springboot.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class FilterConfiguration extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final ExceptionHandlerFilter exceptionHandlerFilter;
     private final CorsFilter corsFilter;
 
     @Override
@@ -19,7 +21,8 @@ public class FilterConfiguration extends SecurityConfigurerAdapter<DefaultSecuri
         JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtTokenProvider);
 
         security.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        security.addFilterBefore(corsFilter, JwtAuthenticationFilter.class);
+        security.addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class);
+        security.addFilterBefore(corsFilter, ExceptionHandlerFilter.class);
     }
 
 }
