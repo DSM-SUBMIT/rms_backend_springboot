@@ -36,15 +36,8 @@ public class PlanServiceImpl implements PlanService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         isWorkPossible(project, user);
-        Plan plan;
-
-        if (!planRepository.existsById(projectId)) {
-            plan = new Plan(project);
-        } else {
-            plan = getPlan(projectId);
-        }
-        plan.save(request);
-        planRepository.save(plan);
+        Plan plan  = getPlan(projectId);
+        planRepository.save(plan.save(request));
     }
 
     @Transactional

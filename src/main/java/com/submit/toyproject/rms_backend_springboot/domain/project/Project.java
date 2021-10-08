@@ -63,10 +63,10 @@ public class Project {
     @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private Status status;
 
-    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private Report report;
 
-    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "project", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private Plan plan;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -87,6 +87,8 @@ public class Project {
         this.docsUrl = docsUrl;
         this.writer = writer;
         this.status = new Status(this);
+        this.report = new Report(this);
+        this.plan = new Plan(this);
     }
 
     public void update(ProjectRequest request) {
