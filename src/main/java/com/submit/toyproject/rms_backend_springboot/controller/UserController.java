@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Api(tags = {"유저"})
 @RequiredArgsConstructor
 @RestController
@@ -37,7 +39,7 @@ public class UserController {
 
     @ApiOperation(value = "학번 저장하기")
     @PatchMapping("/number")
-    public void saveNumber(@RequestBody StudentNumberRequest request) {
+    public void saveNumber(@Valid @RequestBody StudentNumberRequest request) {
         userService.saveNumber(request);
     }
 }
