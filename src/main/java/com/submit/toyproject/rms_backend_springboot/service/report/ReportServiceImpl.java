@@ -47,14 +47,8 @@ public class ReportServiceImpl implements ReportService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         isWorkPossible(project, user);
-        Report report;
-
-        if (!reportRepository.existsById(projectId)) {
-            report = new Report(project);
-        } else {
-            report = getReport(projectId);
-        }
-        report.save(request);
+        Report report = getReport(projectId);
+        reportRepository.save(report.save(request));
     }
 
     @Async

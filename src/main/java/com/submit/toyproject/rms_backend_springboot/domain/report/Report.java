@@ -33,9 +33,11 @@ public class Report {
         this.project = project;
     }
 
-    public void save(ReportRequest request) {
+    public Report save(ReportRequest request) {
         this.content = request.getContent();
         this.videoUrl = request.getVideoUrl();
+
+        return this;
     }
 
 }
