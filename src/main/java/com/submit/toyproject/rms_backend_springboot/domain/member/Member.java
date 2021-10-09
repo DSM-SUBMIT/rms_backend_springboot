@@ -22,7 +22,7 @@ public class Member {
     @Id
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     @Id
     private Project project;
