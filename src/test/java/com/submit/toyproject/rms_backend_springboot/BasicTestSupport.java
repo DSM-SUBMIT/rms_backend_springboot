@@ -47,7 +47,6 @@ public class BasicTestSupport {
         fieldRepository.save(Field.builder().id(5).field(FieldEnum.GAME).build());
         fieldRepository.save(Field.builder().id(6).field(FieldEnum.SECURITY).build());
 
-
         return MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
@@ -67,8 +66,8 @@ public class BasicTestSupport {
     public Project createProject(String projectName, User writer) {
         Project project = Project.builder()
                 .projectName(projectName)
-                .teamName("submit")
-                .techStacks("Spring boot, python")
+                .teamName("testTeam")
+                .techStacks("techStacks")
                 .projectType(ProjectType.CLUB)
                 .teacher("teacher")
                 .githubUrl("githubUrl")
@@ -82,8 +81,8 @@ public class BasicTestSupport {
         return project;
     }
 
-    public Member addMember(Project project, User user, String role) {
-        if(!memberRepository.findById(new MemberId(project.getId(), user.getId())).isEmpty()) {
+    public Member addMember(User user, Project project, String role) {
+        if(memberRepository.findById(new MemberId(user.getId(), project.getId())).isPresent()) {
             return null;
         }
         return memberRepository.save(
