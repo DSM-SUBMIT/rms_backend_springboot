@@ -59,6 +59,7 @@ dependencies {
 
 	//test
 	implementation 'com.h2database:h2'
+	implementation 'it.ozimov:embedded-redis:0.7.3'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
