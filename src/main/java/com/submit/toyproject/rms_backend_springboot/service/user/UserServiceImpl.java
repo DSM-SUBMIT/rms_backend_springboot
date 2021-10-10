@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UsersResponse getUsers(String name) {
         authenticationFacade.certifiedUser();
-        List<User> users = userRepository.findByNameLike("%" + name + "%");
+        List<User> users = userRepository.findByNameLikeOrderByName("%" + name + "%");
         return new UsersResponse(users.stream().map(UserDto::of)
                 .collect(Collectors.toList()));
     }
