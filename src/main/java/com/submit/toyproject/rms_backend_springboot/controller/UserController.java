@@ -8,6 +8,7 @@ import com.submit.toyproject.rms_backend_springboot.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,6 +39,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "학번 저장하기")
+    @ResponseStatus(HttpStatus.CREATED)
     @PatchMapping("/number")
     public void saveNumber(@Valid @RequestBody StudentNumberRequest request) {
         userService.saveNumber(request);
