@@ -1,15 +1,12 @@
 package com.submit.toyproject.rms_backend_springboot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.submit.toyproject.rms_backend_springboot.domain.field.FieldEnum;
-import com.submit.toyproject.rms_backend_springboot.domain.field.ProjectFieldRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.member.MemberRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.project.Project;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
 import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.StudentNumberRequest;
-import com.submit.toyproject.rms_backend_springboot.dto.response.UsersResponse;
 import com.submit.toyproject.rms_backend_springboot.exception.UserNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +19,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -146,7 +142,5 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest());
     }
-
-
 
 }
