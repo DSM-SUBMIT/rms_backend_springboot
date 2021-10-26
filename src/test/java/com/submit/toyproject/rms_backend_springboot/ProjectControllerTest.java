@@ -5,6 +5,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.field.FieldEnum;
 import com.submit.toyproject.rms_backend_springboot.domain.project.ProjectType;
 import com.submit.toyproject.rms_backend_springboot.domain.refreshToken.RefreshTokenRepository;
 import com.submit.toyproject.rms_backend_springboot.domain.user.User;
+import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectMemberDto;
 import com.submit.toyproject.rms_backend_springboot.security.jwt.JwtTokenProvider;
@@ -38,23 +39,29 @@ class ProjectControllerTest {
 
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
     final String email = "123456@dsm.hs.kr";
 
+    User user1;
+    User user2;
+
     @BeforeEach
     public void setUp() {
         mvc = basicTestSupport.setUp();
 
-        User user1 = basicTestSupport.createUser("test@dsm.hs.kr", "test");
-        User user2 = basicTestSupport.createUser("test2@dsm.hs.kr", "test");
+        user1 = basicTestSupport.createUser("test@dsm.hs.kr", "곽도현");
+        user2 = basicTestSupport.createUser("test2@dsm.hs.kr", "김해교");
     }
 
     @AfterEach
     public void deleteAll() {
         basicTestSupport.cleanUp(refreshTokenRepository);
+        basicTestSupport.cleanUp(userRepository);
     }
 
     @WithMockUser(value = "test@dsm.hs.kr")
@@ -67,8 +74,8 @@ class ProjectControllerTest {
                                     ProjectType.CLUB, "teacher",
                                     Arrays.asList(FieldEnum.WEB, FieldEnum.APP),
                                     Arrays.asList(
-                                            new ProjectMemberDto(1, "test@dsm.hs.kr", "곽도현", "기술"),
-                                            new ProjectMemberDto(2, "test2@dsm.hs.kr", "곽도현", "기술")
+                                            new ProjectMemberDto(user1.getId(), "test@dsm.hs.kr", "곽도현", "역할2"),
+                                            new ProjectMemberDto(user2.getId(), "test2@dsm.hs.kr", "김해교", "역할1")
                                     )
                             )
                     )).contentType(MediaType.APPLICATION_JSON))
