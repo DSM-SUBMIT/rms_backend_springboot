@@ -10,6 +10,7 @@ import com.submit.toyproject.rms_backend_springboot.domain.user.UserRepository;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.request.ProjectUrlsRequest;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MainFeedProjectDetailResponse;
+import com.submit.toyproject.rms_backend_springboot.dto.response.MemberDto;
 import com.submit.toyproject.rms_backend_springboot.dto.response.MyPageProjectDetailResponse;
 import com.submit.toyproject.rms_backend_springboot.dto.response.ProjectMemberDto;
 import com.submit.toyproject.rms_backend_springboot.exception.*;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +43,13 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = Project.of(request, user);
 
         projectRepository.save(project);
+
+        if(!request.getMemberList().stream()
+                .map(ProjectMemberDto::getId)
+                .collect(Collectors.toList())
+                .contains(user.getId())) {
+            throw new WriterNotIncludedException();
+        }
 
         addMember(project, request.getMemberList());
         addProjectField(project, request.getFieldList());
