@@ -21,10 +21,7 @@ public class EmbeddedRedisConfig {
     @PostConstruct
     public void runRedisServer() throws IOException {
         if(redisServer == null) {
-            redisServer = RedisServer.builder()
-                    .port(redisPort)
-                    .setting("maxheap 512M")
-                    .build();
+            redisServer = new RedisServer(redisPort);
             redisServer.start();
         }
     }

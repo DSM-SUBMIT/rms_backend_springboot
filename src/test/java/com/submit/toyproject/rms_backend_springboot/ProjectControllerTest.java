@@ -39,6 +39,7 @@ class ProjectControllerTest {
 
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -93,7 +94,7 @@ class ProjectControllerTest {
                                 ProjectType.CLUB, "teacher",
                                 Arrays.asList(FieldEnum.WEB, FieldEnum.APP),
                                 Collections.singletonList(
-                                        new ProjectMemberDto(2, "test2@dsm.hs.kr", "곽도현", "기술")
+                                        new ProjectMemberDto(user2.getId(), "test2@dsm.hs.kr", "곽도현", "기술")
                                 )
                         )
                 )).contentType(MediaType.APPLICATION_JSON))
