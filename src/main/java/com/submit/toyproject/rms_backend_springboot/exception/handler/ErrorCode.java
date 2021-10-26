@@ -24,7 +24,8 @@ public enum ErrorCode {
     PLAN_NOT_ACCEPTED(400, "This project's plan is not accepted."),
     MEMBER_NOT_FOUND(404, "Member not found"),
     PLAN_NOT_SUBMITTED(400, "Plan is not submitted."),
-    REPORT_NOT_SUBMITTED(400, "Report is not submitted.");
+    REPORT_NOT_SUBMITTED(400, "Report is not submitted."),
+    WRITER_IS_NOT_INCLUDED_IN_MEMBER_LIST(400, "Writer is not included in member list");
 
     private final int status;
     private final String message;
