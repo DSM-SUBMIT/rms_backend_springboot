@@ -46,6 +46,9 @@ public class MyPageProjectDetailResponse {
     @ApiModelProperty(value = "계획서 제출 여부", example = "true")
     private Boolean isPlanSubmitted;
 
+    @ApiModelProperty(value = "선생님", example = "양은정")
+    private String teacher;
+
     @ApiModelProperty(value = "멤버 리스트")
     private List<ProjectMemberDto> memberList;
 
@@ -74,6 +77,7 @@ public class MyPageProjectDetailResponse {
                 .githubUrl(project.getGithubUrl())
                 .serviceUrl(project.getServiceUrl())
                 .docsUrl(project.getDocsUrl())
+                .teacher(project.getTeacher())
                 .build();
     }
 }
