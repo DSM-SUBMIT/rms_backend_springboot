@@ -117,7 +117,7 @@ public class PlanControllerTest {
                         .teamName("서브밋")
                         .teacher("2학년 담당 선생님")
                         .githubUrl("http://github.com")
-                        .techStacks("Java, Typescript, Springboot, Node.js")
+                        .techStack("Java, Typescript, Springboot, Node.js")
                         .projectType(ProjectType.PERS)
                         .serviceUrl("몰랑")
                         .docsUrl("http://notion.com")
