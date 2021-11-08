@@ -68,7 +68,7 @@ public class MyPageProjectDetailResponse {
                 .projectName(project.getProjectName())
                 .fieldList(fieldList)
                 .teamName(project.getTeamName())
-                .techStack(project.getTechStack())
+                .techStack(project.getTechStacks())
                 .isPlanSubmitted(project.getStatus().getIsPlanSubmitted())
                 .isPlanAccepted(project.getStatus().getIsPlanAccepted())
                 .isReportSubmitted(project.getStatus().getIsReportSubmitted())

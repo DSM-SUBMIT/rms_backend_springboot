@@ -36,7 +36,7 @@ public class Project {
 
     @Size(max = 100)
     @NotNull
-    private String techStack;
+    private String techStacks;
 
     @NotNull
     @Column(columnDefinition = "varchar(45)")
@@ -76,10 +76,10 @@ public class Project {
     private List<ProjectField> projectFields;
 
     @Builder
-    public Project(String projectName, String teamName, String techStack, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher, User writer) {
+    public Project(String projectName, String teamName, String techStacks, ProjectType projectType, String githubUrl, String serviceUrl, String docsUrl, String teacher, User writer) {
         this.projectName = projectName;
         this.teamName = teamName;
-        this.techStack = techStack;
+        this.techStacks = techStacks;
         this.projectType = projectType;
         this.teacher = teacher;
         this.githubUrl = githubUrl;
@@ -94,7 +94,7 @@ public class Project {
     public void update(ProjectRequest request) {
         this.projectName = request.getProjectName();
         this.teamName = request.getTeamName();
-        this.techStack = request.getTechStack();
+        this.techStacks = request.getTechStack();
         this.projectType = request.getProjectType();
         this.teacher = request.getTeacher();
     }
@@ -109,7 +109,7 @@ public class Project {
         return Project.builder()
                 .projectName(projectRequest.getProjectName())
                 .teamName(projectRequest.getTeamName())
-                .techStack(projectRequest.getTechStack())
+                .techStacks(projectRequest.getTechStack())
                 .projectType(projectRequest.getProjectType())
                 .teacher(projectRequest.getTeacher())
                 .writer(user)

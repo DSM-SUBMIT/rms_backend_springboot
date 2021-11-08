@@ -67,7 +67,7 @@ public class BasicTestSupport {
         Project project = Project.builder()
                 .projectName(projectName)
                 .teamName("testTeam")
-                .techStack("techStacks")
+                .techStacks("techStacks")
                 .projectType(ProjectType.CLUB)
                 .teacher("teacher")
                 .githubUrl("githubUrl")
