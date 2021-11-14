@@ -24,13 +24,13 @@ public class Plan {
     @Size(max = 10000)
     private String content;
 
-    @Column(columnDefinition = "tinyint(1) default false")
+    @Column(nullable = false)
     private Boolean includeResultReport;
 
-    @Column(columnDefinition = "tinyint(1) default false")
+    @Column(nullable = false)
     private Boolean includeCode;
-
-    @Column(columnDefinition = "tinyint(1) default false")
+    
+    @Column(nullable = false)
     private Boolean includeOutcome;
 
     @Size(max = 30)
