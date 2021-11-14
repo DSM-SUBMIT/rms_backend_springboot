@@ -49,6 +49,9 @@ public class Plan {
 
     public Plan(Project project) {
         this.project = project;
+        this.includeCode = false;
+        this.includeOutcome = false;
+        this.includeResultReport = false;
     }
 
     public Plan save(PlanRequest request) {
