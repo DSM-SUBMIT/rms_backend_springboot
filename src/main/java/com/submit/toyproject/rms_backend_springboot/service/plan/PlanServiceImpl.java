@@ -73,9 +73,9 @@ public class PlanServiceImpl implements PlanService {
                 .plannedEndDate(plan.getEndDate())
                 .goal(plan.getGoal())
                 .content(plan.getContent())
-                .includeResultReport(plan.getIncludeResultReport())
-                .includeCode(plan.getIncludeCode())
-                .includeOutcome(plan.getIncludeOutcome())
+                .includeResultReport(plan.isIncludeResultReport())
+                .includeCode(plan.isIncludeCode())
+                .includeOutcome(plan.isIncludeOutcome())
                 .isTeam(project.getMembers().size() > 2)
                 .includeOthers(plan.getIncludeOthers())
                 .members(
