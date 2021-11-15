@@ -25,13 +25,13 @@ public class Plan {
     private String content;
 
     @Column(nullable = false)
-    private Boolean includeResultReport;
+    private boolean includeResultReport;
 
     @Column(nullable = false)
-    private Boolean includeCode;
-    
+    private boolean includeCode;
+
     @Column(nullable = false)
-    private Boolean includeOutcome;
+    private boolean includeOutcome;
 
     @Size(max = 30)
     private String includeOthers;
