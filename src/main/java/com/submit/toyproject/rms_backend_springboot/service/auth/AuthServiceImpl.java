@@ -83,8 +83,8 @@ public class AuthServiceImpl implements AuthService{
         String aud = userInfo.get("aud");
         long exp = Long.parseLong(userInfo.get("exp")) * 1000;
 
-        // ID 토큰 유효성 검사 4단계 & 학교 이메일 검사// || !hd.equals("dsm.hs.kr")
-        if(hd == null) {
+        // ID 토큰 유효성 검사 4단계 & 학교 이메일 검사
+        if(hd == null || !hd.equals("dsm.hs.kr")) {
             throw new InvalidEmailException();
         } else if(!(iss.equals("https://accounts.google.com") || iss.equals("accounts.google.com"))
                 || !aud.equals(GOOGLE_CLIENT_ID) || exp < System.currentTimeMillis()) {
