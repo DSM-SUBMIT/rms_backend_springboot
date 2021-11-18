@@ -49,6 +49,9 @@ public class MyPageProjectDetailResponse {
     @ApiModelProperty(value = "선생님", example = "양은정")
     private String teacher;
 
+    @ApiModelProperty(value = "작성자 여부", example = "true")
+    private boolean isWriter;
+
     @ApiModelProperty(value = "멤버 리스트")
     private List<ProjectMemberDto> memberList;
 
@@ -61,7 +64,10 @@ public class MyPageProjectDetailResponse {
     @ApiModelProperty(value = "문서 url", example = "https:///notion.so", allowEmptyValue = true)
     private String docsUrl;
 
-    public static MyPageProjectDetailResponse of(Project project, List<FieldEnum> fieldList, List<ProjectMemberDto> memberList) {
+    public static MyPageProjectDetailResponse of(Project project,
+                                                 List<FieldEnum> fieldList,
+                                                 List<ProjectMemberDto> memberList,
+                                                 boolean isWriter) {
         return MyPageProjectDetailResponse.builder()
                 .id(project.getId())
                 .projectType(project.getProjectType().getDivision())
@@ -78,6 +84,7 @@ public class MyPageProjectDetailResponse {
                 .serviceUrl(project.getServiceUrl())
                 .docsUrl(project.getDocsUrl())
                 .teacher(project.getTeacher())
+                .isWriter(isWriter)
                 .build();
     }
 }

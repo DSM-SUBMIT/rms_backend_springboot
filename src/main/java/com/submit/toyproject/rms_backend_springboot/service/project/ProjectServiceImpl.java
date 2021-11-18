@@ -61,9 +61,11 @@ public class ProjectServiceImpl implements ProjectService{
     @Transactional
     public MyPageProjectDetailResponse getMyProject(Integer id) {
         Project project = getProject(id);
-        checkPermission(project);
 
-        return MyPageProjectDetailResponse.of(project, getFieldEnumList(project), getProjectMemberList(project));
+        return MyPageProjectDetailResponse.of(project,
+                getFieldEnumList(project),
+                getProjectMemberList(project),
+                project.getWriter()==authenticationFacade.certifiedUser());
     }
 
     @Override
@@ -79,6 +81,14 @@ public class ProjectServiceImpl implements ProjectService{
     public void updateProject(Integer id, ProjectRequest request) {
         Project project = getProject(id);
         checkPermission(project);
+
+        if(!request.getMemberList().stream()
+                .map(ProjectMemberDto::getId)
+                .collect(Collectors.toList())
+                .contains(authenticationFacade.certifiedUser().getId())) {
+            throw new WriterNotIncludedException();
+        }
+
         project.update(request);
 
         memberRepository.deleteAllByProject(project);
