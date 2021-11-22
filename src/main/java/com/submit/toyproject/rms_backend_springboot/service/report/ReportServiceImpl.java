@@ -71,7 +71,7 @@ public class ReportServiceImpl implements ReportService {
         Report report = getReport(id);
         Project project = report.getProject();
 
-        if (!project.getStatus().getIsReportAccepted() && !memberRepository.existsByProjectAndUser(project, user)) {
+        if (project.getStatus().getIsReportAccepted() == null || !project.getStatus().getIsReportAccepted() && !memberRepository.existsByProjectAndUser(project, user)) {
             throw new UserNotHavePermissionException();
         }
 
