@@ -92,7 +92,7 @@ public class ReportServiceImpl implements ReportService {
         if (!project.getWriter().equals(user)) {
             throw new UserNotHavePermissionException();
         }
-        if (!project.getStatus().getIsPlanAccepted()) {
+        if (project.getStatus().getIsPlanAccepted() == null || !project.getStatus().getIsPlanAccepted()) {
             throw new PlanNotAcceptedException();
         }
         if (project.getStatus().getIsReportSubmitted()) {
