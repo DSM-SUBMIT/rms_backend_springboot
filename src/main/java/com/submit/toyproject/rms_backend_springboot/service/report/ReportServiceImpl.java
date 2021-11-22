@@ -75,7 +75,7 @@ public class ReportServiceImpl implements ReportService {
             throw new UserNotHavePermissionException();
         }
 
-        if(report.getContent() == null) {
+        if(!project.getWriter().getEmail().equals(user.getEmail()) && report.getContent() == null) {
             throw new ReportNotSubmittedException();
         }
 
