@@ -61,7 +61,7 @@ public class PlanServiceImpl implements PlanService {
             throw new UserNotHavePermissionException();
         }
 
-        if (plan.getGoal() == null) {
+        if (!project.getWriter().getEmail().equals(user.getEmail()) && plan.getGoal() == null) {
             throw new PlanNotSubmittedException();
         }
 
