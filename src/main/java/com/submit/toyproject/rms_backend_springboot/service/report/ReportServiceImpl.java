@@ -59,7 +59,7 @@ public class ReportServiceImpl implements ReportService {
         Report report = getReport(id);
         isWorkPossible(report.getProject(), user);
 
-        sendMail(report.getProject());
+        //sendMail(report.getProject());
 
         statusRepository.save(report.getProject().getStatus().reportSubmit());
     }
@@ -105,7 +105,7 @@ public class ReportServiceImpl implements ReportService {
                 .orElseThrow(ReportNotFoundException::new);
     }
 
-    private void sendMail(Project project) {
+    /*private void sendMail(Project project) {
         for (Member member : project.getMembers()) {
             try {
                 final MimeMessagePreparator preparator = mimeMessage -> {
@@ -121,7 +121,7 @@ public class ReportServiceImpl implements ReportService {
                 throw new EmailSendFailException();
             }
         }
-    }
+    }*/
 
     private String convertNotificationMemberAdd(Project project, User member) throws IOException {
         InputStream inputStream = new ClassPathResource("static/add_member_email.html").getInputStream();
